@@ -1,18 +1,10 @@
-import Image from "next/image";
+import Starter from "@/components/starter"
 
 export default function Home() {
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
-      <section className='container gap-8'>
-        <h1 className='font-display text-5xl font-bold leading-none tracking-wider'>
-          Önéletrajz
-          <br />
-          Generátor
-        </h1>
-        <p className='text-center text-lg'>
-          Generálj egyszerűen és gyorsan, ízlésesen formázott önéletrajzot!
-        </p>
-      </section>
+    <main className="min-h-main container flex items-center justify-center">
+      <div className="min-h-main fade-edges absolute left-0 top-0 -z-10 h-full w-full bg-[url('/grid_bg1.svg')] bg-cover bg-center bg-no-repeat" />
+      <Starter />
     </main>
-  );
+  )
 }
