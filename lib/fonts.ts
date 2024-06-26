@@ -1,4 +1,4 @@
-import { JetBrains_Mono as FontMono, Exo as FontSans, Advent_Pro as FontDisplay } from "next/font/google";
+import { JetBrains_Mono as FontMono, Quicksand as FontSans, Advent_Pro as FontDisplay } from "next/font/google";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
