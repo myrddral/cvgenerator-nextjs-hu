@@ -1,17 +1,18 @@
-import type { Metadata } from "next";
-import type { PropsWithChildren } from "react";
-import { fontDisplay, fontMono, fontSans } from "@/lib/fonts";
-import { Exo } from "next/font/google";
-import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
-import "./globals.css";
+import type { Metadata } from "next"
+import type { PropsWithChildren } from "react"
 
-const inter = Exo({ subsets: ["latin"] });
+import { fontDisplay, fontMono, fontSans } from "@/lib/fonts"
+import { ThemeProvider } from "@/components/providers/theme-provider"
+import { siteConfig } from "@/config/site"
+import { cn } from "@/lib/utils"
+import Navbar from "@/components/navbar"
+import Footer from "@/components/footer"
+import "./globals.css"
 
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`
+    template: `%s - ${siteConfig.name}`,
   },
   metadataBase: new URL(siteConfig.url),
   description: siteConfig.description,
@@ -27,39 +28,49 @@ export const metadata: Metadata = {
         url: siteConfig.ogImage,
         width: 1200,
         height: 630,
-        alt: siteConfig.name
-      }
-    ]
+        alt: siteConfig.name,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
-    images: [siteConfig.ogImage]
+    images: [siteConfig.ogImage],
   },
   robots: "noindex, nofollow",
   authors: [
     {
       name: "Attila Béli",
-      url: "https://github.com/myrddral"
-    }
+      url: "https://github.com/myrddral",
+    },
   ],
-  creator: "Attila Béli"
-};
+  creator: "Attila Béli",
+}
 
 export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
   return (
     <html lang={siteConfig.htmlLang} suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+          "min-h-screen max-w-screen-2xl mx-auto bg-background pt-16 font-sans text-foreground antialiased",
           fontSans.variable,
           fontDisplay.variable,
           fontMono.variable
         )}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          storageKey="theme"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          {children}
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }
