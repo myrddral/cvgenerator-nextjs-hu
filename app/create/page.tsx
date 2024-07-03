@@ -1,3 +1,6 @@
+import { EmailForm } from "@/components/email-form"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+
 const sections = [
   {
     title: "Személyes adatok",
@@ -43,12 +46,15 @@ const sections = [
 
 export default function CreatePage() {
   return (
-    <main className="min-h-main flex flex-col items-center p-24">
-      <section className="container">
-        <h1 className="mb-8 text-center font-display text-3xl font-bold leading-none tracking-wider">
-          form step 1
-        </h1>
-      </section>
+    <main className="container flex min-h-main flex-col items-center justify-center gap-12 p-24">
+      <Card className="border-border">
+        <CardHeader>
+          <CardTitle>A folytatáshoz add meg az email címed</CardTitle>
+        </CardHeader>
+        <CardContent className="w-96">
+          <EmailForm />
+        </CardContent>
+      </Card>
     </main>
   )
 }
