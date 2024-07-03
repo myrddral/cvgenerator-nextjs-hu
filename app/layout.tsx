@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import type { PropsWithChildren } from "react"
 
-import { fontDisplay, fontMono, fontSans } from "@/lib/fonts"
+import { fontDisplay, fontSans } from "@/lib/fonts"
 import { ThemeProvider } from "@/components/providers/theme-provider"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
@@ -53,10 +53,9 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
     <html lang={siteConfig.htmlLang} suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen max-w-screen-2xl mx-auto bg-background pt-16 font-sans text-foreground antialiased",
+          "mx-auto min-h-screen max-w-screen-2xl bg-background pt-16 font-sans text-foreground antialiased",
           fontSans.variable,
-          fontDisplay.variable,
-          fontMono.variable
+          fontDisplay.variable
         )}
       >
         <ThemeProvider
