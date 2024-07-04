@@ -23,7 +23,7 @@ export function EmailForm() {
     toast({
       title: "A következő értéket küldted be:",
       description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-secondary p-4">
+        <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
@@ -32,7 +32,7 @@ export function EmailForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-12">
         <FormField
           control={form.control}
           name="email"
