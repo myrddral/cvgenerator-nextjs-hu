@@ -4,18 +4,22 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { useCvDataStore } from "./providers/cvdata-store-provider"
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Érvénytelen email cím" }),
 })
 
 export function EmailForm() {
+  const router = useRouter()
+  const { personal, setPersonal } = useCvDataStore((state) => state)
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: "",
+      email: personal.email,
     },
   })
 
@@ -28,17 +32,25 @@ export function EmailForm() {
         </pre>
       ),
     })
+    setPersonal({
+      email: data.email,
+      fullName: personal.fullName,
+      birthDate: personal.birthDate,
+      phone: personal.phone,
+      location: personal.location,
+    })
+    router.push("/create/personal")
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-12">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-[400px] flex-col space-y-12">
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem className="relative">
-              <FormLabel className="transition-colors duration-150">Email cím</FormLabel>
+            <FormItem className="relative w-full">
+              <FormLabel className="text-foreground">Email cím</FormLabel>
               <FormControl>
                 <Input placeholder="email@domain.hu" {...field} />
               </FormControl>
