@@ -1,7 +1,5 @@
 "use client"
-
 import { useCvDataStore } from "@/lib/stores/cv-data-store"
-import { Template001 } from "@/components/cv-templates/template001"
 import { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 
@@ -14,12 +12,19 @@ export default function ShowPdfPage() {
   const [renderPDF, setRenderPDF] = useState<React.ReactNode | null>(null)
 
   useEffect(() => {
-    const cvData = { personal, skills, experience, education, languages, passions }
-    setRenderPDF(
-      <PDFViewer width="100%" height="100%" className="h-screen">
-        <Template001 cvData={cvData} />
-      </PDFViewer>
-    )
+    const loadTemplate = async () => {
+      const templateModule = await import("@/components/cv-templates/template001")
+      const Template001 = templateModule.Template001
+
+      const cvData = { personal, skills, experience, education, languages, passions }
+      setRenderPDF(
+        <PDFViewer width="100%" height="100%" className="h-screen">
+          <Template001 cvData={cvData} />
+        </PDFViewer>
+      )
+    }
+
+    loadTemplate()
   }, [education, experience, languages, passions, personal, skills])
 
   return (
