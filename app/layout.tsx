@@ -1,14 +1,15 @@
 import type { Metadata } from "next"
 import type { PropsWithChildren } from "react"
 
-import { fontDisplay, fontSans } from "@/lib/fonts"
-import { ThemeProvider } from "@/components/providers/theme-provider"
-import { siteConfig } from "@/config/site"
-import { cn } from "@/lib/utils"
-import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
-import "./globals.css"
+import Navbar from "@/components/navbar"
+import { CvDataStoreProvider } from "@/components/providers/cvdata-store-provider"
+import { ThemeProvider } from "@/components/providers/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
+import { siteConfig } from "@/config/site"
+import { fontDisplay, fontSans } from "@/lib/fonts"
+import { cn } from "@/lib/utils"
+import "./globals.css"
 
 export const metadata: Metadata = {
   title: {
@@ -59,18 +60,20 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
           fontDisplay.variable
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          storageKey="theme"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Navbar />
-          {children}
-          <Footer />
-          <Toaster />
-        </ThemeProvider>
+        <CvDataStoreProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            storageKey="theme"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Navbar />
+            {children}
+            <Footer />
+            <Toaster />
+          </ThemeProvider>
+        </CvDataStoreProvider>
       </body>
     </html>
   )
