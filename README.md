@@ -17,8 +17,8 @@ The project's goal is to enable the user to input their relevant data then gener
 * Tests: [Testing Library](https://testing-library.com/) and [Jest](https://jestjs.io/)
 
 ## Planned Features for v1.0
-- [ ] Data input via a multi-step form incl. client-side validation
-- [ ] PDF document generation from the input
+- [x] Data input via a multi-step form incl. client-side validation
+- [x] PDF document generation from the input
 - [ ] Choice of custom accent colors for the CV
 - [ ] Option to save, recall or edit CV data (client side storage)
 - [ ] Authentication & user accounts
