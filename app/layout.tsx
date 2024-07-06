@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import type { PropsWithChildren } from "react"
 
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import Footer from "@/components/footer"
 import Navbar from "@/components/navbar"
 import { CvDataStoreProvider } from "@/components/providers/cvdata-store-provider"
@@ -75,6 +76,7 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
           </ThemeProvider>
         </CvDataStoreProvider>
       </body>
+      <SpeedInsights />
     </html>
   )
 }
