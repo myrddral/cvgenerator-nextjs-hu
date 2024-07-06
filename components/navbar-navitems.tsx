@@ -20,7 +20,7 @@ export default function NavbarNavitems() {
   return (
     <NavigationMenu>
       <NavigationMenuList className="text-navbar-foreground">
-        <NavigationMenuItem>
+        <NavigationMenuItem className="max-sm:hidden">
           <Link href="/create" legacyBehavior passHref>
             <NavigationMenuLink
               className={navigationMenuTriggerStyle()}
@@ -30,7 +30,7 @@ export default function NavbarNavitems() {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
-        <NavigationMenuItem>
+        <NavigationMenuItem className="max-sm:hidden">
           {process.env.NODE_ENV === "development" ? (
             <>
               <NavigationMenuTrigger data-active={pathname.includes("/dev")}>Dev</NavigationMenuTrigger>
