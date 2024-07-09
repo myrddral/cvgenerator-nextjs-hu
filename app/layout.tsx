@@ -75,8 +75,8 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
             <Toaster />
           </ThemeProvider>
         </CvDataStoreProvider>
+        <SpeedInsights />
       </body>
-      <SpeedInsights />
     </html>
   )
 }
