@@ -4,11 +4,19 @@ import { create } from "zustand"
 
 export type CvDataState = {
   personal: {
-    fullName: string
+    firstName: string
+    middleName: string
+    lastName: string
     birthDate: string
     phone: string
     email: string
     location: string
+  }
+  links: {
+    linkedin: string
+    github: string
+    portfolio: string
+    webpage: string
   }
   skills: {
     occupation: string
@@ -18,16 +26,16 @@ export type CvDataState = {
     employer: string
     position: string
     description: string
-    startYear: string
-    endYear: string
+    startDate: string
+    endDate: string
   }
   education: {
     institution: string
     major: string
     specialization: string
     description: string
-    startYear: string
-    endYear: string
+    startDate: string
+    endDate: string
   }
   languages: {
     language: string
@@ -39,6 +47,7 @@ export type CvDataState = {
 }
 
 export type CvDataActions = {
+  setEmail: (state: CvDataState["personal"]["email"]) => void
   setPersonal: (state: CvDataState["personal"]) => void
   setSkills: (state: CvDataState["skills"]) => void
   setExperience: (state: CvDataState["experience"]) => void
@@ -55,11 +64,19 @@ export const initCvDataStore = (): CvDataState => {
 
 export const defaultInitState: CvDataState = {
   personal: {
-    fullName: "",
+    firstName: "",
+    middleName: "",
+    lastName: "",
     birthDate: "",
     phone: "",
     email: "",
     location: "",
+  },
+  links: {
+    linkedin: "",
+    github: "",
+    portfolio: "",
+    webpage: "",
   },
   skills: {
     occupation: "",
@@ -69,16 +86,16 @@ export const defaultInitState: CvDataState = {
     employer: "",
     position: "",
     description: "",
-    startYear: "",
-    endYear: "",
+    startDate: "",
+    endDate: "",
   },
   education: {
     institution: "",
     major: "",
     specialization: "",
     description: "",
-    startYear: "",
-    endYear: "",
+    startDate: "",
+    endDate: "",
   },
   languages: {
     language: "",
@@ -92,6 +109,7 @@ export const defaultInitState: CvDataState = {
 export const createCvDataStore = (initState = defaultInitState) => {
   return createStore<CvDataStore>()((set) => ({
     ...initState,
+    setEmail: (email) => set((state) => ({ personal: { ...state.personal, email } })),
     setPersonal: (personal) => set({ personal }),
     setSkills: (skills) => set({ skills }),
     setExperience: (experience) => set({ experience }),
@@ -105,6 +123,7 @@ export const useCvDataStore = create<CvDataStore>()(
   persist(
     (set) => ({
       ...defaultInitState,
+      setEmail: (email) => set((state) => ({ personal: { ...state.personal, email } })),
       setPersonal: (personal) => set({ personal }),
       setSkills: (skills) => set({ skills }),
       setExperience: (experience) => set({ experience }),

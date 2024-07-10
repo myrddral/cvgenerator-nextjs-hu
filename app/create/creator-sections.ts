@@ -1,7 +1,16 @@
 export type Section = {
   title: string
+  sub?: string
   routeParam: string
-  fields: { [key: string]: { label: string; type: string; autocomplete?: string; defaultValue: string } }
+  fields: {
+    [key: string]: {
+      label: string
+      type: string
+      autocomplete?: string
+      defaultValue: string
+      readonly?: boolean
+    }
+  }
 }
 
 export const allSections: Section[] = [
@@ -14,11 +23,29 @@ export const allSections: Section[] = [
     title: "Személyes adatok",
     routeParam: "personal",
     fields: {
-      fullName: { label: "Név", type: "text", autocomplete: "name", defaultValue: "" },
-      email: { label: "Email cím", type: "email", autocomplete: "email", defaultValue: "" },
+      firstName: { label: "Keresztnév", type: "text", autocomplete: "given-name", defaultValue: "" },
+      middleName: {
+        label: "Középső név (opcionális)",
+        type: "text",
+        autocomplete: "additional-name",
+        defaultValue: "",
+      },
+      lastName: { label: "Vezetéknév", type: "text", autocomplete: "family-name", defaultValue: "" },
+      email: { label: "Email cím", type: "email", autocomplete: "email", defaultValue: "", readonly: true },
       phone: { label: "Telefonszám", type: "tel", autocomplete: "tel", defaultValue: "" },
       location: { label: "Lakóhely", type: "text", autocomplete: "address-level2", defaultValue: "" },
       birthDate: { label: "Születési dátum", type: "date", defaultValue: "" },
+    },
+  },
+  {
+    title: "Linkek",
+    sub: "Az alábbi mezők opcionálisak",
+    routeParam: "links",
+    fields: {
+      linkedin: { label: "LinkedIn", type: "url", defaultValue: "" },
+      github: { label: "GitHub", type: "url", defaultValue: "" },
+      portfolio: { label: "Portfólió", type: "url", defaultValue: "" },
+      webpage: { label: "Weboldal", type: "url", defaultValue: "" },
     },
   },
   {
@@ -36,20 +63,20 @@ export const allSections: Section[] = [
       employer: { label: "Munkáltató", type: "text", defaultValue: "" },
       position: { label: "Pozíció", type: "text", defaultValue: "" },
       description: { label: "Feladatok / eredmények", type: "textarea", defaultValue: "" },
-      startYear: { label: "Kezdés éve", type: "number", defaultValue: "" },
-      endYear: { label: "Befejezés éve", type: "number", defaultValue: "" },
+      startDate: { label: "Kezdés éve", type: "number", defaultValue: "" },
+      endDate: { label: "Befejezés éve", type: "number", defaultValue: "" },
     },
   },
   {
-    title: "Végzettség",
+    title: "Tanulmányok",
     routeParam: "education",
     fields: {
       institution: { label: "Intézmény neve", type: "text", defaultValue: "" },
       major: { label: "Szak", type: "text", defaultValue: "" },
       specialization: { label: "Szakirány", type: "text", defaultValue: "" },
       description: { label: "Rövid leírás", type: "textarea", defaultValue: "" },
-      startYear: { label: "Kezdés éve", type: "number", defaultValue: "" },
-      endYear: { label: "Befejezés éve", type: "number", defaultValue: "" },
+      startDate: { label: "Kezdés éve", type: "number", defaultValue: "" },
+      endDate: { label: "Befejezés éve", type: "number", defaultValue: "" },
     },
   },
   {

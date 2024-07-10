@@ -11,7 +11,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/components/ui/use-toast"
 import { useCvDataStore } from "@/lib/stores/cv-data-store"
-import { cn } from "@/lib/utils"
+import { cn, shouldShowDevToasts } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CalendarIcon } from "@radix-ui/react-icons"
 import { format } from "date-fns"
@@ -21,30 +21,49 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { schemas } from "../creator-schema"
 import { allSections, routeParams } from "../creator-sections"
+import { useEffect } from "react"
 
 export default function SectionPage({ params }: { params: { section: string } }) {
   const router = useRouter()
-  const { setPersonal, setSkills, setExperience, setEducation, setLanguages, setPassions } = useCvDataStore()
+  const { personal, setPersonal, setSkills, setExperience, setEducation, setLanguages, setPassions } =
+    useCvDataStore()
   const currentSection = allSections.find((section) => section.routeParam === params.section)
   const formSchema = schemas[params.section as keyof typeof schemas]
   const fields = currentSection?.fields ?? {}
   const shouldMakeGrid = Object.keys(fields).length < 3
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: Object.fromEntries(
-      Object.entries(fields).map(([key, value]) => [key, value.defaultValue])
-    ),
+    defaultValues: {
+      ...Object.fromEntries(Object.entries(fields).map(([key, value]) => [key, value.defaultValue])),
+      email: personal.email,
+    },
   })
 
+  useEffect(() => {
+    const e = form.formState.errors
+    shouldShowDevToasts(true) &&
+      Object.keys(e).length &&
+      toast({
+        title: "Hiba történt a validálás során",
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
+            <code className="text-white">{JSON.stringify(e, null, 2)}</code>
+          </pre>
+        ),
+      })
+  }, [form.formState.errors])
+
   function onSubmit(data: z.infer<typeof formSchema>) {
-    toast({
-      title: "A következő értéket küldted be:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+    shouldShowDevToasts(false) &&
+      toast({
+        title: "A következő értéket küldted be:",
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
+            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+          </pre>
+        ),
+      })
+
     switch (params.section) {
       case "personal":
         setPersonal(data as CvDataStore["personal"])
@@ -91,7 +110,7 @@ export default function SectionPage({ params }: { params: { section: string } })
   }
 
   return (
-    <FormStepCard title={currentSection?.title}>
+    <FormStepCard title={currentSection?.title} sub={currentSection?.sub}>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -106,9 +125,14 @@ export default function SectionPage({ params }: { params: { section: string } })
                 render={({ field }) => (
                   <FormItem className={cn("relative w-full", { "col-span-full": value.type === "textarea" })}>
                     <FormLabel className="text-foreground">{value.label}</FormLabel>
-                    {["text", "tel", "email"].includes(value.type) ? (
+                    {["text", "tel", "email", "url"].includes(value.type) ? (
                       <FormControl>
-                        <Input type={value.type} autoComplete={value.autocomplete} {...field} />
+                        <Input
+                          type={value.type}
+                          autoComplete={value.autocomplete}
+                          {...field}
+                          readOnly={value.readonly}
+                        />
                       </FormControl>
                     ) : null}
                     {value.type === "number" ? (
@@ -145,8 +169,11 @@ export default function SectionPage({ params }: { params: { section: string } })
                         <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
                             mode="single"
+                            captionLayout="dropdown"
                             selected={field.value}
                             onSelect={field.onChange}
+                            fromDate={new Date("1900-01-01")}
+                            toDate={new Date()}
                             disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
                             locale={hu}
                             initialFocus

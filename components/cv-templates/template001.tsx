@@ -86,8 +86,8 @@ const styles = StyleSheet.create({
 
 // Create Document Component
 export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
-  const { personal, skills, experience, education, languages, passions } = cvData
-  const docTitle = `CV-${personal.fullName.split(" ").join("")}-${new Date().getFullYear()}-${new Date().getMonth() + 1}`
+  const { personal, links, skills, experience, education, languages, passions } = cvData
+  const docTitle = `CV-${personal.firstName.toLowerCase()}${personal.lastName.toLowerCase()}-${new Date().getFullYear()}-${new Date().getMonth() + 1}`
 
   return (
     <Document title={docTitle} creator={siteConfig.creator}>
@@ -103,7 +103,9 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
 
         <Column width={"70%"}>
           <Section paddingLeft={0} minHeight={155}>
-            <Heading marginBottom={1}>{personal.fullName.toUpperCase()}</Heading>
+            <Heading marginBottom={1}>
+              {personal.firstName.toUpperCase()} {personal.lastName.toUpperCase()}
+            </Heading>
             <SubHeading marginBottom={12} color={colors.accent}>
               {skills.occupation}
             </SubHeading>
@@ -116,13 +118,13 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
               </View>
               <View style={[styles.wrapper, { flex: 2 }]}>
                 <LinkedInIcon />
-                <Link src={"https://www.linkedin.com/in/attila-beli/"} style={styles.link}>
+                <Link src={links.linkedin} style={styles.link}>
                   LinkedIn
                 </Link>
               </View>
               <View style={[styles.wrapper, { flex: 2 }]}>
                 <GlobeIcon />
-                <Link src={"https://www.attilabeli.com"} style={styles.link}>
+                <Link src={links.webpage} style={styles.link}>
                   Webpage
                 </Link>
               </View>
@@ -136,7 +138,7 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
               </View>
               <View style={[styles.wrapper, { flex: 2 }]}>
                 <GithubIcon />
-                <Link src={"https://github.com/myrddral"} style={styles.link}>
+                <Link src={links.github} style={styles.link}>
                   GitHub
                 </Link>
               </View>
@@ -148,8 +150,7 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
             <Row>
               <View style={styles.wrapper}>
                 <CakeIcon />
-                {/* <Text>{format(personal.birthDate, "yyyy-MM-dd")}</Text> */}
-                <Text>1984. NOVEMBER</Text>
+                <Text>{format(personal.birthDate, "yyyy. MMMM")}</Text>
               </View>
             </Row>
           </Section>
@@ -166,7 +167,7 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
             </Row>
             <Row gap={4} marginBottom={4}>
               <Text style={{ fontSize: 11, opacity: 0.8 }}>
-                {experience.startYear}. NOVEMBER - {experience.endYear}. JUNE /
+                {experience.startDate} - {experience.endDate} /
               </Text>
               <Text style={{ fontSize: 11, opacity: 0.8, fontWeight: "semibold" }}>
                 {experience.employer}
@@ -175,7 +176,7 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
             <Text style={{ textIndent: -10, paddingLeft: 10 }}>{experience.description}</Text>
           </Section>
 
-          <Section title="Education" paddingLeft={0} >
+          <Section title="Education" paddingLeft={0}>
             <Row gap={4}>
               <Text style={{ fontSize: 14, fontWeight: "semibold", color: colors.accent }}>
                 {education.specialization}
@@ -184,7 +185,7 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
             </Row>
             <Row gap={4} marginBottom={4}>
               <Text style={{ fontSize: 11, opacity: 0.8 }}>
-                {education.startYear}. OCTOBER - {education.endYear}. APRIL /
+                {education.startDate} - {education.endDate} /
               </Text>
               <Text style={{ fontSize: 11, opacity: 0.8, fontWeight: "semibold" }}>
                 {education.institution}

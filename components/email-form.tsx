@@ -3,11 +3,12 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
+import { useCvDataStore } from "@/lib/stores/cv-data-store"
+import { shouldShowDevToasts } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { useCvDataStore } from "./providers/cvdata-store-provider"
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Érvénytelen email cím" }),
@@ -15,7 +16,7 @@ const FormSchema = z.object({
 
 export function EmailForm() {
   const router = useRouter()
-  const { personal, setPersonal } = useCvDataStore((state) => state)
+  const { personal, setEmail } = useCvDataStore((state) => state)
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -24,27 +25,22 @@ export function EmailForm() {
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "A következő értéket küldted be:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
-    setPersonal({
-      email: data.email,
-      fullName: personal.fullName,
-      birthDate: personal.birthDate,
-      phone: personal.phone,
-      location: personal.location,
-    })
+    shouldShowDevToasts(false) &&
+      toast({
+        title: "A következő értéket küldted be:",
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
+            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+          </pre>
+        ),
+      })
+    setEmail(data.email)
     router.push("/create/personal")
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-[400px] flex-col space-y-12">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-12 md:max-w-[420px]">
         <FormField
           control={form.control}
           name="email"
