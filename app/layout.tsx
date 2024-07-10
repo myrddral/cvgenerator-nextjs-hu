@@ -9,6 +9,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { siteConfig } from "@/config/site"
 import { fontDisplay, fontSans } from "@/lib/fonts"
+import { GridBackground } from "@/components/grid-background"
 import { cn } from "@/lib/utils"
 import "./globals.css"
 
@@ -76,6 +77,7 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
           </ThemeProvider>
         </CvDataStoreProvider>
         <SpeedInsights />
+        <GridBackground />
       </body>
     </html>
   )
