@@ -123,7 +123,7 @@ export default function SectionPage({ params }: { params: { section: string } })
                 control={form.control}
                 name={key as any}
                 render={({ field }) => (
-                  <FormItem className={cn("relative w-full", { "col-span-full": value.type === "textarea" })}>
+                  <FormItem className={cn("relative", { "col-span-full": value.type === "textarea" })}>
                     <FormLabel className="text-foreground">{value.label}</FormLabel>
                     {["text", "tel", "email", "url"].includes(value.type) ? (
                       <FormControl>
@@ -169,7 +169,7 @@ export default function SectionPage({ params }: { params: { section: string } })
                         <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
                             mode="single"
-                            captionLayout="dropdown"
+                            captionLayout="dropdown-buttons"
                             selected={field.value}
                             onSelect={field.onChange}
                             fromDate={new Date("1900-01-01")}

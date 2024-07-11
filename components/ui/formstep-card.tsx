@@ -1,15 +1,22 @@
 import type { PropsWithChildren } from "react"
 
 import { Card, CardHeader, CardTitle, CardContent } from "./card"
+import { cn } from "@/lib/utils"
 
 interface FormStepCardProps extends PropsWithChildren {
   title?: string
   sub?: string
+  className?: string
 }
 
-export function FormStepCard({ children, title, sub }: FormStepCardProps) {
+export function FormStepCard({ children, title, sub, className }: FormStepCardProps) {
   return (
-    <Card className="w-full max-w-full bg-transparent/20 p-6 animate-in slide-in-from-right-44 max-sm:p-2">
+    <Card
+      className={cn(
+        "w-full max-w-full bg-transparent/20 p-6 animate-in slide-in-from-right-44 max-sm:p-2",
+        className
+      )}
+    >
       <CardHeader className="max-sm:px-4">
         <CardTitle>{title}</CardTitle>
         <p className="text-xs italic">{sub}</p>
