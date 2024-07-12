@@ -97,14 +97,8 @@ const experienceSchema = z.object({
     .string()
     .min(1, { message: "Feladatok / eredmények megadása kötelező" })
     .min(3, { message: "Ez sajnos túl rövid" }),
-  startDate: z
-    .string()
-    .min(4, { message: "A kezdőév megadása kötelező" })
-    .max(4, { message: "A kezdőév maximum 4 karakter lehet" }),
-  endDate: z
-    .string()
-    .min(4, { message: "A záróév megadása kötelező" })
-    .max(4, { message: "A záróév maximum 4 karakter lehet" }),
+  startDate: z.date({ message: "Dátum megadása kötelező" }),
+  endDate: z.date({ message: "Dátum megadása kötelező" }),
 })
 
 const educationSchema = z.object({
@@ -112,14 +106,8 @@ const educationSchema = z.object({
   major: z.string(),
   specialization: z.string().min(1, { message: "Szakirány megadása kötelező" }),
   description: z.string(),
-  startDate: z
-    .string()
-    .min(4, { message: "A kezdőév megadása kötelező" })
-    .max(4, { message: "A kezdőév maximum 4 karakter lehet" }),
-  endDate: z
-    .string()
-    .min(4, { message: "A záróév megadása kötelező" })
-    .max(4, { message: "A záróév maximum 4 karakter lehet" }),
+  startDate: z.date({ message: "Dátum megadása kötelező" }),
+  endDate: z.date({ message: "Dátum megadása kötelező" }),
 })
 
 const languagesSchema = z.object({

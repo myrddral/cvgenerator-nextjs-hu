@@ -63,8 +63,8 @@ export const allSections: Section[] = [
       employer: { label: "Munkáltató", type: "text", defaultValue: "" },
       position: { label: "Pozíció", type: "text", defaultValue: "" },
       description: { label: "Feladatok / eredmények", type: "textarea", defaultValue: "" },
-      startDate: { label: "Kezdés éve", type: "number", defaultValue: "" },
-      endDate: { label: "Befejezés éve", type: "number", defaultValue: "" },
+      startDate: { label: "Kezdés dátuma", type: "date", defaultValue: "" },
+      endDate: { label: "Befejezés dátuma", type: "date", defaultValue: "" },
     },
   },
   {
@@ -75,8 +75,8 @@ export const allSections: Section[] = [
       major: { label: "Szak", type: "text", defaultValue: "" },
       specialization: { label: "Szakirány", type: "text", defaultValue: "" },
       description: { label: "Rövid leírás", type: "textarea", defaultValue: "" },
-      startDate: { label: "Kezdés éve", type: "number", defaultValue: "" },
-      endDate: { label: "Befejezés éve", type: "number", defaultValue: "" },
+      startDate: { label: "Kezdés dátuma", type: "date", defaultValue: "" },
+      endDate: { label: "Befejezés dátuma", type: "date", defaultValue: "" },
     },
   },
   {
