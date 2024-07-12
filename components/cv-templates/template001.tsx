@@ -1,112 +1,56 @@
+/* eslint-disable jsx-a11y/alt-text */
 "use client"
-
 import { siteConfig } from "@/config/site"
 import type { CvDataState } from "@/lib/stores/cv-data-store"
-import { Document, Font, Link, Page, StyleSheet, Text, View } from "@react-pdf/renderer"
+import { Document, Link, Page, Text, View } from "@react-pdf/renderer"
 import { format } from "date-fns"
+import { colors } from "./config/colors"
+import { registerFontFamily } from "./config/fonts"
+import { styles } from "./config/styles"
+import LinearGradBg from "./react-pdf-partials/backgrounds/linear-gradient"
 import { CakeIcon } from "./react-pdf-partials/icons/cake-icon"
+import { GithubIcon } from "./react-pdf-partials/icons/github-icon"
+import { GlobeIcon } from "./react-pdf-partials/icons/globe-icon"
+import { LinkedInIcon } from "./react-pdf-partials/icons/linkedin-icon"
 import { MailIcon } from "./react-pdf-partials/icons/mail-icon"
 import { MapPinIcon } from "./react-pdf-partials/icons/map-icon"
 import { PhoneIcon } from "./react-pdf-partials/icons/phone-icon"
-import { Portrait } from "./react-pdf-partials/image-portrait"
+// import { Portrait } from "./react-pdf-partials/image-portrait"
+import { PortraitPlaceholder } from "./react-pdf-partials/icons/portrait-placeholder"
 import { Heading } from "./react-pdf-partials/text-heading"
 import { SubHeading } from "./react-pdf-partials/text-subheading"
 import { Column } from "./react-pdf-partials/view-column"
 import { Row } from "./react-pdf-partials/view-row"
 import { Section } from "./react-pdf-partials/view-section"
-import { GithubIcon } from "./react-pdf-partials/icons/github-icon"
-import { LinkedInIcon } from "./react-pdf-partials/icons/linkedin-icon"
-import { GlobeIcon } from "./react-pdf-partials/icons/globe-icon"
+import { hu } from "date-fns/locale"
 
-Font.register({
-  family: "Beiruti",
-  fonts: [
-    {
-      src: "/fonts/Beiruti-ExtraLight.ttf",
-      fontWeight: 200,
-    },
-    {
-      src: "/fonts/Beiruti-Light.ttf",
-      fontWeight: 300,
-    },
-    {
-      src: "/fonts/Beiruti-Regular.ttf",
-      fontWeight: 400,
-    },
-    {
-      src: "/fonts/Beiruti-Medium.ttf",
-      fontWeight: 500,
-    },
-    {
-      src: "/fonts/Beiruti-SemiBold.ttf",
-      fontWeight: 600,
-    },
-    {
-      src: "/fonts/Beiruti-Bold.ttf",
-      fontWeight: 700,
-    },
-  ],
-})
+registerFontFamily("Beiruti")
 
-/* Disables hyphenation */
-Font.registerHyphenationCallback((word) => [word])
-
-export const colors = {
-  background: "#f7f7f7",
-  foreground: "#011119",
-  primary: "#11caff",
-  muted: "#576eb7",
-  accent: "#e44112",
-  link: "#4066c7",
-}
-
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: "row",
-    color: colors.foreground,
-    backgroundColor: colors.background,
-    fontFamily: "Beiruti",
-    fontSize: 13,
-  },
-  section: {
-    padding: 10,
-    flexGrow: 1,
-  },
-  link: {
-    color: colors.link,
-    letterSpacing: 0.2,
-  },
-  wrapper: {
-    flexDirection: "row",
-    flex: 3,
-    width: "100%",
-    gap: 4,
-  },
-})
-
-// Create Document Component
 export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
   const { personal, links, skills, experience, education, languages, passions } = cvData
-  const docTitle = `CV-${personal.firstName.toLowerCase()}${personal.lastName.toLowerCase()}-${new Date().getFullYear()}-${new Date().getMonth() + 1}`
+  const docTitle =
+    `CV-${personal.firstName}${personal.lastName}-${new Date().getFullYear()}-${new Date().getMonth() + 1}`.toLowerCase()
 
   return (
-    <Document title={docTitle} creator={siteConfig.creator}>
+    <Document title={docTitle} creator={siteConfig.creator} creationDate={new Date()}>
       <Page size="A4" style={styles.page}>
         <Column width={"30%"}>
-          <Section justifyContent="flex-start" alignItems="center" paddingRight={0}>
-            <Portrait
+          <LinearGradBg direction="toRight" from={colors.background} to={colors.background} />
+          <Section justifyContent="flex-start" alignItems="center" paddingRight={0} paddingTop={0}>
+            {/* <Portrait
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlQE4Q7T5S7zR47fVlpqJmElUdobrdkbrZRg&s"
               borderRadius={5}
-            />
+            /> */}
+            <PortraitPlaceholder />
           </Section>
         </Column>
 
         <Column width={"70%"}>
-          <Section paddingLeft={0} minHeight={155}>
+          <Section paddingLeft={0} paddingTop={16} minHeight={155}>
             <Heading marginBottom={1}>
-              {personal.firstName.toUpperCase()} {personal.lastName.toUpperCase()}
+              {personal.lastName.toUpperCase()} {personal.firstName.toUpperCase()}
             </Heading>
-            <SubHeading marginBottom={12} color={colors.accent}>
+            <SubHeading marginBottom={16} color={colors.accent}>
               {skills.occupation}
             </SubHeading>
             <Row marginBottom={6}>
@@ -125,7 +69,7 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
               <View style={[styles.wrapper, { flex: 2 }]}>
                 <GlobeIcon />
                 <Link src={links.webpage} style={styles.link}>
-                  Webpage
+                  Weboldal
                 </Link>
               </View>
             </Row>
@@ -155,46 +99,50 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
             </Row>
           </Section>
 
-          <Section title="Skills" paddingLeft={0}>
+          <Section title="Szakmai Ismeretek" paddingLeft={0}>
             <Text>{skills.skillsList}</Text>
           </Section>
 
-          <Section title="Work Experience" paddingLeft={0}>
+          <Section title="Munkatapasztalat" paddingLeft={0}>
             <Row gap={4}>
               <Text style={{ fontSize: 14, fontWeight: "semibold", color: colors.accent }}>
                 {experience.position}
               </Text>
+              <Text>|</Text>
+              <Text style={{ fontSize: 11, opacity: 0.8, fontWeight: "semibold", verticalAlign: "sub" }}>
+                {experience.employer}
+              </Text>
             </Row>
             <Row gap={4} marginBottom={4}>
               <Text style={{ fontSize: 11, opacity: 0.8 }}>
-                {experience.startDate} - {experience.endDate} /
-              </Text>
-              <Text style={{ fontSize: 11, opacity: 0.8, fontWeight: "semibold" }}>
-                {experience.employer}
+                {format(experience.startDate, "yyyy. MMMM", { locale: hu })} -{" "}
+                {format(experience.endDate, "yyyy. MMMM", { locale: hu })}
               </Text>
             </Row>
             <Text style={{ textIndent: -10, paddingLeft: 10 }}>{experience.description}</Text>
           </Section>
 
-          <Section title="Education" paddingLeft={0}>
+          <Section title="Tanulmányok" paddingLeft={0}>
             <Row gap={4}>
               <Text style={{ fontSize: 14, fontWeight: "semibold", color: colors.accent }}>
                 {education.specialization}
               </Text>
-              <Text style={{ fontWeight: "semibold" }}>{education.major}</Text>
+              {education.major ? <Text style={{ fontWeight: "semibold" }}>{education.major}</Text> : null}
+              <Text>|</Text>
+              <Text style={{ fontSize: 11, opacity: 0.8, fontWeight: "semibold", verticalAlign: "sub" }}>
+                {education.institution}
+              </Text>
             </Row>
             <Row gap={4} marginBottom={4}>
               <Text style={{ fontSize: 11, opacity: 0.8 }}>
-                {education.startDate} - {education.endDate} /
-              </Text>
-              <Text style={{ fontSize: 11, opacity: 0.8, fontWeight: "semibold" }}>
-                {education.institution}
+                {format(education.startDate, "yyyy. MMMM", { locale: hu })} -{" "}
+                {format(education.endDate, "yyyy. MMMM", { locale: hu })}
               </Text>
             </Row>
             <Text>{education.description}</Text>
           </Section>
 
-          <Section title="Languages" paddingLeft={0}>
+          <Section title="Nyelvismeret" paddingLeft={0}>
             <Row gap={4}>
               <Text>
                 {languages.language} ({languages.level})
@@ -202,7 +150,7 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
             </Row>
           </Section>
 
-          <Section title="Passions" paddingLeft={0}>
+          <Section title="Érdeklődés" paddingLeft={0}>
             <Row gap={4}>
               <Text>{passions.passionsList}</Text>
             </Row>

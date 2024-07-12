@@ -13,7 +13,7 @@ export function FormStepCard({ children, title, sub, className }: FormStepCardPr
   return (
     <Card
       className={cn(
-        "w-full max-w-full bg-transparent/20 p-6 animate-in slide-in-from-right-44 max-sm:p-2",
+        "w-full max-w-full bg-transparent/30 p-6 animate-in slide-in-from-right-44 max-sm:p-2",
         className
       )}
     >

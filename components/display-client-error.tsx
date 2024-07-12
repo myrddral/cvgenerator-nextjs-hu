@@ -1,5 +1,6 @@
 "use client"
 import { Button } from "./ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 
 export interface ErrorDisplayProps {
   error: Error & { digest?: string }
@@ -11,11 +12,15 @@ export function DisplayClientError({ error, reset }: ErrorDisplayProps) {
 
   return (
     <main className="flex-center container min-h-main gap-8">
-      <div>
-        <h3 className="text-lg font-semibold">Hiba történt :(</h3>
-        <p className="">{error.message}</p>
-      </div>
-      <Button onClick={handleErrorRecovery}>Vissza</Button>
+      <Card className="bg-transparent/30">
+        <CardHeader>
+          <CardTitle>Hiba történt :(</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="mb-8">{error.message}</p>
+          <Button onClick={handleErrorRecovery}>Vissza</Button>
+        </CardContent>
+      </Card>
     </main>
   )
 }

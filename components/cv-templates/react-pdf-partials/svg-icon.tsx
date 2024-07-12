@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from "react"
 import { Svg } from "@react-pdf/renderer"
-import { colors } from "../template001"
+import { colors } from "../config/colors"
 
 export interface SvgIconProps extends PropsWithChildren {
   size?: number
@@ -19,7 +19,7 @@ export const SvgIcon = ({
   style,
   viewBox = "0 0 24 24",
   size = 14,
-  fillColor = "#FFF",
+  fillColor = colors.background,
   strokeColor = colors.accent,
   strokeWidth = 2.5,
   strokeLineCap = "round",

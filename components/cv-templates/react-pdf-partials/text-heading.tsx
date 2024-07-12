@@ -8,7 +8,7 @@ interface HeadingProps extends PropsWithChildren {
 
 export const Heading = ({ children, marginBottom, debug }: Readonly<HeadingProps>) => {
   return (
-    <Text style={{ fontSize: 22, fontWeight: "bold", marginBottom, letterSpacing: 0.8 }} debug={debug}>
+    <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom, letterSpacing: 0.8 }} debug={debug}>
       {children}
     </Text>
   )
