@@ -1,7 +1,6 @@
 import type { SvgIconProps } from "../svg-icon"
 import { Path, Rect } from "@react-pdf/renderer"
 import { SvgIcon } from "../svg-icon"
-import { colors } from "../../template001"
 
 export const MailIcon = ({}: SvgIconProps) => {
   return (

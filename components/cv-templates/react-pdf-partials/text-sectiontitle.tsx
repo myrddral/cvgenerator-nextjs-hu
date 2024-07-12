@@ -1,6 +1,5 @@
 import type { PropsWithChildren } from "react"
 import { Text } from "@react-pdf/renderer"
-import { colors } from "../template001"
 
 interface SectionTitleProps extends PropsWithChildren {
   marginBottom?: number
