@@ -94,7 +94,7 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
             <Row>
               <View style={styles.wrapper}>
                 <CakeIcon />
-                <Text>{format(personal.birthDate, "yyyy. MMMM")}</Text>
+                <Text>{format(personal.birthDate, "yyyy. MMMM", { locale: hu })}</Text>
               </View>
             </Row>
           </Section>
