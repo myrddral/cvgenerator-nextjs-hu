@@ -21,7 +21,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { schemas } from "../creator-schema"
 import { allSections, routeParams } from "../creator-sections"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 export default function SectionPage({ params }: { params: { section: string } }) {
   const router = useRouter()
@@ -38,6 +38,8 @@ export default function SectionPage({ params }: { params: { section: string } })
       email: personal.email,
     },
   })
+
+  const [isCalendarOpen, setIsCalendarOpen] = useState<{ [key: string]: boolean }>({})
 
   useEffect(() => {
     const e = form.formState.errors
@@ -151,7 +153,7 @@ export default function SectionPage({ params }: { params: { section: string } })
                       </FormControl>
                     ) : null}
                     {value.type === "date" ? (
-                      <Popover>
+                      <Popover open={isCalendarOpen[key] || false}>
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
@@ -160,6 +162,9 @@ export default function SectionPage({ params }: { params: { section: string } })
                                 "w-full pl-3 text-left font-normal",
                                 !field.value && "text-muted-foreground"
                               )}
+                              onClick={() =>
+                                setIsCalendarOpen((prev) => ({ ...prev, [key]: !(prev[key] || false) }))
+                              }
                             >
                               {field.value ? format(field.value, "yyyy-MM-dd") : <span>Válassz dátumot</span>}
                               <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -175,8 +180,10 @@ export default function SectionPage({ params }: { params: { section: string } })
                             fromDate={new Date("1900-01-01")}
                             toDate={new Date()}
                             disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                            onDayClick={() => setIsCalendarOpen((prev) => ({ ...prev, [key]: false }))}
                             locale={hu}
                             initialFocus
+                            fixedWeeks
                           />
                         </PopoverContent>
                       </Popover>
