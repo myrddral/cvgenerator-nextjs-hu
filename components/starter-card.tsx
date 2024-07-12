@@ -12,7 +12,7 @@ export default function StarterCard() {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
-    <Card className="max-w-96 bg-transparent">
+    <Card className="max-w-96 bg-transparent/30">
       <CardContent className="flex flex-col items-center p-20 max-sm:p-16">
         {!isHelpVisible ? (
           <>

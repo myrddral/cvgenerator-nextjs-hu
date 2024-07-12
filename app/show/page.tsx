@@ -18,13 +18,6 @@ export default function ShowPdfPage() {
       const templateModule = await import("@/components/cv-templates/template001")
       const Template001 = templateModule.Template001
 
-      const { personal } = cvData
-      // console.log("personal", personal)
-      // if (!personal.email) {
-      //   //TODO: Check wether its necessary to improve error handling for this case
-      //   throwAsyncError("Nem lehet legenerálni a PDF dokumentumot, mert az adatok hiányosak/sérültek!")
-      // }
-
       setRenderPDF(
         <PDFViewer width="100%" height="100%" className="h-screen">
           <Template001 cvData={cvData} />

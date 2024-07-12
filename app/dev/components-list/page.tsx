@@ -1,4 +1,5 @@
 import ButtonsShowcase from "@/components/showcase/buttons-showcase"
+import { Card, CardContent } from "@/components/ui/card"
 
 export default function ComponentsPage() {
   return (
@@ -11,7 +12,11 @@ export default function ComponentsPage() {
         <p className="text-center text-sm italic text-muted-foreground">(bővítés alatt)</p>
       </section>
       <section className="container gap-8 pt-8">
-        <ButtonsShowcase />
+        <Card className="bg-transparent/30">
+          <CardContent>
+            <ButtonsShowcase />
+          </CardContent>
+        </Card>
       </section>
     </main>
   )
