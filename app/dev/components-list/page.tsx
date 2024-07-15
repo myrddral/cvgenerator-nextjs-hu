@@ -1,4 +1,5 @@
 import ButtonsShowcase from "@/components/showcase/buttons-showcase"
+import CardShowcase from "@/components/showcase/card-showcase"
 import { Card, CardContent } from "@/components/ui/card"
 
 export default function ComponentsPage() {
@@ -15,6 +16,7 @@ export default function ComponentsPage() {
         <Card className="bg-transparent/30">
           <CardContent>
             <ButtonsShowcase />
+            <CardShowcase />
           </CardContent>
         </Card>
       </section>
