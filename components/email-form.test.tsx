@@ -47,10 +47,17 @@ describe("EmailForm", () => {
     const input = screen.getByPlaceholderText("email@domain.hu")
     const button = screen.getByRole("button", { name: /tovább/i })
 
-    await act(async () => {
+    if (process.env.NODE_ENV !== "production") {
+      await act(async () => {
+        fireEvent.change(input, { target: { value: "invalid-email" } })
+        fireEvent.click(button)
+      })
+    }
+
+    if (process.env.NODE_ENV === "production") {
       fireEvent.change(input, { target: { value: "invalid-email" } })
       fireEvent.click(button)
-    })
+    }
 
     expect(await screen.findByText(/érvénytelen email cím/i)).toBeInTheDocument()
   })
@@ -62,10 +69,17 @@ describe("EmailForm", () => {
     const button = screen.getByRole("button", { name: /tovább/i })
 
     // Simulate user typing into the input and form submission
-    await act(async () => {
+    if (process.env.NODE_ENV !== "production") {
+      await act(async () => {
+        fireEvent.change(input, { target: { value: "test@example.com" } })
+        fireEvent.click(button)
+      })
+    }
+
+    if (process.env.NODE_ENV === "production") {
       fireEvent.change(input, { target: { value: "test@example.com" } })
       fireEvent.click(button)
-    })
+    }
 
     expect(mockSetEmail).toHaveBeenCalledWith("test@example.com")
     expect(mockPush).toHaveBeenCalledWith("/create/personal")
