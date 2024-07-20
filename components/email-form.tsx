@@ -7,6 +7,7 @@ import { useCvDataStore } from "@/lib/stores/cv-data-store"
 import { shouldShowDevToasts } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
@@ -23,6 +24,16 @@ export function EmailForm() {
       email: personal.email,
     },
   })
+
+  const isMobileDevice = () => window.innerWidth < 400
+  useEffect(() => {
+    if (isMobileDevice()) {
+      toast({
+        title: "Figyelem!",
+        description: <p>Mobil eszközről egyelőre nem elérhető a legenerált önéletrajz.</p>,
+      })
+    }
+  }, [])
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     shouldShowDevToasts(false) &&
