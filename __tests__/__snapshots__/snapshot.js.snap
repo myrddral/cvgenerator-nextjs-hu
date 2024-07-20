@@ -2,9 +2,7 @@
 
 exports[`renders homepage unchanged 1`] = `
 <div>
-  <main
-    class="container flex min-h-main items-center justify-center p-6"
-  >
+  <div>
     <div
       class="rounded-xl border border-border text-card-foreground shadow backdrop-blur-sm max-w-96 bg-transparent/30"
     >
@@ -59,6 +57,6 @@ exports[`renders homepage unchanged 1`] = `
         </button>
       </div>
     </div>
-  </main>
+  </div>
 </div>
 `;
