@@ -12,6 +12,7 @@ import { fontDisplay, fontSans } from "@/lib/fonts"
 import { GridBackground } from "@/components/grid-background"
 import { cn } from "@/lib/utils"
 import "./globals.css"
+import MainContainer from "../components/main-container"
 
 export const metadata: Metadata = {
   title: {
@@ -57,7 +58,7 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
     <html lang={siteConfig.htmlLang} suppressHydrationWarning>
       <body
         className={cn(
-          "mx-auto min-h-screen max-w-screen-2xl bg-background pt-16 font-sans text-foreground antialiased",
+          "flex min-h-[100dvh] flex-col bg-background font-sans text-foreground antialiased",
           fontSans.variable,
           fontDisplay.variable
         )}
@@ -71,7 +72,7 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
             disableTransitionOnChange
           >
             <Navbar />
-            {children}
+            <MainContainer>{children}</MainContainer>
             <Footer />
             <Toaster />
           </ThemeProvider>

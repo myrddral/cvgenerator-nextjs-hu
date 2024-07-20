@@ -11,7 +11,7 @@ describe("GridBackground component", () => {
 
     // Check if the div element has the correct class names
     expect(divElement).toHaveClass(
-      "fade-edges fixed left-0 top-0 -z-10 h-full min-h-main w-full bg-[url('/grid_bg1.svg')] bg-cover bg-center bg-no-repeat"
+      "fade-edges fixed left-0 top-0 -z-10 min-h-[100dvh] w-screen bg-[url('/grid_bg1.svg')] bg-cover bg-center bg-no-repeat"
     )
   })
 })

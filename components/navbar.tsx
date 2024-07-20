@@ -5,7 +5,7 @@ import Logo from "./ui/logo"
 
 export default function Navbar() {
   return (
-    <div className="pos-center container fixed z-10 flex h-navbar items-center justify-between gap-4 shadow-inner outline outline-1 outline-muted brightness-75 backdrop-blur 2xl:rounded-b-lg">
+    <header className="pos-center container fixed z-10 flex h-navbar items-center justify-between gap-4 shadow-inner outline outline-1 outline-muted brightness-75 backdrop-blur 2xl:rounded-b-lg">
       <Link href="/" className="w-28">
         <Logo />
       </Link>
@@ -13,6 +13,6 @@ export default function Navbar() {
         <NavbarNavitems />
         {process.env.NODE_ENV === "development" ? <ModeToggle /> : null}
       </div>
-    </div>
+    </header>
   )
 }

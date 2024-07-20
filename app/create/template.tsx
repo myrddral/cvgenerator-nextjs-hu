@@ -5,9 +5,9 @@ import { allSections } from "./creator-sections"
 
 export default function CreateTemplate({ children }: PropsWithChildren) {
   return (
-    <div className="container flex min-h-main flex-col mb-12">
-      <Stepper allSections={allSections} /> 
-      <main className="flex-center mx-auto w-full max-w-[44rem] flex-1">{children}</main>
+    <div className="flex w-full flex-1 flex-col items-center overflow-clip">
+      <Stepper allSections={allSections} />
+      <div className="flex flex-1 flex-col items-center justify-center">{children}</div>
     </div>
   )
 }

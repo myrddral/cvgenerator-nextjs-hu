@@ -82,9 +82,6 @@ const config = {
       height: {
         navbar: "var(--navbar-height)",
       },
-      minHeight: {
-        main: "calc(100vh - var(--navbar-height) - var(--footer-min-height))",
-      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
