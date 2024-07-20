@@ -25,6 +25,7 @@ export default function Stepper({ allSections }: StepperProps) {
       )}
     >
       {allSections.map(({ routeParam, title }: Section, index) =>
+        // The section at index 0 is always the email form (cannot be navigated to)
         index !== 0 ? (
           <div key={routeParam} className="relative flex h-full w-full flex-col items-center pb-5">
             <Link href={`/create/${routeParam}`}>

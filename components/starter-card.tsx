@@ -17,7 +17,7 @@ export default function StarterCard() {
         {!isHelpVisible ? (
           <>
             <Logo className="w-56" />
-            <p className="mt-2 font-semibold">Önéletrajz generátor</p>
+            <h3 className="mt-2 font-semibold">Önéletrajz generátor</h3>
             <Link href="/create">
               <Button
                 size="lg"
@@ -26,14 +26,14 @@ export default function StarterCard() {
                 onMouseLeave={() => setIsHovered(false)}
               >
                 KEZDÉS
-                <span
+                <ChevronRightIcon
                   className={cn(
-                    "absolute right-8 translate-x-3.5 opacity-0",
-                    isHovered ? "opacity-100 duration-500 animate-in fade-in-0 slide-in-from-left scale-125" : ""
+                    "absolute right-8 translate-x-3.5",
+                    isHovered
+                      ? "scale-125 opacity-100 duration-500 animate-in fade-in-0 slide-in-from-left"
+                      : "opacity-0"
                   )}
-                >
-                  <ChevronRightIcon />
-                </span>
+                />
               </Button>
             </Link>
             <Button size="lg" variant={"ghost"} className="mt-2" onClick={() => setIsHelpVisible(true)}>
