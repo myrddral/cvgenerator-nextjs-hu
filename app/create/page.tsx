@@ -4,7 +4,7 @@ import { allSections } from "./creator-sections"
 
 export default function CreatePage() {
   return (
-    <FormStepCard title={allSections[0].title} className="max-w-fit">
+    <FormStepCard title={allSections[0].title} className="max-w-fit max-sm:mt-12">
       <EmailForm />
     </FormStepCard>
   )

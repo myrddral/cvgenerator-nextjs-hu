@@ -112,7 +112,7 @@ export default function SectionPage({ params }: { params: { section: string } })
   }
 
   return (
-    <FormStepCard title={currentSection?.title} sub={currentSection?.sub}>
+    <FormStepCard title={currentSection?.title} sub={currentSection?.sub} className="mb-8">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
