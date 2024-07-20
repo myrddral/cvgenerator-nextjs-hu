@@ -82,6 +82,9 @@ const config = {
       height: {
         navbar: "var(--navbar-height)",
       },
+      maxWidth: {
+        "screen-xs": "320px",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
