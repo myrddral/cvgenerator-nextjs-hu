@@ -41,47 +41,47 @@ describe("EmailForm", () => {
     expect(screen.getByRole("button", { name: /tovább/i })).toBeInTheDocument()
   })
 
-  // test("displays error message on invalid email", async () => {
-  //   render(<EmailForm />)
+  test("displays error message on invalid email", async () => {
+    render(<EmailForm />)
 
-  //   const input = screen.getByPlaceholderText("email@domain.hu")
-  //   const button = screen.getByRole("button", { name: /tovább/i })
+    const input = screen.getByPlaceholderText("email@domain.hu")
+    const button = screen.getByRole("button", { name: /tovább/i })
 
-  //   if (process.env.NODE_ENV !== "production") {
-  //     await act(async () => {
-  //       fireEvent.change(input, { target: { value: "invalid-email" } })
-  //       fireEvent.click(button)
-  //     })
-  //   }
+    if (process.env.NODE_ENV !== "production") {
+      await act(async () => {
+        fireEvent.change(input, { target: { value: "invalid-email" } })
+        fireEvent.click(button)
+      })
+    }
 
-  //   if (process.env.NODE_ENV === "production") {
-  //     fireEvent.change(input, { target: { value: "invalid-email" } })
-  //     fireEvent.click(button)
-  //   }
+    if (process.env.NODE_ENV === "production") {
+      fireEvent.change(input, { target: { value: "invalid-email" } })
+      fireEvent.click(button)
+    }
 
-  //   expect(await screen.findByText(/érvénytelen email cím/i)).toBeInTheDocument()
-  // })
+    expect(await screen.findByText(/érvénytelen email cím/i)).toBeInTheDocument()
+  })
 
-  // test("submits form with valid email", async () => {
-  //   render(<EmailForm />)
+  test("submits form with valid email", async () => {
+    render(<EmailForm />)
 
-  //   const input = screen.getByPlaceholderText("email@domain.hu")
-  //   const button = screen.getByRole("button", { name: /tovább/i })
+    const input = screen.getByPlaceholderText("email@domain.hu")
+    const button = screen.getByRole("button", { name: /tovább/i })
 
-  //   // Simulate user typing into the input and form submission
-  //   if (process.env.NODE_ENV !== "production") {
-  //     await act(async () => {
-  //       fireEvent.change(input, { target: { value: "test@example.com" } })
-  //       fireEvent.click(button)
-  //     })
-  //   }
+    // Simulate user typing into the input and form submission
+    if (process.env.NODE_ENV !== "production") {
+      await act(async () => {
+        fireEvent.change(input, { target: { value: "test@example.com" } })
+        fireEvent.click(button)
+      })
+    }
 
-  //   if (process.env.NODE_ENV === "production") {
-  //     fireEvent.change(input, { target: { value: "test@example.com" } })
-  //     fireEvent.click(button)
-  //   }
+    if (process.env.NODE_ENV === "production") {
+      fireEvent.change(input, { target: { value: "test@example.com" } })
+      fireEvent.click(button)
+    }
 
-  //   expect(mockSetEmail).toHaveBeenCalledWith("test@example.com")
-  //   expect(mockPush).toHaveBeenCalledWith("/create/personal")
-  // })
+    expect(mockSetEmail).toHaveBeenCalledWith("test@example.com")
+    expect(mockPush).toHaveBeenCalledWith("/create/personal")
+  })
 })
