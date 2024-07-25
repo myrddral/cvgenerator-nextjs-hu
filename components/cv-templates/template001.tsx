@@ -37,11 +37,11 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
         <Column width={"30%"}>
           <LinearGradBg direction="toRight" from={colors.background} to={colors.background} />
           <Section justifyContent="flex-start" alignItems="center" paddingRight={0} paddingTop={0}>
-            <Portrait
-              src={URL.createObjectURL(personal.picture)}
-              borderRadius={5}
-            />
-          {/* <PortraitPlaceholder /> */}
+            {personal.picture !== null ? (
+              <Portrait src={personal.picture} borderRadius={5} />
+            ) : (
+              <PortraitPlaceholder />
+            )}
           </Section>
         </Column>
 
