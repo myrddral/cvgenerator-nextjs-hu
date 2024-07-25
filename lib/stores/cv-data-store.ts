@@ -11,6 +11,7 @@ export type CvDataState = {
     phone: string
     email: string
     location: string
+    picture: string
   }
   links: {
     linkedin: string
@@ -71,6 +72,7 @@ export const defaultInitState: CvDataState = {
     phone: "",
     email: "",
     location: "",
+    picture: "",
   },
   links: {
     linkedin: "",

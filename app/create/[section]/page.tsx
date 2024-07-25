@@ -7,9 +7,11 @@ import { Calendar } from "@/components/ui/calendar"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { FormStepCard } from "@/components/ui/formstep-card"
 import { Input } from "@/components/ui/input"
+import { InputFile } from "@/components/ui/input-file"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/components/ui/use-toast"
+import { getDefaultValues } from "@/lib/generator-utils"
 import { useCvDataStore } from "@/lib/stores/cv-data-store"
 import { cn, shouldShowDevToasts } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -17,26 +19,22 @@ import { CalendarIcon } from "@radix-ui/react-icons"
 import { format } from "date-fns"
 import { hu } from "date-fns/locale"
 import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { schemas } from "../creator-schema"
 import { allSections, routeParams } from "../creator-sections"
-import { useEffect, useState } from "react"
 
 export default function SectionPage({ params }: { params: { section: string } }) {
   const router = useRouter()
-  const { personal, setPersonal, setSkills, setExperience, setEducation, setLanguages, setPassions } =
-    useCvDataStore()
+  const { setPersonal, setSkills, setExperience, setEducation, setLanguages, setPassions } = useCvDataStore()
   const currentSection = allSections.find((section) => section.routeParam === params.section)
   const formSchema = schemas[params.section as keyof typeof schemas]
   const fields = currentSection?.fields ?? {}
   const shouldMakeGrid = Object.keys(fields).length < 3
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      ...Object.fromEntries(Object.entries(fields).map(([key, value]) => [key, value.defaultValue])),
-      email: personal.email,
-    },
+    defaultValues: getDefaultValues(fields),
   })
 
   const [isCalendarOpen, setIsCalendarOpen] = useState<{ [key: string]: boolean }>({})
@@ -100,17 +98,6 @@ export default function SectionPage({ params }: { params: { section: string } })
     } else router.push("/create/email")
   }
 
-  const getPlaceholder = (section: string) => {
-    switch (section) {
-      case "skills":
-        return "Mihez értesz? Miben van gyakorlati tapasztalatod?"
-      case "experience":
-        return "Milyen feladatokat végeztél? Milyen eredményeket értél el?"
-      case "passions":
-        return "Pl.: Olvasás, sport, hangszerek, szakmai fórumok, önkéntes tevékenységek"
-    }
-  }
-
   return (
     <FormStepCard title={currentSection?.title} sub={currentSection?.sub} className="mb-8">
       <Form {...form}>
@@ -144,12 +131,7 @@ export default function SectionPage({ params }: { params: { section: string } })
                     ) : null}
                     {value.type === "textarea" ? (
                       <FormControl>
-                        <Textarea
-                          {...field}
-                          placeholder={getPlaceholder(params.section)}
-                          rows={8}
-                          className="w-full"
-                        />
+                        <Textarea {...field} placeholder={value.placeholder} rows={8} className="w-full" />
                       </FormControl>
                     ) : null}
                     {value.type === "date" ? (
@@ -187,6 +169,11 @@ export default function SectionPage({ params }: { params: { section: string } })
                           />
                         </PopoverContent>
                       </Popover>
+                    ) : null}
+                    {value.type === "image" ? (
+                      <FormControl>
+                        <InputFile {...field} className="w-full" />
+                      </FormControl>
                     ) : null}
                     <FormMessage className="absolute -bottom-5 animate-in fade-in-0" />
                   </FormItem>

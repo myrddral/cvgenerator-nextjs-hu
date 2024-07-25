@@ -15,7 +15,7 @@ import { LinkedInIcon } from "./react-pdf-partials/icons/linkedin-icon"
 import { MailIcon } from "./react-pdf-partials/icons/mail-icon"
 import { MapPinIcon } from "./react-pdf-partials/icons/map-icon"
 import { PhoneIcon } from "./react-pdf-partials/icons/phone-icon"
-// import { Portrait } from "./react-pdf-partials/image-portrait"
+import { Portrait } from "./react-pdf-partials/image-portrait"
 import { PortraitPlaceholder } from "./react-pdf-partials/icons/portrait-placeholder"
 import { Heading } from "./react-pdf-partials/text-heading"
 import { SubHeading } from "./react-pdf-partials/text-subheading"
@@ -37,11 +37,11 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
         <Column width={"30%"}>
           <LinearGradBg direction="toRight" from={colors.background} to={colors.background} />
           <Section justifyContent="flex-start" alignItems="center" paddingRight={0} paddingTop={0}>
-            {/* <Portrait
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlQE4Q7T5S7zR47fVlpqJmElUdobrdkbrZRg&s"
+            <Portrait
+              src={URL.createObjectURL(personal.picture)}
               borderRadius={5}
-            /> */}
-            <PortraitPlaceholder />
+            />
+          // <PortraitPlaceholder />
           </Section>
         </Column>
 
