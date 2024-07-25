@@ -41,7 +41,7 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
               src={URL.createObjectURL(personal.picture)}
               borderRadius={5}
             />
-          // <PortraitPlaceholder />
+          {/* <PortraitPlaceholder /> */}
           </Section>
         </Column>
 
