@@ -58,6 +58,35 @@
     --navbar: 0, 0%, 0%, 0.4;
     --shadow: 40, 85%, 46%, 0.4;
   }
+
+  input[type="file"]::file-selector-button {
+    @apply h-10 cursor-pointer rounded bg-primary text-primary-foreground shadow-black/30 !text-shadow-sm;
+  }
+  input[type="file"]::file-selector-button:hover {
+    @apply hover:brightness-110;
+  }
+
+  input[type="file"]::file-selector-button:active {
+    @apply active:brightness-110;
+  }
+
+  input[type="file" i] {
+    /* the name of the selected file */
+    width: 100%;
+  }
+
+  .image_input_container {
+    background-color: #ffffff;
+    display: flex;
+    margin: 0.5rem;
+    padding: 0;
+    border: 0;
+    border-color: #000000;
+    border-width: 1px;
+    border-style: solid;
+    max-width: 100%;
+    color: rgb(0, 0, 0);
+  }
 }
 
 @layer components {

@@ -1,21 +1,17 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
+import type { VariantProps } from "class-variance-authority"
+import type { ButtonHTMLAttributes } from "react"
 
 import { cn } from "@/lib/utils"
-
-const BÖTN = (
-  <button className="rounded-full bg-gradient-to-b from-[#005d74] to-blue-600 px-8 py-2 text-white transition duration-200 hover:shadow-xl focus:ring-2 focus:ring-blue-400">
-    Gradient
-  </button>
-)
+import { Slot } from "@radix-ui/react-slot"
+import { cva } from "class-variance-authority"
+import { forwardRef } from "react"
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium transition-colors hover:brightness-110 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "!text-shadow-sm bg-primary text-primary-foreground shadow-black/30",
+        default: "bg-primary text-primary-foreground shadow-black/30 !text-shadow-sm",
         destructive: "bg-danger text-destructive-foreground shadow-sm",
         outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         secondary: "bg-secondary text-secondary-foreground shadow-sm",
@@ -37,12 +33,12 @@ const buttonVariants = cva(
 )
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
     return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
@@ -50,4 +46,4 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 )
 Button.displayName = "Button"
 
-export { Button, BÖTN, buttonVariants }
+export { Button, buttonVariants }

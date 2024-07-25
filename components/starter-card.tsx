@@ -1,18 +1,18 @@
 "use client"
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import Link from "next/link"
-import Logo from "./ui/logo"
-import { ChevronRightIcon } from "@radix-ui/react-icons"
 import { cn } from "@/lib/utils"
+import { ChevronRightIcon } from "@radix-ui/react-icons"
+import Link from "next/link"
+import { useState } from "react"
+import Logo from "./ui/logo"
 
 export default function StarterCard() {
   const [isHelpVisible, setIsHelpVisible] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
 
   return (
-    <Card className="max-w-96 bg-transparent/30">
+    <Card className="max-w-96">
       <CardContent className="flex flex-col items-center p-20 max-sm:p-16">
         {!isHelpVisible ? (
           <>
