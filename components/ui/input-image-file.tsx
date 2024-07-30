@@ -73,6 +73,9 @@ const InputImageFile = forwardRef<HTMLInputElement, InputImageFileProps>(
     const inputFileRef = useRef<HTMLInputElement | null>(null)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setIsLoading(true)
+      setBase64(undefined)
+      
       const file = e.target.files?.[0]
       setUploadedFile(file)
 
@@ -107,8 +110,6 @@ const InputImageFile = forwardRef<HTMLInputElement, InputImageFileProps>(
 
     const handleClick = () => {
       inputFileRef.current?.click()
-      setIsLoading(true)
-      setBase64(undefined)
     }
 
     return (
