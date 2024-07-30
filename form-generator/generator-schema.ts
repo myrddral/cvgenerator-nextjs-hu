@@ -125,7 +125,6 @@ const passionsSchema = z.object({
 })
 
 export const schemas = {
-  // email: emailSchema,
   personal: personalSchema,
   links: linksSchema,
   skills: skillsSchema,
@@ -133,4 +132,14 @@ export const schemas = {
   education: educationSchema,
   languages: languagesSchema,
   passions: passionsSchema,
+}
+
+export type TSchemas = {
+  personal: z.infer<typeof personalSchema>
+  links: z.infer<typeof linksSchema>
+  skills: z.infer<typeof skillsSchema>
+  experience: z.infer<typeof experienceSchema>
+  education: z.infer<typeof educationSchema>
+  languages: z.infer<typeof languagesSchema>
+  passions: z.infer<typeof passionsSchema>
 }
