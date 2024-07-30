@@ -50,6 +50,7 @@ export type CvDataState = {
 export type CvDataActions = {
   setEmail: (state: CvDataState["personal"]["email"]) => void
   setPersonal: (state: CvDataState["personal"]) => void
+  setLinks: (state: CvDataState["links"]) => void
   setSkills: (state: CvDataState["skills"]) => void
   setExperience: (state: CvDataState["experience"]) => void
   setEducation: (state: CvDataState["education"]) => void
@@ -113,6 +114,7 @@ export const createCvDataStore = (initState = defaultInitState) => {
     ...initState,
     setEmail: (email) => set((state) => ({ personal: { ...state.personal, email } })),
     setPersonal: (personal) => set((state) => ({ personal: { ...state.personal, ...personal } })),
+    setLinks: (links) => set({ links }),
     setSkills: (skills) => set({ skills }),
     setExperience: (experience) => set({ experience }),
     setEducation: (education) => set({ education }),
@@ -127,6 +129,7 @@ export const useCvDataStore = create<CvDataStore>()(
       ...defaultInitState,
       setEmail: (email) => set((state) => ({ personal: { ...state.personal, email } })),
       setPersonal: (personal) => set((state) => ({ personal: { ...state.personal, ...personal } })),
+      setLinks: (links) => set({ links }),
       setSkills: (skills) => set({ skills }),
       setExperience: (experience) => set({ experience }),
       setEducation: (education) => set({ education }),

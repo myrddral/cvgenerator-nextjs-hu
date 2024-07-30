@@ -26,7 +26,8 @@ import { z } from "zod"
 
 export default function SectionPage({ params }: { params: { section: string } }) {
   const router = useRouter()
-  const { setPersonal, setSkills, setExperience, setEducation, setLanguages, setPassions } = useCvDataStore()
+  const { setPersonal, setLinks, setSkills, setExperience, setEducation, setLanguages, setPassions } =
+    useCvDataStore()
   const currentSection = allSections.find((section) => section.routeParam === params.section)
   const formSchema = schemas[params.section as keyof typeof schemas]
   const fields = currentSection?.fields ?? {}
@@ -44,6 +45,9 @@ export default function SectionPage({ params }: { params: { section: string } })
     switch (params.section) {
       case "personal":
         setPersonal(data as CvDataStore["personal"])
+        break
+      case "links":
+        setLinks(data as CvDataStore["links"])
         break
       case "skills":
         setSkills(data as CvDataStore["skills"])
