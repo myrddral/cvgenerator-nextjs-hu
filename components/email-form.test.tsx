@@ -17,13 +17,16 @@ jest.mock("next/navigation", () => ({
 
 describe("EmailForm", () => {
   const mockSetEmail = jest.fn()
+  const mockReset = jest.fn()
   const mockPush = jest.fn()
 
   beforeEach(() => {
-    ;(useCvDataStore as unknown as jest.Mock).mockReturnValue({
+    const mockState = {
       personal: { email: "" },
       setEmail: mockSetEmail,
-    })
+      reset: mockReset,
+    }
+    ;(useCvDataStore as unknown as jest.Mock).mockImplementation((selector) => selector(mockState))
     ;(useRouter as jest.Mock).mockReturnValue({
       push: mockPush,
     })
@@ -47,17 +50,10 @@ describe("EmailForm", () => {
     const input = screen.getByPlaceholderText("email@domain.hu")
     const button = screen.getByRole("button", { name: /tovább/i })
 
-    if (process.env.NODE_ENV !== "production") {
-      await act(async () => {
-        fireEvent.change(input, { target: { value: "invalid-email" } })
-        fireEvent.click(button)
-      })
-    }
-
-    if (process.env.NODE_ENV === "production") {
+    await act(async () => {
       fireEvent.change(input, { target: { value: "invalid-email" } })
       fireEvent.click(button)
-    }
+    })
 
     expect(await screen.findByText(/érvénytelen email cím/i)).toBeInTheDocument()
   })
@@ -69,17 +65,10 @@ describe("EmailForm", () => {
     const button = screen.getByRole("button", { name: /tovább/i })
 
     // Simulate user typing into the input and form submission
-    if (process.env.NODE_ENV !== "production") {
-      await act(async () => {
-        fireEvent.change(input, { target: { value: "test@example.com" } })
-        fireEvent.click(button)
-      })
-    }
-
-    if (process.env.NODE_ENV === "production") {
+    await act(async () => {
       fireEvent.change(input, { target: { value: "test@example.com" } })
       fireEvent.click(button)
-    }
+    })
 
     expect(mockSetEmail).toHaveBeenCalledWith("test@example.com")
     expect(mockPush).toHaveBeenCalledWith("/create/personal")
