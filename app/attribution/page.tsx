@@ -22,6 +22,11 @@ export default function AttribPage() {
               Avatar grafika: www.kittl.com
             </a>
           </li>
+          <li>
+            <a href="https://vecteezy.com/" className="text-primary">
+              Avatar grafika: www.vecteezy.com
+            </a>
+          </li>
         </ul>
       </Card>
     </div>
