@@ -1,5 +1,4 @@
 import { persist, createJSONStorage } from "zustand/middleware"
-import { createStore } from "zustand/vanilla"
 import { create } from "zustand"
 
 export type CvDataState = {
@@ -56,6 +55,7 @@ export type CvDataActions = {
   setEducation: (state: CvDataState["education"]) => void
   setLanguages: (state: CvDataState["languages"]) => void
   setPassions: (state: CvDataState["passions"]) => void
+  reset: () => void
 }
 
 export type CvDataStore = CvDataState & CvDataActions
@@ -109,20 +109,6 @@ export const defaultInitState: CvDataState = {
   },
 }
 
-export const createCvDataStore = (initState = defaultInitState) => {
-  return createStore<CvDataStore>()((set) => ({
-    ...initState,
-    setEmail: (email) => set((state) => ({ personal: { ...state.personal, email } })),
-    setPersonal: (personal) => set((state) => ({ personal: { ...state.personal, ...personal } })),
-    setLinks: (links) => set({ links }),
-    setSkills: (skills) => set({ skills }),
-    setExperience: (experience) => set({ experience }),
-    setEducation: (education) => set({ education }),
-    setLanguages: (languages) => set({ languages }),
-    setPassions: (passions) => set({ passions }),
-  }))
-}
-
 export const useCvDataStore = create<CvDataStore>()(
   persist(
     (set) => ({
@@ -135,6 +121,7 @@ export const useCvDataStore = create<CvDataStore>()(
       setEducation: (education) => set({ education }),
       setLanguages: (languages) => set({ languages }),
       setPassions: (passions) => set({ passions }),
+      reset: () => set(defaultInitState),
     }),
     {
       name: "cv-data-store",

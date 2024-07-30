@@ -2,28 +2,31 @@
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { emailSchema } from "@/form-generator/generator-schema"
 import { useCvDataStore } from "@/lib/stores/cv-data-store"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { emailSection } from "../form-generator/generator-sections"
-
-const FormSchema = z.object({
-  email: z.string().email({ message: "Érvénytelen email cím" }),
-})
+import { useEffect } from "react"
 
 export function EmailForm() {
   const router = useRouter()
-  const { setEmail } = useCvDataStore((state) => state)
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const { setEmail, reset } = useCvDataStore((state) => state)
+  const form = useForm<z.infer<typeof emailSchema>>({
+    resolver: zodResolver(emailSchema),
     defaultValues: {
       email: emailSection.fields.email.defaultValue,
     },
   })
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  // when the component is mounted, reset the session storage
+  useEffect(() => {
+    reset()
+  }, [reset])
+
+  function onSubmit(data: z.infer<typeof emailSchema>) {
     setEmail(data.email)
     router.push("/create/personal")
   }

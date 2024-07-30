@@ -4,7 +4,6 @@ import type { PropsWithChildren } from "react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import Footer from "@/components/footer"
 import Navbar from "@/components/navbar"
-import { CvDataStoreProvider } from "@/components/providers/cvdata-store-provider"
 import { ThemeProvider } from "@/components/providers/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { siteConfig } from "@/config/site"
@@ -63,20 +62,18 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
           fontDisplay.variable
         )}
       >
-        <CvDataStoreProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            storageKey="theme"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Navbar />
-            <MainContainer>{children}</MainContainer>
-            <Footer />
-            <Toaster />
-          </ThemeProvider>
-        </CvDataStoreProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          storageKey="theme"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          <MainContainer>{children}</MainContainer>
+          <Footer />
+          <Toaster />
+        </ThemeProvider>
         <SpeedInsights />
         <GridBackground />
       </body>
