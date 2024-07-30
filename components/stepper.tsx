@@ -1,6 +1,6 @@
 "use client"
 
-import type { Section } from "@/app/create/creator-sections"
+import type { Section } from "@/form-generator/generator-sections"
 
 import { cn } from "@/lib/utils"
 import { useParams } from "next/navigation"
