@@ -11,7 +11,7 @@ export type CvDataState = {
     phone: string
     email: string
     location: string
-    picture: File | null
+    picture: string
   }
   links: {
     linkedin: string
@@ -72,7 +72,7 @@ export const defaultInitState: CvDataState = {
     phone: "",
     email: "",
     location: "",
-    picture: null,
+    picture: "",
   },
   links: {
     linkedin: "",
@@ -112,7 +112,7 @@ export const createCvDataStore = (initState = defaultInitState) => {
   return createStore<CvDataStore>()((set) => ({
     ...initState,
     setEmail: (email) => set((state) => ({ personal: { ...state.personal, email } })),
-    setPersonal: (personal) => set({ personal }),
+    setPersonal: (personal) => set((state) => ({ personal: { ...state.personal, ...personal } })),
     setSkills: (skills) => set({ skills }),
     setExperience: (experience) => set({ experience }),
     setEducation: (education) => set({ education }),
@@ -126,7 +126,7 @@ export const useCvDataStore = create<CvDataStore>()(
     (set) => ({
       ...defaultInitState,
       setEmail: (email) => set((state) => ({ personal: { ...state.personal, email } })),
-      setPersonal: (personal) => set({ personal }),
+      setPersonal: (personal) => set((state) => ({ personal: { ...state.personal, ...personal } })),
       setSkills: (skills) => set({ skills }),
       setExperience: (experience) => set({ experience }),
       setEducation: (education) => set({ education }),

@@ -7,23 +7,22 @@ import { Calendar } from "@/components/ui/calendar"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { FormStepCard } from "@/components/ui/formstep-card"
 import { Input } from "@/components/ui/input"
-import { InputFile } from "@/components/ui/input-file"
+import { InputImageFile } from "@/components/ui/input-image-file"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/use-toast"
-import { getDefaultValues } from "@/lib/generator-utils"
+import { schemas } from "@/form-generator/generator-schema"
+import { allSections, routeParams } from "@/form-generator/generator-sections"
+import { getDefaultValues, logFormErrors } from "@/lib/generator-utils"
 import { useCvDataStore } from "@/lib/stores/cv-data-store"
-import { cn, shouldShowDevToasts } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CalendarIcon } from "@radix-ui/react-icons"
 import { format } from "date-fns"
 import { hu } from "date-fns/locale"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { schemas } from "../creator-schema"
-import { allSections, routeParams } from "../creator-sections"
 
 export default function SectionPage({ params }: { params: { section: string } }) {
   const router = useRouter()
@@ -37,33 +36,11 @@ export default function SectionPage({ params }: { params: { section: string } })
     defaultValues: getDefaultValues(fields),
   })
 
+  logFormErrors(false, form.formState.errors)
+
   const [isCalendarOpen, setIsCalendarOpen] = useState<{ [key: string]: boolean }>({})
 
-  useEffect(() => {
-    const e = form.formState.errors
-    shouldShowDevToasts(true) &&
-      Object.keys(e).length &&
-      toast({
-        title: "Hiba történt a validálás során",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
-            <code className="text-white">{JSON.stringify(e, null, 2)}</code>
-          </pre>
-        ),
-      })
-  }, [form.formState.errors])
-
   function onSubmit(data: z.infer<typeof formSchema>) {
-    shouldShowDevToasts(false) &&
-      toast({
-        title: "A következő értéket küldted be:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
-            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-          </pre>
-        ),
-      })
-
     switch (params.section) {
       case "personal":
         setPersonal(data as CvDataStore["personal"])
@@ -170,11 +147,7 @@ export default function SectionPage({ params }: { params: { section: string } })
                         </PopoverContent>
                       </Popover>
                     ) : null}
-                    {value.type === "image" ? (
-                      <FormControl>
-                        <InputFile {...field} className="w-full" />
-                      </FormControl>
-                    ) : null}
+                    {value.type === "image" ? <InputImageFile {...field} setError={form.setError} /> : null}
                     <FormMessage className="absolute -bottom-5 animate-in fade-in-0" />
                   </FormItem>
                 )}

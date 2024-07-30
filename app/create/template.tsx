@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from "react"
 
 import Stepper from "@/components/stepper"
-import { allSections } from "./creator-sections"
+import { allSections } from "../../form-generator/generator-sections"
 
 export default function CreateTemplate({ children }: PropsWithChildren) {
   return (
