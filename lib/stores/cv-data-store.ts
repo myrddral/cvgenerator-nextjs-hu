@@ -56,6 +56,7 @@ export type CvDataActions = {
   setLanguages: (state: CvDataState["languages"]) => void
   setPassions: (state: CvDataState["passions"]) => void
   reset: () => void
+  setSectionData: (section: keyof CvDataState, data: any) => void
 }
 
 export type CvDataStore = CvDataState & CvDataActions
@@ -122,6 +123,7 @@ export const useCvDataStore = create<CvDataStore>()(
       setLanguages: (languages) => set({ languages }),
       setPassions: (passions) => set({ passions }),
       reset: () => set(defaultInitState),
+      setSectionData: (section, data) => set((state) => ({ [section]: { ...state[section], ...data } })),
     }),
     {
       name: "cv-data-store",
