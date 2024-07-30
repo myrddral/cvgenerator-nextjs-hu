@@ -8,7 +8,3 @@ export function cn(...inputs: ClassValue[]) {
 export function isDevMode(): boolean {
   return process.env.NODE_ENV === "development"
 }
-
-export function shouldShowDevToasts(toggle: true | false): boolean {
-  return isDevMode() && toggle
-}

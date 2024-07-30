@@ -1,6 +1,6 @@
 import { EmailForm } from "@/components/email-form"
 import { FormStepCard } from "@/components/ui/formstep-card"
-import { allSections } from "./creator-sections"
+import { allSections } from "../../form-generator/generator-sections"
 
 export default function CreatePage() {
   return (

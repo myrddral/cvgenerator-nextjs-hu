@@ -2,14 +2,12 @@
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { toast } from "@/components/ui/use-toast"
 import { useCvDataStore } from "@/lib/stores/cv-data-store"
-import { shouldShowDevToasts } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { emailSection } from "../app/create/creator-sections"
+import { emailSection } from "../form-generator/generator-sections"
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Érvénytelen email cím" }),
@@ -17,7 +15,7 @@ const FormSchema = z.object({
 
 export function EmailForm() {
   const router = useRouter()
-  const { personal, setEmail } = useCvDataStore((state) => state)
+  const { setEmail } = useCvDataStore((state) => state)
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -26,15 +24,6 @@ export function EmailForm() {
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    shouldShowDevToasts(false) &&
-      toast({
-        title: "A következő értéket küldted be:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-black p-4">
-            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-          </pre>
-        ),
-      })
     setEmail(data.email)
     router.push("/create/personal")
   }

@@ -1,15 +1,21 @@
 import { z } from "zod"
 
-const MAX_FILE_SIZE = 5000000
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"]
+const MAX_FILE_SIZE_IN_MB = 5
+const MAX_FILE_SIZE = MAX_FILE_SIZE_IN_MB * 1000000
+const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png"]
 
-const emailSchema = z.object({
+export const emailSchema = z.object({
   email: z
     .string()
     .min(1, { message: "Email cím megadása kötelező" })
     .max(255, { message: "Email cím maximum 255 karakter lehet" })
     .email({ message: "Érvénytelen email cím" }),
 })
+
+export const imageSchema = z
+  .instanceof(File)
+  .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), "Csak JPG/PNG képek tölthetőek fel")
+  .refine((file) => file.size <= MAX_FILE_SIZE, `A kép maximum ${MAX_FILE_SIZE_IN_MB}MB lehet.`)
 
 const personalSchema = z.object({
   firstName: z
@@ -27,18 +33,7 @@ const personalSchema = z.object({
     .max(17, { message: "Telefonszám maximum 255 karakter lehet" }),
   location: z.string().min(1, { message: "Lakóhely (település) megadása kötelező" }),
   birthDate: z.date({ message: "Dátum megadása kötelező" }),
-  picture: z
-    .any()
-    // To not allow empty files
-    .refine((files) => files?.length >= 1, { message: "Kép feltöltése kötelező" })
-    // To not allow files other than images
-    .refine((files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type), {
-      message: ".jpg, .jpeg, .png and .webp fájlok tölthetőek fel",
-    })
-    // To not allow files larger than 5MB
-    .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, {
-      message: `A kép maximum 5MB lehet.`,
-    }),
+  picture: z.string().min(1, { message: "Kép feltöltése kötelező" }),
 })
 
 const linksSchema = z.object({
@@ -130,7 +125,7 @@ const passionsSchema = z.object({
 })
 
 export const schemas = {
-  email: emailSchema,
+  // email: emailSchema,
   personal: personalSchema,
   links: linksSchema,
   skills: skillsSchema,
