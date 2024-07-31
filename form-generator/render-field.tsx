@@ -29,14 +29,9 @@ interface RenderFieldProps {
   setError: UseFormSetError<FieldValues>
 }
 
-export function renderFieldComponent({
-  field,
-  key,
-  value,
-  isCalendarOpen,
-  setIsCalendarOpen,
-  setError,
-}: RenderFieldProps) {
+export function renderFieldComponent(props: RenderFieldProps) {
+  const { field, key, value, isCalendarOpen, setIsCalendarOpen, setError } = props
+
   switch (value.type) {
     case "text":
     case "tel":
