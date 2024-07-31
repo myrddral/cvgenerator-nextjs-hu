@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { emailSection } from "../form-generator/generator-sections"
 import { useEffect } from "react"
 
 export function EmailForm() {
@@ -18,7 +17,7 @@ export function EmailForm() {
   const form = useForm<z.infer<typeof emailSchema>>({
     resolver: zodResolver(emailSchema),
     defaultValues: {
-      email: emailSection.fields.email.defaultValue,
+      email: "",
     },
   })
 

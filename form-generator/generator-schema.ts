@@ -133,13 +133,3 @@ export const schemas = {
   languages: languagesSchema,
   passions: passionsSchema,
 }
-
-export type TSchemas = {
-  personal: z.infer<typeof personalSchema>
-  links: z.infer<typeof linksSchema>
-  skills: z.infer<typeof skillsSchema>
-  experience: z.infer<typeof experienceSchema>
-  education: z.infer<typeof educationSchema>
-  languages: z.infer<typeof languagesSchema>
-  passions: z.infer<typeof passionsSchema>
-}

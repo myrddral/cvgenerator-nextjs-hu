@@ -10,10 +10,19 @@ type FieldType =
   | "select"
   | "hidden"
 
+export type RouteParamType =
+  | "personal"
+  | "links"
+  | "skills"
+  | "experience"
+  | "education"
+  | "languages"
+  | "passions"
+
 export type Section = {
   title: string
   sub?: string
-  routeParam: string
+  routeParam: RouteParamType
   fields: {
     [key: string]: {
       label: string
@@ -25,12 +34,6 @@ export type Section = {
       help?: string
     }
   }
-}
-
-export const emailSection: Section = {
-  title: "A kezdéshez add meg az email címed",
-  routeParam: "",
-  fields: { email: { label: "Email cím", type: "email", autocomplete: "email", defaultValue: "" } },
 }
 
 export const personalSection: Section = {
@@ -136,7 +139,6 @@ export const passionsSection: Section = {
 }
 
 export const allSections: Section[] = [
-  emailSection,
   personalSection,
   linksSection,
   skillsSection,
@@ -146,4 +148,8 @@ export const allSections: Section[] = [
   passionsSection,
 ]
 
-export const routeParams = allSections.map((section) => section.routeParam)
+export const routeParams: RouteParamType[] = allSections.map((section) => section.routeParam)
+
+export const sectionMap: Map<RouteParamType, Section> = new Map(
+  allSections.map((sectionObj) => [sectionObj.routeParam, sectionObj])
+)
