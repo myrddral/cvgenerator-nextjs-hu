@@ -5,12 +5,13 @@ import type { InputProps } from "./input"
 import { imageSchema } from "@/form-generator/generator-schema"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
-import { forwardRef, useRef, useState } from "react"
+import { forwardRef, useEffect, useRef, useState } from "react"
 import { Card, CardContent } from "./card"
 import Loader from "./loader"
 
 export interface InputImageFileProps extends InputProps {
   setError: UseFormSetError<FieldValues>
+  value: string
 }
 
 interface UploadCardProps {
@@ -65,17 +66,23 @@ const UploadCard = ({ src, onClick, isLoading }: UploadCardProps) => {
  * @returns A React component that displays an image and a button to upload an image.
  */
 const InputImageFile = forwardRef<HTMLInputElement, InputImageFileProps>(
-  ({ className, setError, ...props }, ref) => {
+  ({ className, setError, value, ...props }, ref) => {
     const [isLoading, setIsLoading] = useState(false)
     //TODO: decide to display uploaded file properties to the user
     const [uploadedFile, setUploadedFile] = useState<File>()
     const [base64, setBase64] = useState<string>()
     const inputFileRef = useRef<HTMLInputElement | null>(null)
 
+    useEffect(() => {
+      if (value && value.length > 0) {
+        setBase64(value)
+      }
+    }, [value])
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setIsLoading(true)
       setBase64(undefined)
-      
+
       const file = e.target.files?.[0]
       setUploadedFile(file)
 
@@ -122,7 +129,7 @@ const InputImageFile = forwardRef<HTMLInputElement, InputImageFileProps>(
             inputFileRef.current = node
           }}
           {...props}
-          value=""
+          value={""}
           onChange={handleChange}
         />
         <UploadCard src={base64} onClick={handleClick} isLoading={isLoading} />
