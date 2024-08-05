@@ -11,7 +11,7 @@ export async function generateStaticParams() {
 }
 
 // Helper function to type guard
-function isRouteParamType(value: any): value is RouteParamType {
+function isRouteParamType(value: string): value is RouteParamType {
   return sectionMap.has(value as RouteParamType)
 }
 
@@ -21,11 +21,11 @@ export default function SectionPage({ params }: { params: { section: string } })
 
   if (!section) return null
 
-  // Get the current section object. Non-null assertion is safe here because we've already checked if the section is valid
-  const sectionObject = sectionMap.get(section)!
+  // Get the current section object's props. Non-null assertion is safe here because we've already checked if the section is valid
+  const { fields, routeParam, title, sub } = sectionMap.get(section)!
   return (
-    <FormStepCard title={sectionObject?.title} sub={sectionObject?.sub} className="mb-8">
-      <FormGenerator {...sectionObject} />
+    <FormStepCard title={title} sub={sub} className="mb-8">
+      <FormGenerator fields={fields} routeParam={routeParam} />
     </FormStepCard>
   )
 }
