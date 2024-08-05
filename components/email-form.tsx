@@ -13,11 +13,12 @@ import { useEffect } from "react"
 export function EmailForm() {
   const router = useRouter()
   const reset = useCvDataStore((state) => state.reset)
+  const email = useCvDataStore((state) => state.personal.email)
   const setEmail = useCvDataStore((state) => state.setEmail)
   const form = useForm<z.infer<typeof emailSchema>>({
     resolver: zodResolver(emailSchema),
     defaultValues: {
-      email: "",
+      email: email,
     },
   })
 
