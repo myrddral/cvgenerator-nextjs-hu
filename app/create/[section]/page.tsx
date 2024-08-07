@@ -22,10 +22,10 @@ export default function SectionPage({ params }: { params: { section: string } })
   if (!section) return null
 
   // Get the current section object's props. Non-null assertion is safe here because we've already checked if the section is valid
-  const { fields, routeParam, title, sub } = sectionMap.get(section)!
+  const { fields, isMultiEntry, routeParam, title, sub } = sectionMap.get(section)!
   return (
     <FormStepCard title={title} sub={sub} className="mb-8">
-      <FormGenerator fields={fields} routeParam={routeParam} />
+      <FormGenerator fields={fields} routeParam={routeParam} isMultiEntry={isMultiEntry} />
     </FormStepCard>
   )
 }

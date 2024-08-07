@@ -2,7 +2,7 @@ import type { FieldValues, UseFormSetError } from "react-hook-form"
 import type { ZodError } from "zod"
 import type { InputProps } from "./input"
 
-import { imageSchema } from "@/form-generator/generator-schema"
+import { imageSchema } from "@/form-generator/validation-schemas"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 import { forwardRef, useEffect, useRef, useState } from "react"

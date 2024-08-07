@@ -19,9 +19,10 @@ export type RouteParamType =
   | "languages"
   | "passions"
 
-export type Section = {
+export type SectionProps = {
   title: string
   sub?: string
+  isMultiEntry?: boolean
   routeParam: RouteParamType
   fields: {
     [key: string]: {
@@ -36,7 +37,7 @@ export type Section = {
   }
 }
 
-export const personalSection: Section = {
+export const personalSection: SectionProps = {
   title: "Személyes adatok",
   routeParam: "personal",
   fields: {
@@ -55,7 +56,7 @@ export const personalSection: Section = {
   },
 }
 
-export const linksSection: Section = {
+export const linksSection: SectionProps = {
   title: "Linkek",
   sub: "Az alábbi mezők opcionálisak",
   routeParam: "links",
@@ -67,7 +68,7 @@ export const linksSection: Section = {
   },
 }
 
-export const skillsSection: Section = {
+export const skillsSection: SectionProps = {
   title: "Szakmai ismeretek",
   routeParam: "skills",
   fields: {
@@ -86,8 +87,9 @@ export const skillsSection: Section = {
   },
 }
 
-export const experienceSection: Section = {
+export const experienceSection: SectionProps = {
   title: "Munkatapasztalat",
+  isMultiEntry: true,
   routeParam: "experience",
   fields: {
     employer: { label: "Munkáltató", type: "text", defaultValue: "" },
@@ -103,8 +105,9 @@ export const experienceSection: Section = {
   },
 }
 
-export const educationSection: Section = {
+export const educationSection: SectionProps = {
   title: "Tanulmányok",
+  isMultiEntry: true,
   routeParam: "education",
   fields: {
     institution: { label: "Intézmény neve", type: "text", defaultValue: "" },
@@ -116,8 +119,9 @@ export const educationSection: Section = {
   },
 }
 
-export const languagesSection: Section = {
+export const languagesSection: SectionProps = {
   title: "Nyelvismeret",
+  isMultiEntry: true,
   routeParam: "languages",
   fields: {
     language: { label: "Nyelv", type: "text", defaultValue: "" },
@@ -125,7 +129,7 @@ export const languagesSection: Section = {
   },
 }
 
-export const passionsSection: Section = {
+export const passionsSection: SectionProps = {
   title: "Érdeklődés",
   routeParam: "passions",
   fields: {
@@ -138,7 +142,7 @@ export const passionsSection: Section = {
   },
 }
 
-export const allSections: Section[] = [
+export const allSections: SectionProps[] = [
   personalSection,
   linksSection,
   skillsSection,
@@ -150,6 +154,6 @@ export const allSections: Section[] = [
 
 export const routeParams: RouteParamType[] = allSections.map((section) => section.routeParam)
 
-export const sectionMap: Map<RouteParamType, Section> = new Map(
+export const sectionMap: Map<RouteParamType, SectionProps> = new Map(
   allSections.map((sectionObj) => [sectionObj.routeParam, sectionObj])
 )

@@ -1,6 +1,6 @@
 "use client"
 
-import type { Section } from "@/form-generator/generator-sections"
+import type { SectionProps } from "@/form-generator/generator-sections"
 
 import { cn } from "@/lib/utils"
 import { useParams } from "next/navigation"
@@ -8,7 +8,7 @@ import { Button } from "./ui/button"
 import Link from "next/link"
 
 interface StepperProps {
-  allSections: Section[]
+  allSections: SectionProps[]
 }
 
 export default function Stepper({ allSections }: StepperProps) {
@@ -24,7 +24,7 @@ export default function Stepper({ allSections }: StepperProps) {
         }
       )}
     >
-      {allSections.map(({ routeParam, title }: Section, index) => (
+      {allSections.map(({ routeParam, title }: SectionProps, index) => (
         <div key={routeParam} className="relative flex h-full w-full flex-col items-center pb-5">
           <Link href={`/create/${routeParam}`}>
             <Button

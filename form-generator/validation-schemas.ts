@@ -17,6 +17,19 @@ export const imageSchema = z
   .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), "Csak JPG/PNG képek tölthetőek fel")
   .refine((file) => file.size <= MAX_FILE_SIZE, `A kép maximum ${MAX_FILE_SIZE_IN_MB}MB lehet.`)
 
+const optionalUrlSchema = z
+  .string()
+  .optional()
+  .refine(
+    (val) => {
+      if (val?.length) {
+        return val.startsWith("https") || val.startsWith("http")
+      }
+      return true
+    },
+    { message: "Érvénytelen URL" }
+  )
+
 const personalSchema = z.object({
   firstName: z
     .string()
@@ -37,54 +50,10 @@ const personalSchema = z.object({
 })
 
 const linksSchema = z.object({
-  linkedin: z
-    .string()
-    .optional()
-    .refine(
-      (val) => {
-        if (val?.length) {
-          return val.startsWith("https") || val.startsWith("http")
-        }
-        return true
-      },
-      { message: "Érvénytelen URL" }
-    ),
-  github: z
-    .string()
-    .optional()
-    .refine(
-      (val) => {
-        if (val?.length) {
-          return val.startsWith("https") || val.startsWith("http")
-        }
-        return true
-      },
-      { message: "Érvénytelen URL" }
-    ),
-  portfolio: z
-    .string()
-    .optional()
-    .refine(
-      (val) => {
-        if (val?.length) {
-          return val.startsWith("https") || val.startsWith("http")
-        }
-        return true
-      },
-      { message: "Érvénytelen URL" }
-    ),
-  webpage: z
-    .string()
-    .optional()
-    .refine(
-      (val) => {
-        if (val?.length) {
-          return val.startsWith("https") || val.startsWith("http")
-        }
-        return true
-      },
-      { message: "Érvénytelen URL" }
-    ),
+  linkedin: optionalUrlSchema,
+  github: optionalUrlSchema,
+  portfolio: optionalUrlSchema,
+  webpage: optionalUrlSchema,
 })
 
 const skillsSchema = z.object({

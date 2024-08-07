@@ -1,5 +1,5 @@
 import { EmailForm } from "@/components/email-form"
-import { useCvDataStore } from "@/lib/stores/cv-data-store"
+import { useCvDataStore } from "@/components/providers/cv-data-store-provider"
 import { useRouter } from "next/navigation"
 import { fireEvent, render, screen, act } from "@testing-library/react"
 

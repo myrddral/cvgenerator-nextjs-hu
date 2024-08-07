@@ -1,9 +1,9 @@
 import type { FieldErrors } from "react-hook-form"
-import type { Section } from "@/form-generator/generator-sections"
+import type { SectionProps } from "@/form-generator/generator-sections"
 
 import { isDevMode } from "./utils"
 
-type Fields = Section["fields"]
+type Fields = SectionProps["fields"]
 
 export const getDefaultValues = (fields: Fields) => ({
   ...Object.fromEntries(Object.entries(fields).map(([key, value]) => [key, value.defaultValue])),
