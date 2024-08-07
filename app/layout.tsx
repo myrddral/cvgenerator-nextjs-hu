@@ -5,13 +5,14 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import Footer from "@/components/footer"
 import Navbar from "@/components/navbar"
 import { ThemeProvider } from "@/components/providers/theme-provider"
+import { CvDataStoreProvider } from "@/components/providers/cv-data-store-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { siteConfig } from "@/config/site"
 import { fontDisplay, fontSans } from "@/lib/fonts"
+import MainContainer from "../components/main-container"
 import { GridBackground } from "@/components/grid-background"
 import { cn } from "@/lib/utils"
 import "./globals.css"
-import MainContainer from "../components/main-container"
 
 export const metadata: Metadata = {
   title: {
@@ -66,13 +67,15 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
           attribute="class"
           defaultTheme="dark"
           storageKey="theme"
-          enableSystem
+          // enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          <MainContainer>{children}</MainContainer>
-          <Footer />
-          <Toaster />
+          <CvDataStoreProvider>
+            <Navbar />
+            <MainContainer>{children}</MainContainer>
+            <Footer />
+            <Toaster />
+          </CvDataStoreProvider>
         </ThemeProvider>
         <SpeedInsights />
         <GridBackground />

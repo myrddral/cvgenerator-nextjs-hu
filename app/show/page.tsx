@@ -1,10 +1,10 @@
 "use client"
-import type { CvDataStore } from "@/lib/stores/cv-data-store"
+import type { CvDataStore } from "@/lib/stores/cv-data-store.types"
 
 import { Button } from "@/components/ui/button"
 import Loader from "@/components/ui/loader"
 import { useAsyncErrors } from "@/hooks/use-async-errors"
-import { useCvDataStore } from "@/lib/stores/cv-data-store"
+import { useCvDataStore } from "@/components/providers/cv-data-store-provider"
 import { format } from "date-fns"
 import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
@@ -32,7 +32,7 @@ const DownloadButton = ({ Document, cvData, fileName }: DownloadButtonProps) => 
         return <div>Hiba történt a letöltés során</div>
       }
       return (
-        <Button size={"lg"} variant={"default"} className="w-44 mb-1.5">
+        <Button size={"lg"} variant={"default"} className="mb-1.5 w-44">
           {loading ? <Loader size="icon" /> : "PDF letöltése"}
         </Button>
       )
@@ -41,7 +41,7 @@ const DownloadButton = ({ Document, cvData, fileName }: DownloadButtonProps) => 
 )
 
 export default function ShowPdfPage() {
-  const cvData = useCvDataStore()
+  const cvData = useCvDataStore((state) => state)
   const [pdfResult, setPdfResult] = useState<React.ReactNode | null>(null)
   const isMobileDevice = () => window.innerWidth < 400
   const { throwAsyncError } = useAsyncErrors()
