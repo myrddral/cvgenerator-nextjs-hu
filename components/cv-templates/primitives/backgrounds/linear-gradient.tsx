@@ -7,7 +7,7 @@ interface LinearGradProps {
   to: string
 }
 
-export default function LinearGradBg({ direction, from, to }: LinearGradProps) {
+export function LinearGradBg({ direction, from, to }: LinearGradProps) {
   return (
     <Svg
       viewBox="0 0 100 100"

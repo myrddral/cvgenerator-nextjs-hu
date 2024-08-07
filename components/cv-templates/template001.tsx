@@ -1,32 +1,34 @@
 /* eslint-disable jsx-a11y/alt-text */
 "use client"
+import type { CvDataState } from "@/lib/stores/cv-data-store.types"
+
 import { siteConfig } from "@/config/site"
-import type { CvDataState } from "@/lib/stores/cv-data-store"
 import { Document, Link, Page, Text, View } from "@react-pdf/renderer"
-import { format } from "date-fns"
+import { formatDate } from "@/lib/utils"
+import { hu } from "date-fns/locale"
 import { colors } from "./config/colors"
 import { registerFontFamily } from "./config/fonts"
 import { styles } from "./config/styles"
-import LinearGradBg from "./react-pdf-partials/backgrounds/linear-gradient"
-import { CakeIcon } from "./react-pdf-partials/icons/cake-icon"
-import { GithubIcon } from "./react-pdf-partials/icons/github-icon"
-import { GlobeIcon } from "./react-pdf-partials/icons/globe-icon"
-import { LinkedInIcon } from "./react-pdf-partials/icons/linkedin-icon"
-import { MailIcon } from "./react-pdf-partials/icons/mail-icon"
-import { MapPinIcon } from "./react-pdf-partials/icons/map-icon"
-import { PhoneIcon } from "./react-pdf-partials/icons/phone-icon"
-import { Portrait } from "./react-pdf-partials/image-portrait"
-import { Heading } from "./react-pdf-partials/text-heading"
-import { SubHeading } from "./react-pdf-partials/text-subheading"
-import { Column } from "./react-pdf-partials/view-column"
-import { Row } from "./react-pdf-partials/view-row"
-import { Section } from "./react-pdf-partials/view-section"
-import { hu } from "date-fns/locale"
+import { LinearGradBg } from "./primitives/backgrounds/linear-gradient"
+import { CakeIcon } from "./primitives/icons/cake-icon"
+import { GithubIcon } from "./primitives/icons/github-icon"
+import { GlobeIcon } from "./primitives/icons/globe-icon"
+import { LinkedInIcon } from "./primitives/icons/linkedin-icon"
+import { MailIcon } from "./primitives/icons/mail-icon"
+import { MapPinIcon } from "./primitives/icons/map-icon"
+import { PhoneIcon } from "./primitives/icons/phone-icon"
+import { Portrait } from "./primitives/image-portrait"
+import { Heading } from "./primitives/text-heading"
+import { SubHeading } from "./primitives/text-subheading"
+import { Column } from "./primitives/view-column"
+import { Row } from "./primitives/view-row"
+import { Section } from "./primitives/view-section"
+import { Fragment } from "react"
 
 registerFontFamily("Beiruti")
 
 export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
-  const { personal, links, skills, experience, education, languages, passions } = cvData
+  const { personal, links, skills, experience, education, languages, interests } = cvData
   const docTitle =
     `CV-${personal.firstName}${personal.lastName}-${new Date().getFullYear()}-${new Date().getMonth() + 1}`.toLowerCase()
 
@@ -89,7 +91,7 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
             <Row>
               <View style={styles.wrapper}>
                 <CakeIcon />
-                <Text>{format(personal.birthDate, "yyyy. MMMM", { locale: hu })}</Text>
+                <Text>{formatDate(personal.birthDate)}</Text>
               </View>
             </Row>
           </Section>
@@ -99,55 +101,76 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
           </Section>
 
           <Section title="Munkatapasztalat" paddingLeft={0}>
-            <Row gap={4}>
-              <Text style={{ fontSize: 14, fontWeight: "semibold", color: colors.accent }}>
-                {experience.position}
-              </Text>
-              <Text>|</Text>
-              <Text style={{ fontSize: 11, opacity: 0.8, fontWeight: "semibold", verticalAlign: "sub" }}>
-                {experience.employer}
-              </Text>
-            </Row>
-            <Row gap={4} marginBottom={4}>
-              <Text style={{ fontSize: 11, opacity: 0.8 }}>
-                {format(experience.startDate, "yyyy. MMMM", { locale: hu })} -{" "}
-                {format(experience.endDate, "yyyy. MMMM", { locale: hu })}
-              </Text>
-            </Row>
-            <Text style={{ textIndent: -10, paddingLeft: 10 }}>{experience.description}</Text>
+            {experience.map((exp, index) => {
+              if (!exp.position || !exp.employer || !exp.startDate || !exp.endDate) return null
+              return (
+                <Fragment key={index}>
+                  <Row gap={4}>
+                    <Text style={{ fontSize: 14, fontWeight: "semibold", color: colors.accent }}>
+                      {exp.position}
+                    </Text>
+                    <Text>|</Text>
+                    <Text
+                      style={{ fontSize: 11, opacity: 0.8, fontWeight: "semibold", verticalAlign: "sub" }}
+                    >
+                      {exp.employer}
+                    </Text>
+                  </Row>
+                  <Row gap={4} marginBottom={4}>
+                    <Text style={{ fontSize: 11, opacity: 0.8 }}>
+                      {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
+                    </Text>
+                  </Row>
+                  <Text style={{ textIndent: -10, paddingLeft: 10 }}>{exp.description}</Text>
+                </Fragment>
+              )
+            })}
           </Section>
 
           <Section title="Tanulmányok" paddingLeft={0}>
-            <Row gap={4}>
-              <Text style={{ fontSize: 14, fontWeight: "semibold", color: colors.accent }}>
-                {education.specialization}
-              </Text>
-              {education.major ? <Text style={{ fontWeight: "semibold" }}>{education.major}</Text> : null}
-              <Text>|</Text>
-              <Text style={{ fontSize: 11, opacity: 0.8, fontWeight: "semibold", verticalAlign: "sub" }}>
-                {education.institution}
-              </Text>
-            </Row>
-            <Row gap={4} marginBottom={4}>
-              <Text style={{ fontSize: 11, opacity: 0.8 }}>
-                {format(education.startDate, "yyyy. MMMM", { locale: hu })} -{" "}
-                {format(education.endDate, "yyyy. MMMM", { locale: hu })}
-              </Text>
-            </Row>
-            <Text>{education.description}</Text>
+            {education.map((edu, index) => {
+              if (!edu.specialization || !edu.institution || !edu.startDate || !edu.endDate) return null
+              return (
+                <Fragment key={index}>
+                  <Row key={index} gap={4}>
+                    <Text style={{ fontSize: 14, fontWeight: "semibold", color: colors.accent }}>
+                      {edu.specialization}
+                    </Text>
+                    {edu.major ? <Text style={{ fontWeight: "semibold" }}>{edu.major}</Text> : null}
+                    <Text>|</Text>
+                    <Text
+                      style={{ fontSize: 11, opacity: 0.8, fontWeight: "semibold", verticalAlign: "sub" }}
+                    >
+                      {edu.institution}
+                    </Text>
+                  </Row>
+                  <Row gap={4} marginBottom={4}>
+                    <Text style={{ fontSize: 11, opacity: 0.8 }}>
+                      {formatDate(edu.startDate)} - {formatDate(edu.endDate)}
+                    </Text>
+                  </Row>
+                  <Text>{edu.description}</Text>
+                </Fragment>
+              )
+            })}
           </Section>
 
           <Section title="Nyelvismeret" paddingLeft={0}>
-            <Row gap={4}>
-              <Text>
-                {languages.language} ({languages.level})
-              </Text>
-            </Row>
+            {languages.map((lang, index) => {
+              if (!lang.language || !lang.level) return null
+              return (
+                <Row key={index} gap={4}>
+                  <Text>
+                    {lang.language} ({lang.level})
+                  </Text>
+                </Row>
+              )
+            })}
           </Section>
 
           <Section title="Érdeklődés" paddingLeft={0}>
             <Row gap={4}>
-              <Text>{passions.passionsList}</Text>
+              <Text>{interests.topic}</Text>
             </Row>
           </Section>
         </Column>
