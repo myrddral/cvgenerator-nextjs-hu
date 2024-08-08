@@ -2,7 +2,9 @@ import { render } from "@testing-library/react"
 import Stepper from "./stepper"
 import { allSections } from "../form-generator/generator-sections"
 
-jest.mock("next/navigation", () => ({
+import { test, mock, describe } from "bun:test"
+
+mock.module("next/navigation", () => ({
   useParams: () => ({
     section: "personal",
   }),
