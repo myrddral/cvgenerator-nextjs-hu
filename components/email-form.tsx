@@ -13,19 +13,21 @@ import { useEffect } from "react"
 export function EmailForm() {
   const router = useRouter()
   const reset = useCvDataStore((state) => state.reset)
-  const email = useCvDataStore((state) => state.personal.email)
   const setEmail = useCvDataStore((state) => state.setEmail)
   const form = useForm<z.infer<typeof emailSchema>>({
     resolver: zodResolver(emailSchema),
     defaultValues: {
-      email: email,
+      email: "",
     },
   })
+  const formReset = form.reset
 
   // when the component is mounted, reset the session storage
+  // TODO: check if async reset is needed
   useEffect(() => {
     reset()
-  }, [reset])
+    formReset()
+  }, [reset, formReset])
 
   function onSubmit(data: z.infer<typeof emailSchema>) {
     setEmail(data.email)
