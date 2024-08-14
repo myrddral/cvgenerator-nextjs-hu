@@ -18,6 +18,8 @@ export const createCvDataStore = (initState: CvDataState = defaultInitState) => 
         ...initState,
         setEmail: (email) => set((state) => ({ personal: { ...state.personal, email } })),
         addToList: (section, item) => set((state) => ({ [section]: [...(state[section] as any[]), item] })),
+        removeFromList: (section, index) =>
+          set((state) => ({ [section]: state[section].filter((_, idx) => idx !== index) })),
         getSectionData: (section) => get()[section],
         setSectionData: (section, data) => set((state) => ({ [section]: { ...state[section], ...data } })),
         reset: () => set(defaultInitState),

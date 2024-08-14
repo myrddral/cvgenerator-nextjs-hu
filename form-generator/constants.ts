@@ -22,6 +22,10 @@ export const institutionOptionsEN = [
   "Postgraduate School",
 ] as const
 
+export const languageOptionsHU = ["Magyar"] as const
+
+export const languageOptionsEN = ["English, Magyar"] as const
+
 export const languageLevelOptionsHU = [
   "Alapszint (A1 - A2)",
   "Alapfok (B1)",
@@ -39,4 +43,5 @@ export const languageLevelOptionsEN = [
 ] as const
 
 export type InstitutionType = (typeof institutionOptionsHU)[number] | (typeof institutionOptionsEN)[number]
+export type Language = (typeof languageOptionsHU)[number] | (typeof languageOptionsEN)[number]
 export type LanguageLevel = (typeof languageLevelOptionsHU)[number] | (typeof languageLevelOptionsEN)[number]

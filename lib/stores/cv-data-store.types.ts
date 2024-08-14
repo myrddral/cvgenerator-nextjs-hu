@@ -1,54 +1,22 @@
-import type { InstitutionType, LanguageLevel } from "@/form-generator/constants"
+import type {
+  Personal,
+  Links,
+  Skills,
+  Employment,
+  School,
+  Language,
+  Interests,
+} from "@/form-generator/validation-schemas"
 
-export type Personal = {
-  firstName: string
-  middleName: string
-  lastName: string
-  birthDate: Date
-  phone: string
-  email: string
-  location: string
-  picture: string
-}
-
-export type Links = {
-  linkedin: string
-  github: string
-  portfolio: string
-  webpage: string
-}
-
-export type Skills = {
-  occupation: string
-  skillsList: string
-}
-
-export type Employment = {
-  employer: string
-  position: string
-  description: string
-  startDate: Date
-  endDate: Date
-}
-
-export type School = {
-  institution: string
-  institutionType: InstitutionType | undefined
-  major?: string
-  specialization: string
-  description?: string
-  startDate: Date
-  endDate: Date
-}
-
-export type Language = {
-  language: string
-  level: LanguageLevel | undefined
-}
-
-export type Topic = {
-  topic: string
-}
+export type {
+  Personal,
+  Links,
+  Skills,
+  Employment,
+  School,
+  Language,
+  Interests,
+} from "@/form-generator/validation-schemas"
 
 export type CvDataState = {
   personal: Personal
@@ -57,16 +25,22 @@ export type CvDataState = {
   experience: Employment[]
   education: School[]
   languages: Language[]
-  interests: Topic
+  interests: Interests
 }
 
-export type Section = keyof CvDataState
+// Extract only the keys that refer to a section with multi-entry (contains an array)
+type MultiEntryKeys<T> = {
+  [K in keyof T]: T[K] extends Array<any> ? K : never
+}[keyof T]
+export type SectionName = Extract<keyof CvDataState, string>
+export type SectionNameWithMultiEntry = MultiEntryKeys<CvDataState>
 
 export type CvDataActions = {
-  setEmail: (state: CvDataState["personal"]["email"]) => void
-  addToList: (section: Section, state: Employment | School | Language) => void
-  getSectionData: (section: Section) => CvDataState[Section]
-  setSectionData: (section: Section, data: Omit<CvDataState[Section], "email">) => void
+  setEmail: (email: CvDataState["personal"]["email"]) => void
+  addToList: (sectionName: SectionName, item: Employment | School | Language) => void
+  removeFromList: (sectionName: SectionNameWithMultiEntry, index: number) => void
+  getSectionData: <T extends SectionName>(sectionName: T) => CvDataState[T]
+  setSectionData: (sectionName: SectionName, data: Omit<CvDataState[SectionName], "email">) => void
   reset: () => void
   loadMockData: () => void
 }

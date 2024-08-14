@@ -1,6 +1,15 @@
-import type { CvDataState } from "./cv-data-store.types"
+import type {
+  CvDataState,
+  Employment,
+  Language,
+  Links,
+  Personal,
+  School,
+  Skills,
+  Interests,
+} from "./cv-data-store.types"
 
-const personalSection: CvDataState["personal"] = {
+const personalSection: Personal = {
   firstName: "",
   middleName: "",
   lastName: "",
@@ -11,32 +20,31 @@ const personalSection: CvDataState["personal"] = {
   picture: "",
 }
 
-const linksSection: CvDataState["links"] = {
+const linksSection: Links = {
   linkedin: "",
   github: "",
   portfolio: "",
   webpage: "",
 }
 
-const skillsSection: CvDataState["skills"] = {
+const skillsSection: Skills = {
   occupation: "",
   skillsList: "",
 }
 
-const experienceSection: CvDataState["experience"] = [
+const experienceSection: Employment[] = [
   {
     employer: "",
-    position: "",
+    title: "",
     description: "",
     startDate: new Date(),
     endDate: new Date(),
   },
 ]
 
-const educationSection: CvDataState["education"] = [
+const educationSection: School[] = [
   {
     institution: "",
-    institutionType: undefined,
     major: "",
     specialization: "",
     description: "",
@@ -45,15 +53,15 @@ const educationSection: CvDataState["education"] = [
   },
 ]
 
-const languagesSection: CvDataState["languages"] = [
+const languagesSection: Language[] = [
   {
     language: "",
-    level: undefined,
+    level: "",
   },
 ]
 
-const interestsSection: CvDataState["interests"] = {
-  topic: "",
+const interestsSection: Interests = {
+  interestsList: "",
 }
 
 export const defaultInitState: CvDataState = {

@@ -1,4 +1,5 @@
 import { z } from "zod"
+import type { SectionName } from "@/lib/stores/cv-data-store.types"
 
 const MAX_FILE_SIZE_IN_MB = 5
 const MAX_FILE_SIZE = MAX_FILE_SIZE_IN_MB * 1000000
@@ -40,6 +41,12 @@ const personalSchema = z.object({
     .string()
     .min(1, { message: "Vezetéknév megadása kötelező" })
     .max(50, { message: "Név maximum 255 karakter lehet" }),
+  email: z
+    .string()
+    .min(1, { message: "Email cím megadása kötelező" })
+    .max(255, { message: "Email cím maximum 255 karakter lehet" })
+    .email({ message: "Érvénytelen email cím" })
+    .optional(),
   phone: z
     .string()
     .min(1, { message: "Telefonszám megadása kötelező" })
@@ -66,7 +73,7 @@ const skillsSchema = z.object({
 
 const experienceSchema = z.object({
   employer: z.string().min(1, { message: "Munkáltató megadása kötelező" }),
-  position: z.string().min(1, { message: "Beosztás megadása kötelező" }),
+  title: z.string().min(1, { message: "Foglalkozás megadása kötelező" }),
   description: z
     .string()
     .min(1, { message: "Feladatok / eredmények megadása kötelező" })
@@ -89,16 +96,27 @@ const languagesSchema = z.object({
   level: z.string().min(1, { message: "Szint megadása kötelező" }),
 })
 
-const passionsSchema = z.object({
-  passionsList: z.string(),
+const interestsSchema = z.object({
+  interestsList: z.string(),
 })
 
-export const schemas = {
+export const sectionSchemas: Record<SectionName, z.ZodObject<any>> = {
   personal: personalSchema,
   links: linksSchema,
   skills: skillsSchema,
   experience: experienceSchema,
   education: educationSchema,
   languages: languagesSchema,
-  passions: passionsSchema,
+  interests: interestsSchema,
 }
+
+export type Personal = z.infer<typeof personalSchema>
+export type Links = z.infer<typeof linksSchema>
+export type Skills = z.infer<typeof skillsSchema>
+export type Employment = z.infer<typeof experienceSchema>
+export type School = z.infer<typeof educationSchema>
+export type Language = z.infer<typeof languagesSchema>
+export type Interests = z.infer<typeof interestsSchema>
+export type Experience = Employment[]
+export type Education = School[]
+export type Languages = Language[]

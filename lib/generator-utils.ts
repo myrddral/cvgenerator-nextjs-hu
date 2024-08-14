@@ -1,13 +1,6 @@
 import type { FieldErrors } from "react-hook-form"
-import type { SectionProps } from "@/form-generator/generator-sections"
 
 import { isDevMode } from "./utils"
-
-type Fields = SectionProps["fields"]
-
-export const getDefaultValues = (fields: Fields) => ({
-  ...Object.fromEntries(Object.entries(fields).map(([key, value]) => [key, value.defaultValue])),
-})
 
 const shouldShowDevToasts = (toggle: true | false): boolean => {
   return isDevMode() && toggle
