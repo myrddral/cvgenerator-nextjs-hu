@@ -50,7 +50,7 @@ const Wrapper = ({ children, orientation }: WrapperProps) => (
   </div>
 )
 
-const Spinner = ({ size }: SpinnerProps) => (
+export const Spinner = ({ size }: SpinnerProps) => (
   <svg
     fill="none"
     className={cn(
