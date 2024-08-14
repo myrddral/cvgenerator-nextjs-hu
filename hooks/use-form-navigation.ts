@@ -4,6 +4,13 @@ import type { RouteParamType } from "@/form-generator/generator-sections"
 import { routeParams } from "@/form-generator/generator-sections"
 import { useRouter } from "next/navigation"
 
+/*
+ * This hook is used to navigate between sections in the form.
+ * It handles the forward and backward navigation based on the current route parameter.
+ *
+ * @param routeParam - The current route parameter.
+ * @returns An object with two functions: handleForwardStep and handleBackStep.
+ */
 export const useFormNavigation = (routeParam: RouteParamType) => {
   const router = useRouter()
 

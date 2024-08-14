@@ -24,7 +24,7 @@ export default function Stepper({ allSections }: StepperProps) {
         }
       )}
     >
-      {allSections.map(({ routeParam, title }: SectionProps, index) => (
+      {allSections.map(({ sectionName: routeParam, title }: SectionProps, index) => (
         <div key={routeParam} className="relative flex h-full w-full flex-col items-center pb-5">
           <Link href={`/create/${routeParam}`}>
             <Button
