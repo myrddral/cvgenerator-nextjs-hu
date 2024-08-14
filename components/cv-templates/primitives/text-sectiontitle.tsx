@@ -19,7 +19,7 @@ export const SectionTitle = ({
   fontSize = 12,
   letterSpacing = 1.2,
   position = "relative",
-  left = "-405",
+  left = "-430",
   top = "8",
   debug,
 }: Readonly<SectionTitleProps>) => {

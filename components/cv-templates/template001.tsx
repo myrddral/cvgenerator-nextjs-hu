@@ -5,7 +5,6 @@ import type { CvDataState } from "@/lib/stores/cv-data-store.types"
 import { siteConfig } from "@/config/site"
 import { Document, Link, Page, Text, View } from "@react-pdf/renderer"
 import { formatDate } from "@/lib/utils"
-import { hu } from "date-fns/locale"
 import { colors } from "./config/colors"
 import { registerFontFamily } from "./config/fonts"
 import { styles } from "./config/styles"
@@ -23,26 +22,27 @@ import { SubHeading } from "./primitives/text-subheading"
 import { Column } from "./primitives/view-column"
 import { Row } from "./primitives/view-row"
 import { Section } from "./primitives/view-section"
-import { Fragment } from "react"
 
 registerFontFamily("Beiruti")
 
 export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
   const { personal, links, skills, experience, education, languages, interests } = cvData
-  const docTitle =
-    `CV-${personal.firstName}${personal.lastName}-${new Date().getFullYear()}-${new Date().getMonth() + 1}`.toLowerCase()
+  const docTitle = `cv-${personal.firstName}${personal.lastName}-${new Date().getFullYear()}`
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
 
   return (
     <Document title={docTitle} creator={siteConfig.creator} creationDate={new Date()}>
       <Page size="A4" style={styles.page}>
-        <Column width={"30%"}>
+        <Column width={"25%"} paddingRight={5}>
           <LinearGradBg direction="toRight" from={colors.background} to={colors.background} />
           <Section justifyContent="flex-start" alignItems="center" paddingRight={0}>
             <Portrait src={personal.picture} borderRadius={8} />
           </Section>
         </Column>
 
-        <Column width={"70%"}>
+        <Column width={"75%"}>
           <Section paddingLeft={0} paddingTop={16} minHeight={155}>
             <Heading marginBottom={1}>
               {personal.lastName.toUpperCase()} {personal.firstName.toUpperCase()}
@@ -100,14 +100,14 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
             <Text>{skills.skillsList}</Text>
           </Section>
 
-          <Section title="Munkatapasztalat" paddingLeft={0}>
+          <Section title="Munkatapasztalat" paddingLeft={0} paddingTop={0} paddingBottom={0}>
             {experience.map((exp, index) => {
-              if (!exp.position || !exp.employer || !exp.startDate || !exp.endDate) return null
+              if (!exp.title || !exp.employer || !exp.startDate || !exp.endDate) return null
               return (
-                <Fragment key={index}>
+                <View key={index} style={{ marginBottom: index === 0 ? 0 : 10 }}>
                   <Row gap={4}>
                     <Text style={{ fontSize: 14, fontWeight: "semibold", color: colors.accent }}>
-                      {exp.position}
+                      {exp.title}
                     </Text>
                     <Text>|</Text>
                     <Text
@@ -122,16 +122,16 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
                     </Text>
                   </Row>
                   <Text style={{ textIndent: -10, paddingLeft: 10 }}>{exp.description}</Text>
-                </Fragment>
+                </View>
               )
             })}
           </Section>
 
-          <Section title="Tanulmányok" paddingLeft={0}>
+          <Section title="Tanulmányok" paddingLeft={0} paddingTop={0} paddingBottom={0}>
             {education.map((edu, index) => {
               if (!edu.specialization || !edu.institution || !edu.startDate || !edu.endDate) return null
               return (
-                <Fragment key={index}>
+                <View key={index} style={{ marginBottom: index === 0 ? 0 : 10 }}>
                   <Row key={index} gap={4}>
                     <Text style={{ fontSize: 14, fontWeight: "semibold", color: colors.accent }}>
                       {edu.specialization}
@@ -145,17 +145,15 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
                     </Text>
                   </Row>
                   <Row gap={4} marginBottom={4}>
-                    <Text style={{ fontSize: 11, opacity: 0.8 }}>
-                      {formatDate(edu.startDate)} - {formatDate(edu.endDate)}
-                    </Text>
+                    <Text style={{ fontSize: 11, opacity: 0.8 }}>{formatDate(edu.endDate)}</Text>
                   </Row>
                   <Text>{edu.description}</Text>
-                </Fragment>
+                </View>
               )
             })}
           </Section>
 
-          <Section title="Nyelvismeret" paddingLeft={0}>
+          <Section title="Nyelvismeret" paddingLeft={0} paddingTop={0}>
             {languages.map((lang, index) => {
               if (!lang.language || !lang.level) return null
               return (
@@ -168,9 +166,9 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
             })}
           </Section>
 
-          <Section title="Érdeklődés" paddingLeft={0}>
+          <Section title="Érdeklődés" paddingLeft={0} paddingTop={0}>
             <Row gap={4}>
-              <Text>{interests.topic}</Text>
+              <Text>{interests.interestsList}</Text>
             </Row>
           </Section>
         </Column>
