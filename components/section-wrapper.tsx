@@ -26,6 +26,7 @@ import { useState } from "react"
 import { useCvDataStore } from "../providers/cv-data-store-provider"
 import { useFormNavigation } from "@/hooks/use-form-navigation"
 import { FormNavButtons } from "./form-nav-buttons"
+import { cn } from "@/lib/utils"
 
 export interface FormStepWrapperProps extends SectionProps {}
 
@@ -75,9 +76,11 @@ export function SectionWrapper({ ...sectionProps }: FormStepWrapperProps) {
               <IconButton icon={<PlusIcon />} text="Új felvétele" />
             </DialogTrigger>
             <DialogContent>
-              <DialogHeader className="mb-2">
+              <DialogHeader className="mb-2 sm:mb-4">
                 <DialogTitle>Új munkatapasztalat hozzáadása</DialogTitle>
-                <DialogDescription></DialogDescription>
+                <DialogDescription className="sr-only">
+                  Az alábbi űrlap segítségével adhatsz hozzá munkatapasztalatokat az önéletrajzodhoz.
+                </DialogDescription>
               </DialogHeader>
               <FormGenerator {...sectionProps} values={getValues()} onSubmit={onSubmit} onDelete={onDelete} />
             </DialogContent>
