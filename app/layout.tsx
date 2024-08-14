@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/providers/theme-provider"
 import { CvDataStoreProvider } from "@/providers/cv-data-store-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { siteConfig } from "@/config/site"
-import { fontDisplay, fontSans } from "@/lib/fonts"
+import { fontSans } from "@/lib/fonts"
 import MainContainer from "../components/main-container"
 import { GridBackground } from "@/components/grid-background"
 import { cn } from "@/lib/utils"
@@ -59,8 +59,7 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
       <body
         className={cn(
           "flex min-h-[100dvh] flex-col bg-background font-sans text-foreground antialiased",
-          fontSans.variable,
-          fontDisplay.variable
+          fontSans.variable
         )}
       >
         <ThemeProvider
