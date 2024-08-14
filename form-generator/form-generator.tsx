@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useFormNavigation } from "@/hooks/use-form-navigation"
+import { cn } from "@/lib/utils"
 
 interface FormGeneratorProps extends SectionProps {
   values: z.infer<(typeof sectionSchemas)[SectionName]>
@@ -16,34 +17,18 @@ interface FormGeneratorProps extends SectionProps {
   onDelete?: () => void
 }
 
-export default function FormGenerator({
-  fields,
-  sectionName,
-  isMultiEntry,
-  values,
-  onSubmit,
-  onDelete,
-}: FormGeneratorProps) {
+export default function FormGenerator({ values, onSubmit, onDelete, ...sectionProps }: FormGeneratorProps) {
+  const { fields, sectionName, isMultiEntry } = sectionProps
   const sectionSchema = sectionSchemas[sectionName]
   const { handleBackStep } = useFormNavigation(sectionName)
   const resolver = zodResolver(sectionSchema)
   const form = useForm<z.infer<typeof sectionSchema>>({ resolver, values })
 
-  function handleDelete() {
-    if (isMultiEntry) {
-      onDelete?.()
-      // const newData = data.filter((_, idx) => idx !== selectedListItem)
-      // setSectionData(sectionName, newData)
-    }
-  }
-
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grid w-full grid-cols-2 gap-8"
-        // Columns had to be defined via inline style because the grid-cols-2 class didn't work for some reason
-        style={{ gridTemplateColumns: Object.keys(fields).length > 3 ? "repeat(2, minmax(0, 1fr))" : "1fr" }}
+        className={cn("grid w-full grid-cols-2 flex-col gap-8 max-sm:flex", { flex: false })}
       >
         {/* //TODO: memoize rendered fields */}
         {Object.entries(fields).map(([key, value]) => (
@@ -53,12 +38,9 @@ export default function FormGenerator({
             name={key as string}
             render={({ field }) => (
               <FormItem
-                className="relative"
-                // Textareas should be full width all the time
-                // Columns had to be defined via inline style because the col-span-full class didn't work either
-                style={{
-                  gridColumn: value.type === "textarea" || value.type === "image" ? "1 / -1" : undefined,
-                }}
+                className={cn("relative", {
+                  "col-span-full": value.type === "textarea" || value.type === "image",
+                })}
               >
                 <FormLabel className="text-foreground">{value.label}</FormLabel>
                 <FormControl>
@@ -69,11 +51,11 @@ export default function FormGenerator({
             )}
           />
         ))}
-        <div className="mt-8 flex justify-center gap-10" style={{ gridColumn: "1 / -1" }}>
+        <div className="col-span-full mt-8 flex justify-center gap-10">
           {isMultiEntry ? (
             <>
               <Button type="submit">Mentés</Button>
-              <Button type="button" variant={"destructive"} onClick={handleDelete}>
+              <Button type="button" variant={"destructive"} onClick={() => onDelete?.()}>
                 Törlés
               </Button>
             </>
