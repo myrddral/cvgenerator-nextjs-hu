@@ -8,13 +8,13 @@ interface PortraitProps {
 
 export const Portrait = ({ src, borderRadius }: PortraitProps) => {
   return (
-    <View style={{ width: "100%", maxHeight: 155, borderRadius, overflow: "hidden" }}>
+    <View style={{ width: "100%", height: 140, borderRadius, overflow: "hidden" }}>
       <Image
         src={src}
         style={{
-          width: "100%",
+          height: "100%",
           objectFit: "cover",
-          objectPosition: "top",
+          objectPosition: "center",
         }}
       />
     </View>
