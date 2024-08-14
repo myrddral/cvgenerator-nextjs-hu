@@ -44,7 +44,7 @@ export default function FormGenerator({ values, onSubmit, onDelete, ...sectionPr
               >
                 <FormLabel className="text-foreground">{value.label}</FormLabel>
                 <FormControl>
-                  <FieldFactoryWrapper field={field} key={key} value={value} setError={form.setError} />
+                  <FieldFactoryWrapper field={field} fieldKey={key} value={value} setError={form.setError} />
                 </FormControl>
                 <FormMessage className="absolute -bottom-5 animate-in fade-in-0" />
               </FormItem>

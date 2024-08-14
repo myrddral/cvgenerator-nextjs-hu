@@ -22,16 +22,17 @@ interface FieldProps {
 
 export interface FieldFactoryWrapperProps {
   field: ControllerRenderProps
-  key: string
+  fieldKey: string
   value: FieldProps
   setError: UseFormSetError<FieldValues>
 }
 
-export default function FieldFactoryWrapper({ field, key, value, setError }: FieldFactoryWrapperProps) {
-  const [isCalendarOpen, setIsCalendarOpen] = useState<{ [key: string]: boolean }>({})
+export default function FieldFactoryWrapper({ field, fieldKey, value, setError }: FieldFactoryWrapperProps) {
+  const { type, autocomplete, readonly, placeholder } = value
+  const [isCalendarOpen, setIsCalendarOpen] = useState<{ [fieldKey: string]: boolean }>({})
 
   const fieldFactory = () => {
-    switch (value.type) {
+    switch (type) {
       case "text":
       case "tel":
       case "email":
@@ -39,24 +40,22 @@ export default function FieldFactoryWrapper({ field, key, value, setError }: Fie
         return (
           <Input
             {...field}
-            type={value.type}
-            autoComplete={value.autocomplete}
-            placeholder={value.placeholder}
-            readOnly={value.readonly}
+            type={type}
+            autoComplete={autocomplete}
+            placeholder={placeholder}
+            readOnly={readonly}
           />
         )
 
       case "number":
-        return (
-          <Input {...field} type="number" autoComplete={value.autocomplete} placeholder={value.placeholder} />
-        )
+        return <Input {...field} type="number" autoComplete={autocomplete} placeholder={placeholder} />
 
       case "textarea":
         return (
           <Textarea
             {...field}
-            autoComplete={value.autocomplete}
-            placeholder={value.placeholder}
+            autoComplete={autocomplete}
+            placeholder={placeholder}
             rows={8}
             className="w-full"
           />
@@ -64,12 +63,14 @@ export default function FieldFactoryWrapper({ field, key, value, setError }: Fie
 
       case "date":
         return (
-          <Popover open={isCalendarOpen[key] || false}>
+          <Popover open={isCalendarOpen[fieldKey] || false}>
             <PopoverTrigger asChild>
               <Button
                 variant={"picker"}
                 className={cn("w-full gap-4 font-normal", !field.value && "text-muted-foreground")}
-                onClick={() => setIsCalendarOpen((prev) => ({ ...prev, [key]: !(prev[key] || false) }))}
+                onClick={() =>
+                  setIsCalendarOpen((prev) => ({ ...prev, [fieldKey]: !(prev[fieldKey] || false) }))
+                }
                 // onClick={() => toggleCalendar(key)}
               >
                 {field.value ? (
@@ -89,8 +90,8 @@ export default function FieldFactoryWrapper({ field, key, value, setError }: Fie
                 fromDate={new Date("1900-01-01")}
                 toDate={new Date()}
                 disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
-                onDayClick={(prev) =>
-                  setIsCalendarOpen((prev) => ({ ...prev, [key]: !(prev[key] || false) }))
+                onDayClick={() =>
+                  setIsCalendarOpen((prev) => ({ ...prev, [fieldKey]: !(prev[fieldKey] || false) }))
                 }
                 locale={hu}
                 initialFocus
