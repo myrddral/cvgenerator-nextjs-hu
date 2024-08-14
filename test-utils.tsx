@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react"
 import { render, RenderOptions } from "@testing-library/react"
-import { CvDataStoreProvider } from "./components/providers/cv-data-store-provider"
+import { CvDataStoreProvider } from "./providers/cv-data-store-provider"
 
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
   return <CvDataStoreProvider>{children}</CvDataStoreProvider>

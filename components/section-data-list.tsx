@@ -4,7 +4,7 @@ import type { CvDataState, SectionName } from "@/lib/stores/cv-data-store.types"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
 import { useEffect, useState } from "react"
-import { useCvDataStore } from "./providers/cv-data-store-provider"
+import { useCvDataStore } from "../providers/cv-data-store-provider"
 import { Card, CardContent } from "./ui/card"
 import { Spinner } from "./ui/loader"
 

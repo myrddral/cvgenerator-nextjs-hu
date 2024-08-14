@@ -23,7 +23,7 @@ import { IconButton } from "@/components/ui/iconbutton"
 import FormGenerator from "@/form-generator/form-generator"
 import { PlusIcon } from "@radix-ui/react-icons"
 import { useState } from "react"
-import { useCvDataStore } from "./providers/cv-data-store-provider"
+import { useCvDataStore } from "../providers/cv-data-store-provider"
 import { useFormNavigation } from "@/hooks/use-form-navigation"
 import { FormNavButtons } from "./form-nav-buttons"
 
