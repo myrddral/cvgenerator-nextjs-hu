@@ -13,7 +13,7 @@ const getTemplateStyles = (template: (typeof templates)[number]): Styles => {
           color: colors.foreground,
           backgroundColor: colors.background,
           fontFamily: "Beiruti",
-          fontSize: 13,
+          fontSize: 12,
         },
         section: {
           padding: 10,
@@ -36,36 +36,7 @@ const getTemplateStyles = (template: (typeof templates)[number]): Styles => {
         },
       }
     default:
-      return {
-        page: {
-          flexDirection: "row",
-          color: colors.foreground,
-          backgroundColor: colors.background,
-          fontFamily: "Beiruti",
-          fontSize: 13,
-        },
-        section: {
-          padding: 10,
-          flexGrow: 1,
-        },
-        link: {
-          color: colors.link,
-          letterSpacing: 0.2,
-        },
-        wrapper: {
-          flexDirection: "row",
-          flex: 3,
-          width: "100%",
-          gap: 4,
-        },
-        viewBackground: {
-          position: "absolute",
-          minWidth: "100%",
-          minHeight: "100%",
-          height: "100%",
-          width: "100%",
-        },
-      }
+      return {}
   }
 }
 

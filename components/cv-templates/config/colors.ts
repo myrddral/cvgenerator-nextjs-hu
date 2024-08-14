@@ -1,7 +1,6 @@
 interface Colors {
   background: string
   foreground: string
-  primary: string
   muted: string
   accent: string
   link: string
@@ -15,28 +14,25 @@ export function getThemeColors(theme: (typeof themes)[number]): Colors {
       return {
         background: "#011119",
         foreground: "#f6f6f6",
-        primary: "#11caff",
         muted: "#848484",
         accent: "#e44112",
         link: "#4066c7",
       }
     case "blood_orange":
       return {
-        background: "#f6f6f6",
-        foreground: "#011119",
-        primary: "#11caff",
+        background: "#ffffff",
+        foreground: "#2c2c2c",
         muted: "#848484",
         accent: "#e44112",
         link: "#4066c7",
       }
     default:
       return {
-        background: "#f6f6f6",
-        foreground: "#011119",
-        primary: "#11caff",
+        background: "#ffffff",
+        foreground: "#000000",
         muted: "#848484",
-        accent: "#e44112",
-        link: "#4066c7",
+        accent: "#ff0000",
+        link: "#0048ff",
       }
   }
 }
