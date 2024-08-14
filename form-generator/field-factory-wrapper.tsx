@@ -1,4 +1,5 @@
 import type { ControllerRenderProps, FieldValues, UseFormSetError } from "react-hook-form"
+import type { FieldProps } from "./form-generator.types"
 
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -12,23 +13,20 @@ import { format } from "date-fns"
 import { hu } from "date-fns/locale"
 import { useState } from "react"
 
-interface FieldProps {
-  type: string
-  label: string
-  autocomplete?: string
-  readonly?: boolean
-  placeholder?: string
-}
-
 export interface FieldFactoryWrapperProps {
   field: ControllerRenderProps
   fieldKey: string
-  value: FieldProps
+  fieldProps: FieldProps
   setError: UseFormSetError<FieldValues>
 }
 
-export default function FieldFactoryWrapper({ field, fieldKey, value, setError }: FieldFactoryWrapperProps) {
-  const { type, autocomplete, readonly, placeholder } = value
+export default function FieldFactoryWrapper({
+  field,
+  fieldKey,
+  fieldProps,
+  setError,
+}: FieldFactoryWrapperProps) {
+  const { type, autocomplete, readonly, placeholder } = fieldProps
   const [isCalendarOpen, setIsCalendarOpen] = useState<{ [fieldKey: string]: boolean }>({})
 
   const fieldFactory = () => {

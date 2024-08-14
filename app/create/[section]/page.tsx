@@ -1,4 +1,4 @@
-import type { RouteParamType } from "@/form-generator/generator-sections"
+import type { RouteParamType } from "@/form-generator/form-generator.types"
 
 import { sectionMap } from "@/form-generator/generator-sections"
 import NotFound from "@/app/not-found"

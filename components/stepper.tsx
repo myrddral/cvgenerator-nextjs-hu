@@ -1,6 +1,5 @@
 "use client"
-
-import type { SectionProps } from "@/form-generator/generator-sections"
+import type { SectionProps } from "@/form-generator/form-generator.types"
 
 import { cn } from "@/lib/utils"
 import { useParams } from "next/navigation"

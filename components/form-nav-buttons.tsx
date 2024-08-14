@@ -1,5 +1,5 @@
 "use client"
-import type { RouteParamType } from "@/form-generator/generator-sections"
+import type { RouteParamType } from "@/form-generator/form-generator.types"
 
 import { useFormNavigation } from "@/hooks/use-form-navigation"
 import { Button } from "./ui/button"

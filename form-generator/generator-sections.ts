@@ -1,46 +1,4 @@
-import type { SectionName, SectionNameWithMultiEntry } from "@/lib/stores/cv-data-store.types"
-
-type FieldType =
-  | "text"
-  | "textarea"
-  | "tel"
-  | "email"
-  | "url"
-  | "date"
-  | "image"
-  | "number"
-  | "select"
-  | "hidden"
-
-export type RouteParamType =
-  | "personal"
-  | "links"
-  | "skills"
-  | "experience"
-  | "education"
-  | "languages"
-  | "interests"
-
-export type Field = {
-  label: string
-  type: FieldType
-  autocomplete?: string
-  placeholder?: string
-  readonly?: boolean
-  help?: string
-}
-
-export type Fields = {
-  [key: string]: Field
-}
-
-export type SectionProps = {
-  title: string
-  sub?: string
-  isMultiEntry?: boolean
-  sectionName: SectionName | SectionNameWithMultiEntry
-  fields: Fields
-}
+import type { RouteParamType, SectionProps } from "./form-generator.types"
 
 export const personalSection: SectionProps = {
   title: "Személyes adatok",

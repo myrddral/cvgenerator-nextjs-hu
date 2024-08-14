@@ -1,5 +1,5 @@
 import type { SectionName } from "@/lib/stores/cv-data-store.types"
-import type { SectionProps } from "./generator-sections"
+import type { SectionProps } from "./form-generator.types"
 import type { z } from "zod"
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -15,6 +15,7 @@ interface FormGeneratorProps extends SectionProps {
   values: z.infer<(typeof sectionSchemas)[SectionName]>
   onSubmit: (data: z.infer<(typeof sectionSchemas)[SectionName]>) => void
   onDelete?: () => void
+  selectedListItem?: number | undefined
 }
 
 export default function FormGenerator({ values, onSubmit, onDelete, ...sectionProps }: FormGeneratorProps) {
@@ -31,20 +32,25 @@ export default function FormGenerator({ values, onSubmit, onDelete, ...sectionPr
         className={cn("grid w-full grid-cols-2 flex-col gap-8 max-sm:flex", { flex: false })}
       >
         {/* //TODO: memoize rendered fields */}
-        {Object.entries(fields).map(([key, value]) => (
+        {Object.entries(fields).map(([fieldKey, fieldProps]) => (
           <FormField
-            key={key}
+            key={fieldKey}
             control={form.control}
-            name={key as string}
+            name={fieldKey}
             render={({ field }) => (
               <FormItem
                 className={cn("relative", {
-                  "col-span-full": value.type === "textarea" || value.type === "image",
+                  "col-span-full": fieldProps.type === "textarea" || fieldProps.type === "image",
                 })}
               >
-                <FormLabel className="text-foreground">{value.label}</FormLabel>
+                <FormLabel className="text-foreground">{fieldProps.label}</FormLabel>
                 <FormControl>
-                  <FieldFactoryWrapper field={field} fieldKey={key} value={value} setError={form.setError} />
+                  <FieldFactoryWrapper
+                    field={field}
+                    fieldKey={fieldKey}
+                    fieldProps={fieldProps}
+                    setError={form.setError}
+                  />
                 </FormControl>
                 <FormMessage className="absolute -bottom-5 animate-in fade-in-0" />
               </FormItem>
