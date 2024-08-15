@@ -10,6 +10,18 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useFormNavigation } from "@/hooks/use-form-navigation"
 import { cn } from "@/lib/utils"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { useCallback, useState } from "react"
 
 interface FormGeneratorProps extends SectionProps {
   values: z.infer<(typeof sectionSchemas)[SectionName]>
@@ -18,7 +30,47 @@ interface FormGeneratorProps extends SectionProps {
   selectedListItem?: number | undefined
 }
 
-export default function FormGenerator({ values, onSubmit, onDelete, ...sectionProps }: FormGeneratorProps) {
+const DeleteDialog = ({ children, onDelete }: { children: React.ReactNode; onDelete: () => void }) => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleClose = useCallback(() => {
+    onDelete()
+  }, [onDelete])
+
+  const handleDelete = useCallback(() => {
+    onDelete()
+    handleClose()
+  }, [onDelete, handleClose])
+
+  return (
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Biztosan törölni akarod?</AlertDialogTitle>
+          <AlertDialogDescription>Ez a művelet eltávolítja az elemet a listából.</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Mégsem</AlertDialogCancel>
+          <AlertDialogAction
+            className="bg-danger text-destructive-foreground shadow-sm"
+            onClick={handleDelete}
+          >
+            Törlés
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
+
+export default function FormGenerator({
+  values,
+  onSubmit,
+  onDelete,
+  selectedListItem,
+  ...sectionProps
+}: FormGeneratorProps) {
   const { fields, sectionName, isMultiEntry } = sectionProps
   const sectionSchema = sectionSchemas[sectionName]
   const { handleBackStep } = useFormNavigation(sectionName)
@@ -57,13 +109,17 @@ export default function FormGenerator({ values, onSubmit, onDelete, ...sectionPr
             )}
           />
         ))}
-        <div className="col-span-full mt-8 flex justify-center gap-10">
-          {isMultiEntry ? (
+        <div className="col-span-full mb-4 mt-4 flex justify-center gap-10">
+          {isMultiEntry && onDelete ? (
             <>
               <Button type="submit">Mentés</Button>
-              <Button type="button" variant={"destructive"} onClick={() => onDelete?.()}>
-                Törlés
-              </Button>
+              {selectedListItem ? (
+                <DeleteDialog onDelete={onDelete}>
+                  <Button type="button" variant={"destructive"}>
+                    Törlés
+                  </Button>
+                </DeleteDialog>
+              ) : null}
             </>
           ) : (
             <>
