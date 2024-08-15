@@ -26,7 +26,7 @@ export const linksSection: SectionProps = {
   fields: {
     linkedin: { label: "LinkedIn", type: "url" },
     github: { label: "GitHub", type: "url" },
-    portfolio: { label: "Portfólió", type: "url" },
+    // portfolio: { label: "Portfólió", type: "url" },
     webpage: { label: "Weboldal", type: "url" },
   },
 }
@@ -60,8 +60,9 @@ export const experienceSection: SectionProps = {
       type: "textarea",
       placeholder: "Milyen feladatokat végeztél? Milyen eredményeket értél el?",
     },
-    startDate: { label: "Kezdés dátuma", type: "date" },
-    endDate: { label: "Befejezés dátuma", type: "date" },
+    startDate: { label: "Munkaviszony kezdete", type: "date" },
+    endDate: { label: "Munkaviszony vége", type: "date" },
+    location: { label: "Munkavégzés helye", type: "text", placeholder: "pl. Budapest" },
   },
 }
 
@@ -74,8 +75,9 @@ export const educationSection: SectionProps = {
     // major: { label: "Szak", type: "text" },
     specialization: { label: "Szakirány", type: "text" },
     description: { label: "Rövid leírás", type: "textarea" },
-    startDate: { label: "Kezdés dátuma", type: "date" },
-    endDate: { label: "Befejezés dátuma", type: "date" },
+    startDate: { label: "Tanulmányok kezdete", type: "date" },
+    endDate: { label: "Tanulmányok befejezése", type: "date" },
+    location: { label: "Tanulmányok helye", type: "text", placeholder: "pl. Debrecen" },
   },
 }
 

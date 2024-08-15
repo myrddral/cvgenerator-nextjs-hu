@@ -39,6 +39,7 @@ const experienceSection: Employment[] = [
     description: "",
     startDate: new Date(),
     endDate: new Date(),
+    location: "",
   },
 ]
 
@@ -50,6 +51,7 @@ const educationSection: School[] = [
     description: "",
     startDate: new Date(),
     endDate: new Date(),
+    location: "",
   },
 ]
 
