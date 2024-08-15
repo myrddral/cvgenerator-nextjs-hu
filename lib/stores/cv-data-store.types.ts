@@ -42,7 +42,6 @@ export type CvDataActions = {
   getSectionData: <T extends SectionName>(sectionName: T) => CvDataState[T]
   setSectionData: (sectionName: SectionName, data: Omit<CvDataState[SectionName], "email">) => void
   reset: () => void
-  loadMockData: () => void
 }
 
 export type CvDataStore = CvDataState & CvDataActions

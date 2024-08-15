@@ -5,8 +5,6 @@ import { persist, createJSONStorage } from "zustand/middleware"
 import { defaultInitState } from "./cv-data-initstate"
 import { createStore } from "zustand/vanilla"
 
-const mockData = process.env.NODE_ENV === "development" ? require("@/mockdata/mock").default : undefined
-
 export const initCvDataStore = (): CvDataState => {
   return { ...defaultInitState }
 }
@@ -23,7 +21,6 @@ export const createCvDataStore = (initState: CvDataState = defaultInitState) => 
         getSectionData: (section) => get()[section],
         setSectionData: (section, data) => set((state) => ({ [section]: { ...state[section], ...data } })),
         reset: () => set(defaultInitState),
-        loadMockData: () => set(() => mockData),
       }),
       {
         name: "cv-data-store",
