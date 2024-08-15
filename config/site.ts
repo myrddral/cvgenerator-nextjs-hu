@@ -1,11 +1,11 @@
 export const siteConfig = {
   name: "Önéletrajz Generátor",
   description: "Generálj egyszerűen és gyorsan, ízlésesen formázott önéletrajzot!",
-  url: "https://onletrajz-generator.vercel.app",
-  ogImage:
-    "https://placehold.co/1200x630/030712/F9FAFB?text=%C3%96n%C3%A9letrajz\nGener%C3%A1tor&font=raleway",
+  url: "https://cvgenerator-nextjs-hu.vercel.app",
+  creator: "Attila Béli - https://www.attilabeli.com",
+  ogImage: "/cv_gen_og_image_light.webp",
   locale: "hu_HU",
-  htmlLang: "hu"
-};
+  htmlLang: "hu",
+}
 
-export type SiteConfig = typeof siteConfig;
+export type SiteConfig = typeof siteConfig

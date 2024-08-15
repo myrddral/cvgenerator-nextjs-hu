@@ -6,8 +6,8 @@
   :root {
     --background: 33, 50%, 97%;
     --foreground: 224 71.4% 4.1%;
-    --card: hsl(0 0% 80%);
-    --card-foreground: hsl(224 71.4% 4.1%);
+    --card: 0 0% 80%;
+    --card-foreground: 224 71.4% 4.1%;
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4.1%;
     --primary: 40, 85%, 46%, 1;
@@ -20,12 +20,14 @@
     --accent-foreground: 33, 50%, 97%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 20% 98%;
+    --danger: 0 84.2% 60.2%;
+    --danger-foreground: 210 20% 98%;
     --border: 220 13% 91%;
     --input: 199, 27%, 57%;
     --ring: 262.1 83.3% 57.8%;
     --navbar: 224, 41%, 10%, 1;
     --navbar-foreground: 33, 50%, 97%;
-    --shadow: hsla(199, 57%, 27%, 0.4);
+    --shadow: 199, 57%, 27%, 0.4;
 
     --navbar-height: 4rem;
     --footer-min-height: 4.5rem;
@@ -34,7 +36,7 @@
   .dark {
     --background: 224 71.4% 4.1%;
     --foreground: 210 20% 99%;
-    --card: 224 61.4% 9.1%;
+    --card: 220, 80%, 3%, 1;
     --card-foreground: 210 20% 98%;
     --popover: 224 71.4% 4.1%;
     --popover-foreground: 210 20% 98%;
@@ -46,13 +48,44 @@
     --muted-foreground: 217.9 10.6% 64.9%;
     --accent: 215 27.9% 16.9%;
     --accent-foreground: 210 20% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 82.8% 37.6%;
     --destructive-foreground: 210 20% 98%;
-    --border: 215 27.9% 16.9%;
+    --danger: 0 84.2% 60.2%;
+    --danger-foreground: 210 20% 98%;
+    --border: 199, 57%, 40%, 0.6;
     --input: 215 27.9% 16.9%;
-    --ring: 263.4 70% 50.4%;
-    --navbar: hsla(0, 0%, 0%, 0.4);
-    --shadow: hsla(40, 85%, 46%, 0.4);
+    --ring: 199, 57%, 27%, 1;
+    --navbar: 0, 0%, 0%, 0.4;
+    --shadow: 40, 85%, 46%, 0.4;
+  }
+
+  input[type="file"]::file-selector-button {
+    @apply h-10 cursor-pointer rounded bg-primary text-primary-foreground shadow-black/30 !text-shadow-sm;
+  }
+  input[type="file"]::file-selector-button:hover {
+    @apply hover:brightness-110;
+  }
+
+  input[type="file"]::file-selector-button:active {
+    @apply active:brightness-110;
+  }
+
+  input[type="file" i] {
+    /* the name of the selected file */
+    width: 100%;
+  }
+
+  .image_input_container {
+    background-color: #ffffff;
+    display: flex;
+    margin: 0.5rem;
+    padding: 0;
+    border: 0;
+    border-color: #000000;
+    border-width: 1px;
+    border-style: solid;
+    max-width: 100%;
+    color: rgb(0, 0, 0);
   }
 }
 
@@ -76,6 +109,10 @@
 
   .pos-center {
     @apply left-0 right-0 top-0 m-auto;
+  }
+
+  .flex-center {
+    @apply flex flex-col items-center justify-center;
   }
 
   .fade-edges {
