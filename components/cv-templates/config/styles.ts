@@ -13,7 +13,7 @@ const getTemplateStyles = (template: (typeof templates)[number]): Styles => {
           color: colors.foreground,
           backgroundColor: colors.background,
           fontFamily: "Beiruti",
-          fontSize: 12,
+          fontSize: 13,
         },
         section: {
           padding: 10,

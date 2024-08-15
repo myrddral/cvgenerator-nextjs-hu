@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from "react"
-import { View, Text, Svg, Line } from "@react-pdf/renderer"
+import { View, Svg, Line } from "@react-pdf/renderer"
 import { SectionTitle } from "./text-sectiontitle"
 
 interface SectionProps extends PropsWithChildren {

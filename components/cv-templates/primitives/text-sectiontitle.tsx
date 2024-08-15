@@ -16,7 +16,7 @@ export const SectionTitle = ({
   children,
   marginBottom,
   textAlign,
-  fontSize = 12,
+  fontSize = 13,
   letterSpacing = 1.2,
   position = "relative",
   left = "-430",
