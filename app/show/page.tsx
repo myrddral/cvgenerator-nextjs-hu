@@ -64,13 +64,13 @@ export default function ShowPdfPage() {
     }
 
     loadTemplateWithData()
-  }, [cvData, throwAsyncError])
+  }, [cvData])
 
   return pdfResult ? (
     <div className="flex-center w-full max-w-screen-lg flex-1 overflow-clip rounded-lg">
       {isMobileDevice() ? (
         <>
-          <h3 className="mb-8 text-center font-display text-3xl font-bold leading-none tracking-wider text-shadow-lg">
+          <h3 className="mb-8 text-center text-3xl font-bold leading-none tracking-wider text-shadow-lg">
             Elkészült az önéletrajzod!
           </h3>
           <p className="mb-4 text-center text-shadow-lg">A letöltéshez kattints az alábbi gombra</p>
