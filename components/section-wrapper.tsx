@@ -66,6 +66,19 @@ export function SectionWrapper({ ...sectionProps }: FormStepWrapperProps) {
     if (!isOpen) setSelectedListItem(undefined)
   }
 
+  function getTitle() {
+    switch (sectionName) {
+      case "experience":
+        return selectedListItem ? "Munkatapasztalat szerkesztése" : "Új munkatapasztalat hozzáadása"
+      case "education":
+        return selectedListItem ? "Tanulmány szerkesztése" : "Új tanulmány hozzáadása"
+      case "languages":
+        return selectedListItem ? "Nyelv szerkesztése" : "Új nyelv hozzáadása"
+      default:
+        return ""
+    }
+  }
+
   return (
     <FormStepCard title={title} sub={sub} className="mb-8">
       {isMultiEntry ? (
@@ -76,7 +89,7 @@ export function SectionWrapper({ ...sectionProps }: FormStepWrapperProps) {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader className="mb-2 sm:mb-4">
-                <DialogTitle>Új munkatapasztalat hozzáadása</DialogTitle>
+                <DialogTitle>{getTitle()}</DialogTitle>
                 <DialogDescription className="sr-only">
                   Az alábbi űrlap segítségével adhatsz hozzá munkatapasztalatokat az önéletrajzodhoz.
                 </DialogDescription>
