@@ -3,8 +3,8 @@
 import type { CvDataState } from "@/lib/stores/cv-data-store.types"
 
 import { siteConfig } from "@/config/site"
+import { formatDate, generateDocTitle } from "@/lib/utils"
 import { Document, Link, Page, Text, View } from "@react-pdf/renderer"
-import { formatDate } from "@/lib/utils"
 import { colors } from "./config/colors"
 import { registerFontFamily } from "./config/fonts"
 import { styles } from "./config/styles"
@@ -22,15 +22,16 @@ import { SubHeading } from "./primitives/text-subheading"
 import { Column } from "./primitives/view-column"
 import { Row } from "./primitives/view-row"
 import { Section } from "./primitives/view-section"
+import { translations } from "./translations"
 
 registerFontFamily("Beiruti")
 
 export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
+  const locale: "hu" | "en" = "hu"
   const { personal, links, skills, experience, education, languages, interests } = cvData
-  const docTitle = `cv-${personal.firstName}${personal.lastName}-${new Date().getFullYear()}`
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
+  const docTitle = generateDocTitle(personal.firstName, personal.lastName, locale)
+  let name = `${personal.firstName} ${personal.lastName}`
+  if (locale.includes("hu")) name = `${personal.lastName} ${personal.firstName}`
 
   return (
     <Document title={docTitle} creator={siteConfig.creator} creationDate={new Date()}>
@@ -44,9 +45,7 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
 
         <Column width={"75%"}>
           <Section paddingLeft={0} paddingTop={16} minHeight={155}>
-            <Heading marginBottom={1}>
-              {personal.lastName.toUpperCase()} {personal.firstName.toUpperCase()}
-            </Heading>
+            <Heading marginBottom={1}>{name.toUpperCase()}</Heading>
             <SubHeading marginBottom={16} color={colors.accent}>
               {skills.occupation}
             </SubHeading>
@@ -66,7 +65,7 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
               <View style={[styles.wrapper, { flex: 2 }]}>
                 <GlobeIcon />
                 <Link src={links.webpage} style={styles.link}>
-                  Weboldal
+                  {translations.website[locale]}
                 </Link>
               </View>
             </Row>
@@ -91,34 +90,39 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
             <Row>
               <View style={styles.wrapper}>
                 <CakeIcon />
-                <Text>{formatDate(personal.birthDate)}</Text>
+                <Text>{formatDate(personal.birthDate, locale)}</Text>
               </View>
             </Row>
           </Section>
 
-          <Section title="Szakmai Ismeretek" paddingLeft={0}>
+          <Section title={translations.skills[locale]} paddingLeft={0} paddingTop={0}>
             <Text>{skills.skillsList}</Text>
           </Section>
 
-          <Section title="Munkatapasztalat" paddingLeft={0} paddingTop={0} paddingBottom={0}>
+          <Section title={translations.experience[locale]} paddingLeft={0} paddingTop={0}>
             {experience.map((exp, index) => {
-              if (!exp.title || !exp.employer || !exp.startDate || !exp.endDate) return null
+              if (!exp.title || !exp.employer || !exp.startDate || !exp.endDate || !exp.location) return null
               return (
-                <View key={index} style={{ marginBottom: index === 0 ? 0 : 10 }}>
+                <View key={index} style={{ marginBottom: index === experience.length - 1 ? 0 : 8 }}>
                   <Row gap={4}>
-                    <Text style={{ fontSize: 14, fontWeight: "semibold", color: colors.accent }}>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        fontWeight: "semibold",
+                        color: colors.accent,
+                        alignSelf: "center",
+                      }}
+                    >
                       {exp.title}
                     </Text>
-                    <Text>|</Text>
-                    <Text
-                      style={{ fontSize: 11, opacity: 0.8, fontWeight: "semibold", verticalAlign: "sub" }}
-                    >
+                    <Text style={{ fontSize: 13 }}>|</Text>
+                    <Text style={{ opacity: 0.8, fontWeight: "semibold", alignSelf: "center" }}>
                       {exp.employer}
                     </Text>
                   </Row>
                   <Row gap={4} marginBottom={4}>
-                    <Text style={{ fontSize: 11, opacity: 0.8 }}>
-                      {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
+                    <Text style={{ opacity: 0.8 }}>
+                      {formatDate(exp.startDate, locale)} - {formatDate(exp.endDate, locale)}, {exp.location}
                     </Text>
                   </Row>
                   <Text style={{ textIndent: -10, paddingLeft: 10 }}>{exp.description}</Text>
@@ -127,46 +131,54 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
             })}
           </Section>
 
-          <Section title="Tanulmányok" paddingLeft={0} paddingTop={0} paddingBottom={0}>
+          <Section title={translations.education[locale]} paddingLeft={0} paddingTop={0}>
             {education.map((edu, index) => {
-              if (!edu.specialization || !edu.institution || !edu.startDate || !edu.endDate) return null
+              if (!edu.specialization || !edu.institution || !edu.startDate || !edu.endDate || !edu.location)
+                return null
               return (
-                <View key={index} style={{ marginBottom: index === 0 ? 0 : 10 }}>
-                  <Row key={index} gap={4}>
-                    <Text style={{ fontSize: 14, fontWeight: "semibold", color: colors.accent }}>
+                <View key={index} style={{ marginBottom: index === experience.length - 1 ? 0 : 2 }}>
+                  <Row gap={4}>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        fontWeight: "semibold",
+                        color: colors.accent,
+                        alignSelf: "center",
+                      }}
+                    >
                       {edu.specialization}
                     </Text>
-                    {edu.major ? <Text style={{ fontWeight: "semibold" }}>{edu.major}</Text> : null}
-                    <Text>|</Text>
-                    <Text
-                      style={{ fontSize: 11, opacity: 0.8, fontWeight: "semibold", verticalAlign: "sub" }}
-                    >
+                    {/* {edu.major ? <Text style={{ fontWeight: "semibold" }}>{edu.major}</Text> : null} */}
+                    <Text style={{ fontSize: 13 }}>|</Text>
+                    <Text style={{ opacity: 0.8, fontWeight: "semibold", alignSelf: "center" }}>
                       {edu.institution}
                     </Text>
                   </Row>
                   <Row gap={4} marginBottom={4}>
-                    <Text style={{ fontSize: 11, opacity: 0.8 }}>{formatDate(edu.endDate)}</Text>
+                    <Text style={{ opacity: 0.8 }}>
+                      {formatDate(edu.endDate, locale)}, {edu.location}
+                    </Text>
                   </Row>
-                  <Text>{edu.description}</Text>
+                  <Text style={{ textIndent: -10, paddingLeft: 10 }}>{edu.description}</Text>
                 </View>
               )
             })}
           </Section>
 
-          <Section title="Nyelvismeret" paddingLeft={0} paddingTop={0}>
+          <Section title={translations.languages[locale]} paddingLeft={0} paddingTop={0}>
             {languages.map((lang, index) => {
               if (!lang.language || !lang.level) return null
               return (
                 <Row key={index} gap={4}>
                   <Text>
-                    {lang.language} ({lang.level})
+                    {lang.language} - {lang.level}
                   </Text>
                 </Row>
               )
             })}
           </Section>
 
-          <Section title="Érdeklődés" paddingLeft={0} paddingTop={0}>
+          <Section title={translations.interests[locale]} paddingLeft={0} paddingTop={0}>
             <Row gap={4}>
               <Text>{interests.interestsList}</Text>
             </Row>
