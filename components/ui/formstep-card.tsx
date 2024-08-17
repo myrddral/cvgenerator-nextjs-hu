@@ -11,7 +11,7 @@ interface FormStepCardProps extends PropsWithChildren {
 
 export function FormStepCard({ children, title, sub, className }: FormStepCardProps) {
   return (
-    <Card className={cn("w-full flex-1 p-6 animate-in slide-in-from-right-44 max-sm:p-2", className)}>
+    <Card className={cn("w-full p-6 animate-in slide-in-from-right-44 max-sm:p-2", className)}>
       <CardHeader className="max-sm:px-4">
         <CardTitle>{title}</CardTitle>
         <CardSubtitle>{sub}</CardSubtitle>
