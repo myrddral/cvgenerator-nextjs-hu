@@ -1,13 +1,13 @@
 "use client"
-import type { CvDataStore } from "@/lib/stores/cv-data-store.types"
+import type { CvDataState } from "@/lib/stores/cv-data-store.types"
 
 import { Button } from "@/components/ui/button"
 import Loader from "@/components/ui/loader"
-import { useAsyncErrors } from "@/hooks/use-async-errors"
 import { useCvDataStore } from "@/providers/cv-data-store-provider"
-import { format } from "date-fns"
 import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
+import { generateDocTitle } from "@/lib/utils"
+// import { useAsyncErrors } from "@/hooks/use-async-errors"
 
 const PDFViewer = dynamic(() => import("@react-pdf/renderer").then((mod) => mod.PDFViewer), {
   ssr: false,
@@ -19,8 +19,8 @@ const PDFDownloadLink = dynamic(() => import("@react-pdf/renderer").then((mod) =
 })
 
 interface DownloadButtonProps {
-  Document: ({ cvData }: { cvData: CvDataStore }) => JSX.Element
-  cvData: CvDataStore
+  Document: ({ cvData }: { cvData: CvDataState }) => JSX.Element
+  cvData: CvDataState
   fileName: string
 }
 
@@ -44,14 +44,15 @@ export default function ShowPdfPage() {
   const cvData = useCvDataStore((state) => state)
   const [pdfResult, setPdfResult] = useState<React.ReactNode | null>(null)
   const isMobileDevice = () => window.innerWidth < 400
-  const { throwAsyncError } = useAsyncErrors()
+  // const { throwAsyncError } = useAsyncErrors()
 
   useEffect(() => {
     const loadTemplateWithData = async () => {
       const templateModule = await import("@/components/cv-templates/template001")
       const Template001 = templateModule.Template001
-      const fileName = `cv-${cvData.personal.lastName}_${cvData.personal.firstName}-${format(new Date(), "yyyyMMddHHmmss")}`
+      const fileName = generateDocTitle(cvData.personal.firstName, cvData.personal.lastName, "hu")
 
+      // displaying the pdf viewer on mobile devices is not supported - it will be displayed as a download button for now
       setPdfResult(
         isMobileDevice() ? (
           <DownloadButton Document={Template001} cvData={cvData} fileName={fileName} />
