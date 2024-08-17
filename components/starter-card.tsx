@@ -1,42 +1,37 @@
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { cn } from "@/lib/utils"
-import Image from "next/image"
+import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
+import Logo from "./ui/logo"
 
-interface StarterCardProps {
-  isHelpVisible: boolean
-  setIsHelpVisible: (value: boolean) => void
-}
-
-export default function StarterCard({ isHelpVisible, setIsHelpVisible }: StarterCardProps) {
+export default function StarterCard() {
   return (
-    <Card
-      className={cn(
-        "border-white/60 bg-transparent p-24 shadow-inner backdrop-blur-sm duration-500 ease-in-out",
-        { "animate-in fade-in zoom-in-75": !isHelpVisible, "animate-out fade-out zoom-out-75": isHelpVisible }
-      )}
-    >
-      <div className="flex flex-col items-center">
-        <Image
-          src="/cv_gen_logo_v1_white.webp"
-          alt="Önéletrajz generátor"
-          className="object-fill"
-          width={200}
-          height={40}
-          priority
-          suppressHydrationWarning
-        />
-        <p className="mt-2 font-semibold">Önéletrajz generátor</p>
-        <Link href="/create">
-          <Button size="lg" className="mt-12">
-            KEZDÉS
-          </Button>
-        </Link>
-        <Button size="lg" variant={"ghost"} className="mt-2" onClick={() => setIsHelpVisible(true)}>
-          Mi ez?
-        </Button>
-      </div>
+    <Card className="max-w-96">
+      <CardContent className="flex flex-col items-center p-20 max-sm:p-16">
+        <>
+          <Logo className="w-56" />
+          <h3 className="mt-2 font-semibold">Önéletrajz generátor</h3>
+          <Link href="/create">
+            <Button size="lg" variant="navNext" className="group relative mt-12">
+              KEZDÉS
+            </Button>
+          </Link>
+          <Link href="/create">
+            <Button size="lg" variant={"ghost"} className="mt-2">
+              Mi ez?
+            </Button>
+          </Link>
+        </>
+
+        {/* <>
+            <p className="text-center text-lg">
+              Ez egy fejlesztés alatt álló webalkalmazás, mellyel kényelmesen készíthetsz profi önéletrajzot,
+              majd letöltheted azt PDF formátumban.
+            </p>
+            <Button size="lg" variant={"ghost"} className="mt-8" onClick={() => setIsHelpVisible(false)}>
+              Vissza
+            </Button>
+          </> */}
+      </CardContent>
     </Card>
   )
 }

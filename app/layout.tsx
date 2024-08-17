@@ -1,12 +1,17 @@
 import type { Metadata } from "next"
 import type { PropsWithChildren } from "react"
 
-import { fontDisplay, fontMono, fontSans } from "@/lib/fonts"
-import { ThemeProvider } from "@/components/providers/theme-provider"
-import { siteConfig } from "@/config/site"
-import { cn } from "@/lib/utils"
-import Navbar from "@/components/navbar"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import Footer from "@/components/footer"
+import Navbar from "@/components/navbar"
+import { ThemeProvider } from "@/providers/theme-provider"
+import { CvDataStoreProvider } from "@/providers/cv-data-store-provider"
+import { Toaster } from "@/components/ui/toaster"
+import { siteConfig } from "@/config/site"
+import { fontSans } from "@/lib/fonts"
+import MainContainer from "../components/main-container"
+import { GridBackground } from "@/components/grid-background"
+import { cn } from "@/lib/utils"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -53,23 +58,26 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
     <html lang={siteConfig.htmlLang} suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen max-w-screen-2xl mx-auto bg-background pt-16 font-sans text-foreground antialiased",
-          fontSans.variable,
-          fontDisplay.variable,
-          fontMono.variable
+          "flex min-h-[100dvh] flex-col bg-background font-sans text-foreground antialiased",
+          fontSans.variable
         )}
       >
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           storageKey="theme"
-          enableSystem
+          // enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          {children}
-          <Footer />
+          <CvDataStoreProvider>
+            <Navbar />
+            <MainContainer>{children}</MainContainer>
+            <Footer />
+            <Toaster />
+          </CvDataStoreProvider>
         </ThemeProvider>
+        <SpeedInsights />
+        <GridBackground />
       </body>
     </html>
   )

@@ -1,10 +1,12 @@
 import type { Config } from "tailwindcss"
+import plugin from "tailwindcss/plugin"
 
 const config = {
   darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
+    "./form-generator/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
   ],
@@ -27,8 +29,6 @@ const config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)"],
-        display: ["var(--font-sans)"],
-        mono: ["var(--font-mono)"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -48,6 +48,10 @@ const config = {
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
+        },
+        danger: {
+          DEFAULT: "hsl(var(--danger))",
+          foreground: "hsl(var(--danger-foreground))",
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
@@ -70,11 +74,16 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      textShadow: {
+        sm: "0 1px 2px var(--tw-shadow-color)",
+        DEFAULT: "0 2px 4px var(--tw-shadow-color)",
+        lg: "0 8px 16px var(--tw-shadow-color)",
+      },
       height: {
         navbar: "var(--navbar-height)",
       },
-      minHeight: {
-        main: "calc(100vh - var(--navbar-height) - var(--footer-min-height))",
+      maxWidth: {
+        "screen-xs": "320px",
       },
       keyframes: {
         "accordion-down": {
@@ -92,7 +101,19 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    plugin(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          "text-shadow": (value) => ({
+            textShadow: value,
+          }),
+        },
+        { values: theme("textShadow") }
+      )
+    }),
+    require("tailwindcss-animate"),
+  ],
 } satisfies Config
 
 export default config
