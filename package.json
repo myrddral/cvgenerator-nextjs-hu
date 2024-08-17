@@ -66,6 +66,7 @@
     "typescript": "^5.5.4"
   },
   "trustedDependencies": [
-    "@vercel/speed-insights"
+    "@vercel/speed-insights",
+    "sharp"
   ]
 }
