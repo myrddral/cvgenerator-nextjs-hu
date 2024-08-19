@@ -41,16 +41,18 @@ export function SectionDataList({ sectionName, setIsOpen, setSelectedListItem }:
   }
 
   return (
-    <div className="flex min-h-28 flex-wrap gap-y-4">
+    <div className="flex min-h-28 flex-wrap items-center gap-y-4">
       {isLoading ? (
         <div className="flex h-full w-full justify-center">
-          <Spinner size="lg" />
+          <Spinner size="md" />
         </div>
       ) : null}
       {!isLoading && !hasUserData(data) && (
-        <div className="flex-center w-full">
-          <h3 className="text-center text-xl text-foreground/50">Nincs adat</h3>
-        </div>
+        <Card className="flex-center h-fit w-full border-2 border-dashed opacity-75">
+          <CardContent className="pt-6">
+            <h3 className="text-center text-lg text-foreground/50">Még nem adtál hozzá elemet</h3>
+          </CardContent>
+        </Card>
       )}
       {data.map(
         ({ employer, title, startDate, endDate, institution, specialization, language, level }, index) => (
