@@ -104,7 +104,7 @@ export default function FormGenerator({
                     setError={form.setError}
                   />
                 </FormControl>
-                <FormMessage className="absolute -bottom-5 animate-in fade-in-0" />
+                <FormMessage className="absolute bottom-0 translate-y-full animate-in fade-in-0" />
               </FormItem>
             )}
           />
