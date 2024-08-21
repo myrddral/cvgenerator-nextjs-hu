@@ -9,18 +9,29 @@ export const initCvDataStore = (): CvDataState => {
   return { ...defaultInitState }
 }
 
+// TODO: move completedSections to a separate store
 export const createCvDataStore = (initState: CvDataState = defaultInitState) => {
   return createStore<CvDataStore>()(
     persist(
-      (set, get) => ({
+      (set) => ({
         ...initState,
+        completedSections: [],
+        markSectionAsCompleted: (section) =>
+          set((state) => ({
+            completedSections: state.completedSections.includes(section)
+              ? state.completedSections
+              : [...state.completedSections, section],
+          })),
         setEmail: (email) => set((state) => ({ personal: { ...state.personal, email } })),
-        addToList: (section, item) => set((state) => ({ [section]: [...(state[section] as any[]), item] })),
-        removeFromList: (section, index) =>
-          set((state) => ({ [section]: state[section].filter((_, idx) => idx !== index) })),
-        getSectionData: (section) => get()[section],
-        setSectionData: (section, data) => set((state) => ({ [section]: { ...state[section], ...data } })),
-        reset: () => set(defaultInitState),
+        setSectionData: (section, data) =>
+          set((state) => ({
+            [section]: Array.isArray(state[section])
+              ? [...(state[section] as []), data]
+              : { ...state[section], ...data },
+          })),
+        removeFromList: (section, selectedItemIdx) =>
+          set((state) => ({ [section]: state[section].filter((_, idx) => idx !== selectedItemIdx) })),
+        resetStore: () => set(defaultInitState),
       }),
       {
         name: "cv-data-store",

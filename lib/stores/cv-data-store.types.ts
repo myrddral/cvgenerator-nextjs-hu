@@ -28,6 +28,14 @@ export type CvDataState = {
   interests: Interests
 }
 
+export type CompletedSectionsState = {
+  completedSections: string[]
+}
+
+export type CompletedSectionsActions = {
+  markSectionAsCompleted: (section: SectionName) => void
+}
+
 // Extract only the keys that refer to a section with multi-entry (contains an array)
 type MultiEntryKeys<T> = {
   [K in keyof T]: T[K] extends Array<any> ? K : never
@@ -36,12 +44,11 @@ export type SectionName = Extract<keyof CvDataState, string>
 export type SectionNameWithMultiEntry = MultiEntryKeys<CvDataState>
 
 export type CvDataActions = {
+  markSectionAsCompleted: (section: SectionName) => void
   setEmail: (email: CvDataState["personal"]["email"]) => void
-  addToList: (sectionName: SectionName, item: Employment | School | Language) => void
   removeFromList: (sectionName: SectionNameWithMultiEntry, index: number) => void
-  getSectionData: <T extends SectionName>(sectionName: T) => CvDataState[T]
   setSectionData: (sectionName: SectionName, data: Omit<CvDataState[SectionName], "email">) => void
-  reset: () => void
+  resetStore: () => void
 }
 
-export type CvDataStore = CvDataState & CvDataActions
+export type CvDataStore = CvDataState & CvDataActions & CompletedSectionsState & CompletedSectionsActions
