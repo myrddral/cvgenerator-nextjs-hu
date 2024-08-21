@@ -53,7 +53,7 @@ export const experienceSection: SectionProps = {
   isMultiEntry: true,
   sectionName: "experience",
   fields: {
-    title: { label: "Foglalkozás", type: "text" },
+    jobTitle: { label: "Foglalkozás", type: "text" },
     employer: { label: "Munkáltató", type: "text" },
     description: {
       label: "Feladatok / eredmények",

@@ -101,7 +101,7 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
 
           <Section title={translations.experience[locale]} paddingLeft={0} paddingTop={0}>
             {experience.map((exp, index) => {
-              if (!exp.title || !exp.employer || !exp.startDate || !exp.endDate || !exp.location) return null
+              if (!exp.jobTitle || !exp.employer || !exp.startDate || !exp.endDate || !exp.location) return null
               return (
                 <View key={index} style={{ marginBottom: index === experience.length - 1 ? 0 : 8 }}>
                   <Row gap={4}>
@@ -113,7 +113,7 @@ export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
                         alignSelf: "center",
                       }}
                     >
-                      {exp.title}
+                      {exp.jobTitle}
                     </Text>
                     <Text style={{ fontSize: 13 }}>|</Text>
                     <Text style={{ opacity: 0.8, fontWeight: "semibold", alignSelf: "center" }}>
