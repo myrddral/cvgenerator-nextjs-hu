@@ -35,7 +35,7 @@ const skillsSection: Skills = {
 const experienceSection: Employment[] = [
   {
     employer: "",
-    title: "",
+    jobTitle: "",
     description: "",
     startDate: new Date(),
     endDate: new Date(),

@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "Önéletrajz Generátor",
+  name: "cv/gen - Önéletrajz Generátor",
   description: "Generálj egyszerűen és gyorsan, ízlésesen formázott önéletrajzot!",
   url: "https://cvgenerator-nextjs-hu.vercel.app",
   creator: "Attila Béli - https://www.attilabeli.com",

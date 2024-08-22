@@ -1,5 +1,5 @@
 "use client"
-import type { SectionProps } from "@/form-generator/form-generator.types"
+import type { RouteParamType, SectionProps } from "@/form-generator/form-generator.types"
 
 import { cn } from "@/lib/utils"
 import { useParams } from "next/navigation"
@@ -11,8 +11,8 @@ interface StepperProps {
 }
 
 export default function Stepper({ allSections }: StepperProps) {
-  // the current section is determined by the route parameter
-  const { section } = useParams<{ section: string }>()
+  // the current section is determined by the section dynamic route parameter
+  const { section } = useParams<{ section: RouteParamType }>()
 
   return (
     <div
@@ -23,17 +23,19 @@ export default function Stepper({ allSections }: StepperProps) {
         }
       )}
     >
-      {allSections.map(({ sectionName: routeParam, title }: SectionProps, index) => (
-        <div key={routeParam} className="relative flex h-full w-full flex-col items-center pb-5">
-          <Link href={`/create/${routeParam}`}>
+      {allSections.map(({ sectionName, title }: SectionProps, index) => (
+        <div key={sectionName} className="relative flex h-full w-full flex-col items-center pb-5">
+          <Link href={`/create/${sectionName}`}>
             <Button
               size={"icon"}
               variant={"outline"}
-              className="h-12 w-12 border-2 border-border max-sm:h-8 max-sm:w-8"
+              className={cn("h-12 w-12 border-2 border-border max-sm:h-8 max-sm:w-8", {
+                // "disabled" :
+              })}
             >
               <h3
                 className={cn("text-xl font-bold text-primary max-sm:text-base", {
-                  "text-secondary": routeParam !== section,
+                  "text-secondary": sectionName !== section,
                 })}
               >
                 {index + 1}
@@ -42,7 +44,7 @@ export default function Stepper({ allSections }: StepperProps) {
           </Link>
           <p
             className={cn("absolute bottom-0 whitespace-nowrap text-xs max-sm:hidden", {
-              "font-semibold text-primary brightness-125 saturate-[1.25]": routeParam === section,
+              "font-semibold text-primary brightness-125 saturate-[1.25]": sectionName === section,
             })}
           >
             {title}

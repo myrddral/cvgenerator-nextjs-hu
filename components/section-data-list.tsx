@@ -10,12 +10,11 @@ import { Spinner } from "./ui/loader"
 
 interface SectionDataListProps {
   sectionName: keyof CvDataState
-  setSelectedListItem: (index: number | undefined) => void
-  setIsOpen: (isOpen: boolean) => void
+  setSelectedItemIdx: (index: number | undefined) => void
 }
 
 // TODO: the types are f'd up, fix them
-export function SectionDataList({ sectionName, setIsOpen, setSelectedListItem }: SectionDataListProps) {
+export function SectionDataList({ sectionName, setSelectedItemIdx }: SectionDataListProps) {
   const data = useCvDataStore((state) => state[sectionName]) as CvDataState[SectionName][]
   const [isLoading, setIsLoading] = useState(true)
 
@@ -36,24 +35,25 @@ export function SectionDataList({ sectionName, setIsOpen, setSelectedListItem }:
   }, [data])
 
   function handleItemClick(index: number) {
-    setSelectedListItem(index)
-    setIsOpen(true)
+    setSelectedItemIdx(index)
   }
 
   return (
-    <div className="flex min-h-28 flex-wrap gap-y-4">
+    <div className="flex min-h-28 flex-wrap items-center gap-y-4">
       {isLoading ? (
         <div className="flex h-full w-full justify-center">
-          <Spinner size="lg" />
+          <Spinner size="md" />
         </div>
       ) : null}
       {!isLoading && !hasUserData(data) && (
-        <div className="flex-center w-full">
-          <h3 className="text-center text-xl text-foreground/50">Nincs adat</h3>
-        </div>
+        <Card className="flex-center h-fit w-full border-2 border-dashed opacity-75">
+          <CardContent className="pt-6">
+            <h3 className="select-none text-center text-lg text-foreground/50">Még nem adtál hozzá elemet</h3>
+          </CardContent>
+        </Card>
       )}
       {data.map(
-        ({ employer, title, startDate, endDate, institution, specialization, language, level }, index) => (
+        ({ employer, jobTitle, startDate, endDate, institution, specialization, language, level }, index) => (
           <Card
             key={index}
             onClick={() => handleItemClick(index)}
@@ -67,7 +67,7 @@ export function SectionDataList({ sectionName, setIsOpen, setSelectedListItem }:
           >
             <CardContent className="flex w-full justify-between p-6 max-sm:flex-wrap max-sm:p-4 md:min-w-[400px]">
               <div className={cn("max-sm:flex max-sm:flex-wrap", { hidden: !employer })}>
-                <span className="whitespace-nowrap font-semibold">{title}</span>
+                <span className="whitespace-nowrap font-semibold">{jobTitle}</span>
                 <span className="mx-2 max-sm:hidden"> | </span>
                 <span className="whitespace-nowrap">{employer}</span>
               </div>

@@ -67,13 +67,13 @@ const skillsSchema = z.object({
   occupation: z.string().min(1, { message: "Foglalkozás kitöltése kötelező" }),
   skillsList: z
     .string()
-    .min(1, { message: "A képességek kitöltése kötelező" })
+    .min(1, { message: "A szakmai ismeretek kitöltése kötelező" })
     .min(3, { message: "Ez sajnos túl rövid" }),
 })
 
 const experienceSchema = z.object({
+  jobTitle: z.string().min(1, { message: "Foglalkozás kitöltése kötelező" }),
   employer: z.string().min(1, { message: "Munkáltató kitöltése kötelező" }),
-  title: z.string().min(1, { message: "Foglalkozás kitöltése kötelező" }),
   description: z
     .string()
     .min(1, { message: "Feladatok / eredmények kitöltése kötelező" })
