@@ -31,7 +31,7 @@ export const createCvDataStore = (initState: CvDataState = defaultInitState) => 
           })),
         removeFromList: (section, selectedItemIdx) =>
           set((state) => ({ [section]: state[section].filter((_, idx) => idx !== selectedItemIdx) })),
-        resetStore: () => set(defaultInitState),
+        resetStore: () => set({ ...defaultInitState, completedSections: [] }),
       }),
       {
         name: "cv-data-store",
