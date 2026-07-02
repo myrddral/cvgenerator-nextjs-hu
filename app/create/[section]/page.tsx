@@ -15,9 +15,10 @@ function isRouteParamType(value: string): value is RouteParamType {
   return sectionMap.has(value as RouteParamType)
 }
 
-export default function SectionPage({ params }: { params: { section: string } }) {
+export default async function SectionPage({ params }: { params: Promise<{ section: string }> }) {
+  const { section } = await params
   // Ensure params.section is a RouteParamType
-  const sectionName = (isRouteParamType(params.section) ? params.section : "") as RouteParamType
+  const sectionName = (isRouteParamType(section) ? section : "") as RouteParamType
 
   if (!sectionName) return <NotFound />
 
