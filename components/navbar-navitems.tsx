@@ -21,7 +21,9 @@ export default function NavbarNavitems() {
     <NavigationMenu>
       <NavigationMenuList className="text-navbar-foreground">
         <NavigationMenuItem className="max-sm:hidden">
-          <Link href="/create" legacyBehavior passHref>
+          <Link href="/create">
+            {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */
+            }
             <NavigationMenuLink
               className={navigationMenuTriggerStyle()}
               data-active={pathname.includes("/create")}
@@ -49,10 +51,9 @@ export default function NavbarNavitems() {
             className="!p-0"
             href="https://github.com/myrddral/cvgenerator-nextjs-hu"
             target="_blank"
-            rel="noopener noreferrer"
-            legacyBehavior
-            passHref
-          >
+            rel="noopener noreferrer">
+            {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */
+            }
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               <Image
                 src="/github-mark-white.svg"
@@ -66,7 +67,7 @@ export default function NavbarNavitems() {
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
-  )
+  );
 }
 
 const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWithoutRef<"a">>(
