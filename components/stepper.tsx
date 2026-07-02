@@ -2,9 +2,10 @@
 import type { RouteParamType, SectionProps } from "@/form-generator/form-generator.types"
 
 import { cn } from "@/lib/utils"
+import { useCvDataStore } from "@/providers/cv-data-store-provider"
+import Link from "next/link"
 import { useParams } from "next/navigation"
 import { Button } from "./ui/button"
-import Link from "next/link"
 
 interface StepperProps {
   allSections: SectionProps[]
@@ -13,6 +14,9 @@ interface StepperProps {
 export default function Stepper({ allSections }: StepperProps) {
   // the current section is determined by the section dynamic route parameter
   const { section } = useParams<{ section: RouteParamType }>()
+  const { completedSections } = useCvDataStore((state) => state)
+  const isCompleted = (sectionName: string) => completedSections.includes(sectionName)
+  const isActive = (sectionName: string) => section === sectionName
 
   return (
     <div
@@ -25,17 +29,23 @@ export default function Stepper({ allSections }: StepperProps) {
     >
       {allSections.map(({ sectionName, title }: SectionProps, index) => (
         <div key={sectionName} className="relative flex h-full w-full flex-col items-center pb-5">
-          <Link href={`/create/${sectionName}`}>
+          <Link
+            href={`/create/${sectionName}`}
+            className={cn("pointer-events-none cursor-none", {
+              "pointer-events-auto cursor-auto": isCompleted(sectionName) || isActive(sectionName),
+            })}
+          >
             <Button
               size={"icon"}
               variant={"outline"}
               className={cn("h-12 w-12 border-2 border-border max-sm:h-8 max-sm:w-8", {
-                // "disabled" :
+                "border-primary": isActive(sectionName),
               })}
             >
               <h3
                 className={cn("text-xl font-bold text-primary max-sm:text-base", {
-                  "text-secondary": sectionName !== section,
+                  "text-primary": isCompleted(sectionName) || isActive(sectionName),
+                  "text-secondary": !isCompleted(sectionName) && !isActive(sectionName),
                 })}
               >
                 {index + 1}
