@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
 import Logo from "./ui/logo"
+import { HelpButton } from "./help-button"
 
 export default function StarterCard() {
   return (
@@ -11,26 +12,12 @@ export default function StarterCard() {
           <Logo className="w-56" />
           <h3 className="mt-2 font-semibold">Önéletrajz generátor</h3>
           <Link href="/create">
-            <Button size="lg" variant="navNext" className="group relative mt-12">
+            <Button size="lg" variant="navNext" className="group relative mb-1 mt-12">
               KEZDÉS
             </Button>
           </Link>
-          <Link href="/create">
-            <Button size="lg" variant={"ghost"} className="mt-2">
-              Mi ez?
-            </Button>
-          </Link>
+          <HelpButton />
         </>
-
-        {/* <>
-            <p className="text-center text-lg">
-              Ez egy fejlesztés alatt álló webalkalmazás, mellyel kényelmesen készíthetsz profi önéletrajzot,
-              majd letöltheted azt PDF formátumban.
-            </p>
-            <Button size="lg" variant={"ghost"} className="mt-8" onClick={() => setIsHelpVisible(false)}>
-              Vissza
-            </Button>
-          </> */}
       </CardContent>
     </Card>
   )
