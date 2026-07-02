@@ -1,3 +1,4 @@
+import type { NextConfig } from 'next'
 import withBundleAnalyzer from "@next/bundle-analyzer"
 
 const bundleAnalyzer = withBundleAnalyzer({
@@ -5,7 +6,10 @@ const bundleAnalyzer = withBundleAnalyzer({
   openAnalyzer: false,
 })
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig: NextConfig = {
+  turbopack: {
+    // ...
+  },
+}
 
 export default bundleAnalyzer(nextConfig)
