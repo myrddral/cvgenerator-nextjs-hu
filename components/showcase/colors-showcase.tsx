@@ -1,24 +1,22 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Spinner } from "../ui/loader"
 
+function readColorsFromDom() {
+  if (typeof window === "undefined") return []
+
+  const styles = getComputedStyle(document.documentElement)
+  // prettier-ignore
+  const colorVars = ["--background", "--foreground", "--card", "--card-foreground", "--popover", "--popover-foreground", "--primary", "--primary-foreground", "--secondary", "--secondary-foreground", "--muted", "--muted-foreground", "--accent", "--accent-foreground", "--destructive", "--destructive-foreground", "--danger", "--danger-foreground", "--border", "--input", "--ring", "--navbar", "--shadow"]
+
+  return colorVars.map((varName) => ({
+    name: varName.substring(2),
+    value: styles.getPropertyValue(varName).trim(),
+  }))
+}
+
 export default function ColorShowcase() {
-  const [colors, setColors] = useState<{ name: string; value: string }[]>([])
-
-  useEffect(() => {
-    if (typeof window === "undefined") return
-
-    const styles = getComputedStyle(document.documentElement)
-    // prettier-ignore
-    const colorVars = ["--background", "--foreground", "--card", "--card-foreground", "--popover", "--popover-foreground", "--primary", "--primary-foreground", "--secondary", "--secondary-foreground", "--muted", "--muted-foreground", "--accent", "--accent-foreground", "--destructive", "--destructive-foreground", "--danger", "--danger-foreground", "--border", "--input", "--ring", "--navbar", "--shadow"]
-
-    const colors = colorVars.map((varName) => ({
-      name: varName.substring(2),
-      value: styles.getPropertyValue(varName).trim(),
-    }))
-
-    setColors(colors)
-  }, [])
+  const [colors] = useState<{ name: string; value: string }[]>(readColorsFromDom)
 
   function ColorSwatch({ name, value }: { name: string; value: string }) {
     return (
