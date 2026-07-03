@@ -1,4 +1,5 @@
 "use client"
+import type { Route } from "next"
 import Link from "next/link"
 import { Button } from "./ui/button"
 import { useSearchParams, usePathname } from "next/navigation"
@@ -17,7 +18,7 @@ export function HelpButton() {
             Ez egy fejlesztés alatt álló webalkalmazás, mellyel kényelmesen készíthetsz profi önéletrajzot,
             majd letöltheted azt PDF formátumban.
           </p>
-          <Link href={`${pathname}`}>
+          <Link href={pathname as Route}>
             <Button size="lg" variant={"outline"} className="mt-2">
               Vissza
             </Button>
@@ -25,7 +26,7 @@ export function HelpButton() {
         </div>
       )}
 
-      <Link href={`${pathname}?help=true`}>
+      <Link href={`${pathname}?help=true` as Route}>
         <Button size="lg" variant={"ghost"} className={cn("mt-2", isHelpVisible && "hidden")}>
           Mi ez?
         </Button>
