@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/alt-text */
 "use client"
 import type { CvDataState } from "@/lib/stores/cv-data-store.types"
 
