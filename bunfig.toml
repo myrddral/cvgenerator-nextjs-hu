@@ -1,6 +1,8 @@
 [install]
 minimumReleaseAge = 259200
 minimumReleaseAgeExcludes = ["@types/node", "typescript"]
+exact = true
 
 [test]
 preload = "./happydom.ts"
+coverageThreshold = 0.8
