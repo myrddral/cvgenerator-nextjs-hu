@@ -1,7 +1,6 @@
 import type { ReactNode } from "react"
 import type { SectionName } from "@/lib/stores/cv-data-store.types"
 
-import { useEffect, useState } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 export interface FormDialogProps {
@@ -12,11 +11,9 @@ export interface FormDialogProps {
 }
 
 export function FormDialog({ children, sectionName, selectedItemIdx, setSelectedItemIdx }: FormDialogProps) {
-  const [isOpen, setIsOpen] = useState(false)
-
-  useEffect(() => {
-    selectedItemIdx !== null ? setIsOpen(true) : setIsOpen(false)
-  }, [selectedItemIdx])
+  // the dialog's open state mirrors selectedItemIdx directly: null means closed,
+  // undefined means "add new", a number means "edit item at that index"
+  const isOpen = selectedItemIdx !== null
 
   // these two child components must be extracted from the children array, otherwise the dialog can't be rendered
   const renderDialogTrigger = children[0]
@@ -35,9 +32,8 @@ export function FormDialog({ children, sectionName, selectedItemIdx, setSelected
     }
   }
 
-  const handleOnOpenChange = (isOpen: boolean) => {
-    if (!isOpen) setSelectedItemIdx(null)
-    setIsOpen(isOpen)
+  const handleOnOpenChange = (open: boolean) => {
+    if (!open) setSelectedItemIdx(null)
   }
 
   return (
