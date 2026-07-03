@@ -48,17 +48,17 @@ export const ConfirmDialog = ({ children, type, onConfirmAction }: ConfirmDialog
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{alertDialogs[type].title}</AlertDialogTitle>
-          <AlertDialogDescription>{alertDialogs[type].description}</AlertDialogDescription>
+          <AlertDialogTitle>{alertDialogs[type]?.title}</AlertDialogTitle>
+          <AlertDialogDescription>{alertDialogs[type]?.description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Mégsem</AlertDialogCancel>
           <AlertDialogAction
             onClick={onConfirmAction}
             //? cva variants don't work here, had to use classNames. why?
-            className={cn(`bg-${alertDialogs[type].actionBtnVariant}`)}
+            className={cn(`bg-${alertDialogs[type]?.actionBtnVariant}`)}
           >
-            {alertDialogs[type].actionBtnText}
+            {alertDialogs[type]?.actionBtnText}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
