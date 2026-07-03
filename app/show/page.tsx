@@ -54,7 +54,7 @@ const DownloadButton = ({ Document, cvData, fileName }: DownloadButtonProps) => 
 export default function ShowPdfPage() {
   const cvData = useCvDataStore((state) => state)
   const cvDataStoreApi = useCvDataStoreApi()
-  const [isHydrated, setIsHydrated] = useState(false)
+  const [isHydrated, setIsHydrated] = useState(() => cvDataStoreApi.persist.hasHydrated())
   const [pdfResult, setPdfResult] = useState<React.ReactNode | null>(null)
   const isMobileDevice = () => window.innerWidth < 400
   // const { throwAsyncError } = useAsyncErrors()
@@ -63,16 +63,14 @@ export default function ShowPdfPage() {
   // before hydration finishes would render it once with empty data and then
   // again with the real data - react-pdf's internal renderer can't handle
   // updating an already-mounted document with a drastically different shape.
-  // persist state must only be read client-side (useEffect), never during
-  // render, since sessionStorage-backed persist isn't available during SSR
+  // isHydrated is initialized lazily from hasHydrated() (a plain flag read, no
+  // sessionStorage access) so this effect only needs to subscribe for the
+  // not-yet-hydrated case, avoiding a synchronous setState-in-effect.
   useEffect(() => {
-    if (cvDataStoreApi.persist.hasHydrated()) {
-      setIsHydrated(true)
-      return
-    }
+    if (isHydrated) return
 
     return cvDataStoreApi.persist.onFinishHydration(() => setIsHydrated(true))
-  }, [cvDataStoreApi])
+  }, [cvDataStoreApi, isHydrated])
 
   useEffect(() => {
     if (!isHydrated) return
