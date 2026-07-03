@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import Loader from "@/components/ui/loader"
 import { useCvDataStore } from "@/providers/cv-data-store-provider"
 import dynamic from "next/dynamic"
-import { useEffect, useState } from "react"
+import { type ComponentType, type ReactElement, type ReactNode, useEffect, useState } from "react"
 import { generateDocTitle } from "@/lib/utils"
 // import { useAsyncErrors } from "@/hooks/use-async-errors"
 
@@ -14,12 +14,23 @@ const PDFViewer = dynamic(() => import("@react-pdf/renderer").then((mod) => mod.
   loading: () => <Loader orientation="vertical" size="lg" text="Betöltés..." />,
 })
 
-const PDFDownloadLink = dynamic(() => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink), {
+type PDFDownloadLinkRenderProps = {
+  loading: boolean
+  error: Error | null
+}
+
+const PDFDownloadLinkUntyped = dynamic(() => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink), {
   ssr: false,
 })
 
+const PDFDownloadLink = PDFDownloadLinkUntyped as unknown as ComponentType<{
+  document: ReactElement
+  fileName?: string
+  children: (params: PDFDownloadLinkRenderProps) => ReactNode
+}>
+
 interface DownloadButtonProps {
-  Document: ({ cvData }: { cvData: CvDataState }) => JSX.Element
+  Document: ({ cvData }: { cvData: CvDataState }) => ReactElement
   cvData: CvDataState
   fileName: string
 }
