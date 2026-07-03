@@ -1,4 +1,5 @@
 import type { PropsWithChildren } from "react"
+import type { Style } from "@react-pdf/types"
 import { Svg } from "@react-pdf/renderer"
 import { colors } from "../config/colors"
 
@@ -10,7 +11,7 @@ export interface SvgIconProps extends PropsWithChildren {
   strokeWidth?: number
   strokeLineCap?: "butt" | "round" | "square"
   strokeLinejoin?: "butt" | "round" | "square"
-  style?: Record<string, unknown>
+  style?: Style | Style[]
   debug?: boolean
 }
 
@@ -35,7 +36,7 @@ export const SvgIcon = ({
       fill={fillColor}
       stroke={strokeColor}
       strokeWidth={strokeWidth}
-      strokeLineCap={strokeLineCap}
+      strokeLinecap={strokeLineCap}
       strokeLinejoin={strokeLinejoin}
       preserveAspectRatio="xMidYMid meet"
       debug={debug}
