@@ -3,7 +3,7 @@ import type { ReactNode } from "react"
 import type { CvDataStore } from "@/lib/stores/cv-data-store.types"
 
 import { useStore } from "zustand"
-import { createContext, useRef, useContext } from "react"
+import { createContext, useState, useContext } from "react"
 import { createCvDataStore, initCvDataStore } from "@/lib/stores/cv-data-store"
 
 export type CvDataStoreApi = ReturnType<typeof createCvDataStore>
@@ -14,9 +14,9 @@ export interface CvDataStoreProviderProps {
 export const CvDataStoreContext = createContext<CvDataStoreApi | undefined>(undefined)
 
 export const CvDataStoreProvider = ({ children }: CvDataStoreProviderProps) => {
-  const storeRef = useRef<CvDataStoreApi>(createCvDataStore(initCvDataStore()))
+  const [store] = useState<CvDataStoreApi>(() => createCvDataStore(initCvDataStore()))
 
-  return <CvDataStoreContext.Provider value={storeRef.current}>{children}</CvDataStoreContext.Provider>
+  return <CvDataStoreContext.Provider value={store}>{children}</CvDataStoreContext.Provider>
 }
 
 export const useCvDataStore = <T,>(selector: (store: CvDataStore) => T): T => {
