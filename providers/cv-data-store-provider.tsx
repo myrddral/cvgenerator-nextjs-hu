@@ -14,8 +14,7 @@ export interface CvDataStoreProviderProps {
 export const CvDataStoreContext = createContext<CvDataStoreApi | undefined>(undefined)
 
 export const CvDataStoreProvider = ({ children }: CvDataStoreProviderProps) => {
-  const storeRef = useRef<CvDataStoreApi>()
-  if (!storeRef.current) storeRef.current = createCvDataStore(initCvDataStore())
+  const storeRef = useRef<CvDataStoreApi>(createCvDataStore(initCvDataStore()))
 
   return <CvDataStoreContext.Provider value={storeRef.current}>{children}</CvDataStoreContext.Provider>
 }
