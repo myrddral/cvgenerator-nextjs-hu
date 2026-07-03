@@ -3,7 +3,6 @@ import type { CvDataState, SectionName } from "@/lib/stores/cv-data-store.types"
 
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
-import { useEffect, useState } from "react"
 import { useCvDataStore } from "../providers/cv-data-store-provider"
 import { Card, CardContent } from "./ui/card"
 import { Spinner } from "./ui/loader"
@@ -16,7 +15,11 @@ interface SectionDataListProps {
 // TODO: the types are f'd up, fix them
 export function SectionDataList({ sectionName, setSelectedItemIdx }: SectionDataListProps) {
   const data = useCvDataStore((state) => state[sectionName]) as CvDataState[SectionName][]
-  const [isLoading, setIsLoading] = useState(true)
+  /**
+   * * the data is never an empty array, when fetched from the store, because at the first index it always has an object value,
+   * * which was used as default value for the inputs of the given section
+   */
+  const isLoading = data.length === 0
 
   function hasUserData(data: CvDataState[SectionName][]) {
     if (data.length <= 0) return false
@@ -25,14 +28,6 @@ export function SectionDataList({ sectionName, setSelectedItemIdx }: SectionData
     // * if the data array's length is 1, check if the only item has an employer, institution or language
     return data[0].employer || data[0].institution || data[0].language
   }
-
-  useEffect(() => {
-    /**
-     * * the data is never an empty array, when fetched from the store, because at the first index it always has an object value,
-     * * which was used as default value for the inputs of the given section
-     */
-    data.length && setIsLoading(false)
-  }, [data])
 
   function handleItemClick(index: number) {
     setSelectedItemIdx(index)
