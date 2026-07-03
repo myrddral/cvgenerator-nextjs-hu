@@ -102,7 +102,7 @@ const interestsSchema = z.object({
   interestsList: z.string().optional(),
 })
 
-export const sectionSchemas: Record<SectionName, z.ZodObject<any>> = {
+export const sectionSchemas = {
   personal: personalSchema,
   links: linksSchema,
   skills: skillsSchema,
@@ -110,7 +110,7 @@ export const sectionSchemas: Record<SectionName, z.ZodObject<any>> = {
   education: educationSchema,
   languages: languagesSchema,
   interests: interestsSchema,
-}
+} satisfies Record<SectionName, z.ZodObject<any>>
 
 export type Personal = z.infer<typeof personalSchema>
 export type Links = z.infer<typeof linksSchema>

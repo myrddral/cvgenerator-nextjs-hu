@@ -8,11 +8,13 @@ import type {
   SectionName,
   SectionNameWithMultiEntry,
 } from "@/lib/stores/cv-data-store.types"
+import type { z } from "zod"
 
 import { SectionDataList } from "@/components/section-data-list"
 import { FormStepCard } from "@/components/ui/formstep-card"
 import { IconButton } from "@/components/ui/iconbutton"
 import FormGenerator from "@/form-generator/form-generator"
+import { sectionSchemas } from "@/form-generator/validation-schemas"
 import { useFormNavigation } from "@/hooks/use-form-navigation"
 import { PlusIcon } from "@radix-ui/react-icons"
 import { useCallback, useState } from "react"
@@ -30,8 +32,10 @@ export function SectionWrapper({ ...sectionProps }: FormStepWrapperProps) {
   const sectionData = useCvDataStore((state) => state)[sectionName]
   const [selectedItemIdx, setSelectedItemIdx] = useState<number | undefined | null>(null)
 
-  const getFormValues = useCallback(() => {
-    return isMultiEntry && Array.isArray(sectionData) ? sectionData[selectedItemIdx ?? 0] : sectionData
+  const getFormValues = useCallback((): z.infer<(typeof sectionSchemas)[SectionName]> => {
+    return isMultiEntry && Array.isArray(sectionData)
+      ? sectionData[selectedItemIdx ?? 0]!
+      : (sectionData as z.infer<(typeof sectionSchemas)[SectionName]>)
   }, [isMultiEntry, sectionData, selectedItemIdx])
 
   function onSubmit(data: Omit<CvDataState[SectionName], "email">) {
@@ -65,7 +69,7 @@ export function SectionWrapper({ ...sectionProps }: FormStepWrapperProps) {
 
     // If the data array's length is 1 (meaning it's the initial object used for empty form values),
     // check if the only item's first key has a value
-    return Object.values(data[0])[0].toString().length > 0
+    return Object.values(data[0]!)[0]!.toString().length > 0
   }
 
   function handleForwardClick(e: React.MouseEvent<HTMLButtonElement>) {
