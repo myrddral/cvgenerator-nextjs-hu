@@ -5,7 +5,7 @@ import type { InputProps } from "./input"
 import { imageSchema } from "@/form-generator/validation-schemas"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
-import { forwardRef, useEffect, useRef, useState } from "react"
+import { forwardRef, useRef, useState } from "react"
 import { Card, CardContent } from "./card"
 import Loader from "./loader"
 
@@ -68,14 +68,18 @@ const UploadCard = ({ src, onClick, isLoading }: UploadCardProps) => {
 const InputImageFile = forwardRef<HTMLInputElement, InputImageFileProps>(
   ({ className, setError, value, ...props }, ref) => {
     const [isLoading, setIsLoading] = useState(false)
-    const [base64, setBase64] = useState<string>()
+    const [base64, setBase64] = useState<string | undefined>(value && value.length > 0 ? value : undefined)
+    const [prevValue, setPrevValue] = useState(value)
     const inputFileRef = useRef<HTMLInputElement | null>(null)
 
-    useEffect(() => {
+    // keep base64 in sync when the form value changes externally (e.g. switching
+    // to edit a different item) - adjusted during render rather than in an effect
+    if (value !== prevValue) {
+      setPrevValue(value)
       if (value && value.length > 0) {
         setBase64(value)
       }
-    }, [value])
+    }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setIsLoading(true)
