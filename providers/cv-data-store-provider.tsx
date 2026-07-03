@@ -26,3 +26,11 @@ export const useCvDataStore = <T,>(selector: (store: CvDataStore) => T): T => {
 
   return useStore(cvDataStoreContext, selector)
 }
+
+export const useCvDataStoreApi = (): CvDataStoreApi => {
+  const cvDataStoreContext = useContext(CvDataStoreContext)
+
+  if (!cvDataStoreContext) throw new Error(`useCvDataStoreApi must be used within CvDataStoreProvider`)
+
+  return cvDataStoreContext
+}

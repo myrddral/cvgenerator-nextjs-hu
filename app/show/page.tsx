@@ -3,7 +3,7 @@ import type { CvDataState } from "@/lib/stores/cv-data-store.types"
 
 import { Button } from "@/components/ui/button"
 import Loader from "@/components/ui/loader"
-import { useCvDataStore } from "@/providers/cv-data-store-provider"
+import { useCvDataStore, useCvDataStoreApi } from "@/providers/cv-data-store-provider"
 import dynamic from "next/dynamic"
 import { type ComponentType, type ReactElement, type ReactNode, useEffect, useState } from "react"
 import { generateDocTitle } from "@/lib/utils"
@@ -53,11 +53,30 @@ const DownloadButton = ({ Document, cvData, fileName }: DownloadButtonProps) => 
 
 export default function ShowPdfPage() {
   const cvData = useCvDataStore((state) => state)
+  const cvDataStoreApi = useCvDataStoreApi()
+  const [isHydrated, setIsHydrated] = useState(false)
   const [pdfResult, setPdfResult] = useState<React.ReactNode | null>(null)
   const isMobileDevice = () => window.innerWidth < 400
   // const { throwAsyncError } = useAsyncErrors()
 
+  // the store hydrates from sessionStorage asynchronously, so building the PDF
+  // before hydration finishes would render it once with empty data and then
+  // again with the real data - react-pdf's internal renderer can't handle
+  // updating an already-mounted document with a drastically different shape.
+  // persist state must only be read client-side (useEffect), never during
+  // render, since sessionStorage-backed persist isn't available during SSR
   useEffect(() => {
+    if (cvDataStoreApi.persist.hasHydrated()) {
+      setIsHydrated(true)
+      return
+    }
+
+    return cvDataStoreApi.persist.onFinishHydration(() => setIsHydrated(true))
+  }, [cvDataStoreApi])
+
+  useEffect(() => {
+    if (!isHydrated) return
+
     const loadTemplateWithData = async () => {
       const templateModule = await import("@/components/cv-templates/template001")
       const Template001 = templateModule.Template001
@@ -76,7 +95,7 @@ export default function ShowPdfPage() {
     }
 
     loadTemplateWithData()
-  }, [cvData])
+  }, [cvData, isHydrated])
 
   return pdfResult ? (
     <div className="flex-center w-full max-w-screen-lg flex-1 overflow-clip rounded-lg">
