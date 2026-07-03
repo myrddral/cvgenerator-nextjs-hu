@@ -16,7 +16,7 @@
     "test:ci": "jest --ci --coverage --reporters=default"
   },
   "dependencies": {
-    "@hookform/resolvers": "3.10.0",
+    "@hookform/resolvers": "5.4.0",
     "@next/bundle-analyzer": "14.2.35",
     "@radix-ui/react-alert-dialog": "1.1.17",
     "@radix-ui/react-dialog": "1.1.17",
@@ -32,7 +32,7 @@
     "@vercel/analytics": "2.0.1",
     "@vercel/speed-insights": "2.0.0",
     "class-variance-authority": "0.7.1",
-    "date-fns": "3.6.0",
+    "date-fns": "4.4.0",
     "next": "16.2.10",
     "next-themes": "0.4.6",
     "react": "19.2.7",
@@ -41,8 +41,8 @@
     "react-hook-form": "7.80.0",
     "sharp": "0.35.3",
     "tailwindcss-animate": "1.0.7",
-    "zod": "3.25.76",
-    "zustand": "4.5.7"
+    "zod": "4.4.3",
+    "zustand": "5.0.14"
   },
   "devDependencies": {
     "@happy-dom/global-registrator": "14.12.3",
