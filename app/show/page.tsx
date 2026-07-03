@@ -54,7 +54,7 @@ const DownloadButton = ({ Document, cvData, fileName }: DownloadButtonProps) => 
 export default function ShowPdfPage() {
   const cvData = useCvDataStore((state) => state)
   const cvDataStoreApi = useCvDataStoreApi()
-  const [isHydrated, setIsHydrated] = useState(() => cvDataStoreApi.persist.hasHydrated())
+  const [isHydrated, setIsHydrated] = useState(() => cvDataStoreApi.persist?.hasHydrated() ?? false)
   const [pdfResult, setPdfResult] = useState<React.ReactNode | null>(null)
   const isMobileDevice = () => window.innerWidth < 400
   // const { throwAsyncError } = useAsyncErrors()
@@ -66,10 +66,12 @@ export default function ShowPdfPage() {
   // isHydrated is initialized lazily from hasHydrated() (a plain flag read, no
   // sessionStorage access) so this effect only needs to subscribe for the
   // not-yet-hydrated case, avoiding a synchronous setState-in-effect.
+  // persist is undefined during server-side prerendering, since sessionStorage
+  // isn't a global there and zustand skips wiring up persist without storage.
   useEffect(() => {
     if (isHydrated) return
 
-    return cvDataStoreApi.persist.onFinishHydration(() => setIsHydrated(true))
+    return cvDataStoreApi.persist?.onFinishHydration(() => setIsHydrated(true))
   }, [cvDataStoreApi, isHydrated])
 
   useEffect(() => {
