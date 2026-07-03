@@ -9,6 +9,7 @@ interface LoaderProps {
 
 interface OverlayProps {
   children: React.ReactNode
+  className?: LoaderProps["className"]
   size?: LoaderProps["size"]
 }
 
@@ -26,11 +27,12 @@ interface TextProps {
   size: LoaderProps["size"]
 }
 
-const Overlay = ({ children, size }: OverlayProps) => (
+const Overlay = ({ children, className, size }: OverlayProps) => (
   <div
     className={cn(
       "flex w-full items-center justify-center",
-      size === "icon" ? "relative h-fit" : "absolute left-0 top-0 h-screen"
+      size === "icon" ? "relative h-fit" : "absolute left-0 top-0 h-screen",
+      className
     )}
   >
     {children}
@@ -86,7 +88,7 @@ const Text = ({ text, size }: TextProps) => (
 
 export default function Loader({ className, text, orientation = "horizontal", size = "md" }: LoaderProps) {
   return (
-    <Overlay size={size}>
+    <Overlay className={className} size={size}>
       <Wrapper orientation={orientation}>
         <Spinner size={size} />
         <Text text={text} size={size} />

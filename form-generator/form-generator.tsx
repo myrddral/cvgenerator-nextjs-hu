@@ -8,7 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useFormNavigation } from "@/hooks/use-form-navigation"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { useForm, type FieldPath } from "react-hook-form"
 import FieldFactoryWrapper from "./field-factory-wrapper"
 import { sectionSchemas } from "./validation-schemas"
 
@@ -43,7 +43,7 @@ export default function FormGenerator<T extends SectionProps["isMultiEntry"]>({
           <FormField
             key={fieldKey}
             control={form.control}
-            name={fieldKey}
+            name={fieldKey as FieldPath<z.infer<typeof sectionSchema>>}
             render={({ field }) => (
               <FormItem
                 className={cn("relative", {

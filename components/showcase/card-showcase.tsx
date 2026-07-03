@@ -1,7 +1,7 @@
 const cardVariants = ["default", "withHeader"] as const
 const cardSizes = ["default"] as const
 
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function CardShowcase() {
   return (

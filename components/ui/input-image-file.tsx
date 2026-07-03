@@ -68,8 +68,6 @@ const UploadCard = ({ src, onClick, isLoading }: UploadCardProps) => {
 const InputImageFile = forwardRef<HTMLInputElement, InputImageFileProps>(
   ({ className, setError, value, ...props }, ref) => {
     const [isLoading, setIsLoading] = useState(false)
-    //TODO: decide to display uploaded file properties to the user
-    const [uploadedFile, setUploadedFile] = useState<File>()
     const [base64, setBase64] = useState<string>()
     const inputFileRef = useRef<HTMLInputElement | null>(null)
 
@@ -84,7 +82,6 @@ const InputImageFile = forwardRef<HTMLInputElement, InputImageFileProps>(
       setBase64(undefined)
 
       const file = e.target.files?.[0]
-      setUploadedFile(file)
 
       if (file) {
         // Since the RHF controller does not support file uploads, we use a separate validation here
@@ -108,7 +105,7 @@ const InputImageFile = forwardRef<HTMLInputElement, InputImageFileProps>(
           // To display one error message only, we take the first issue of the issues array
           setError(name, {
             type: "manual",
-            message: e.issues[0].message,
+            message: e.issues[0]?.message,
           })
           setIsLoading(false)
         }

@@ -1,4 +1,3 @@
-import MainContainer from "../../components/main-container"
 import { Card } from "../../components/ui/card"
 
 export default function AttribPage() {
