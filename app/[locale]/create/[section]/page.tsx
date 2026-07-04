@@ -1,7 +1,7 @@
 import type { RouteParamType } from "@/form-generator/form-generator.types"
 
 import { sectionMap } from "@/form-generator/generator-sections"
-import NotFound from "@/app/not-found"
+import NotFound from "@/app/[locale]/not-found"
 import { SectionWrapper } from "@/components/section-wrapper"
 
 export async function generateStaticParams() {

@@ -3,7 +3,7 @@ import type { RouteParamType, SectionProps } from "@/form-generator/form-generat
 
 import { cn } from "@/lib/utils"
 import { useCvDataStore } from "@/providers/cv-data-store-provider"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { useParams } from "next/navigation"
 import { Button } from "./ui/button"
 
