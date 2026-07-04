@@ -1,6 +1,6 @@
 import NavbarNavitems from "./navbar-navitems"
 import { ModeToggle } from "./mode-toggle"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import Logo from "./ui/logo"
 
 export default function Navbar() {
