@@ -188,7 +188,8 @@
     "validation": {
       "common": {
         "tooShort": "Ez sajnos túl rövid",
-        "dateRequired": "Dátum kitöltése kötelező"
+        "dateRequired": "Dátum kitöltése kötelező",
+        "dateRangeInvalid": "A kezdő dátumnak korábbinak kell lennie, mint a záró dátum"
       },
       "email": {
         "required": "Email cím kitöltése kötelező",

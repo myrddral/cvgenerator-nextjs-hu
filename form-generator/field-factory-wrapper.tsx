@@ -13,8 +13,28 @@ import { format } from "date-fns"
 import { enUS, hu } from "date-fns/locale"
 import { useLocale, useTranslations } from "next-intl"
 import { useState } from "react"
+import { useFormContext, useWatch } from "react-hook-form"
 
 const dateLocales = { en: enUS, hu } as const
+
+// Work experience / education sections use this from-to date pair naming convention
+const datePairKeys: Record<string, string> = {
+  startDate: "endDate",
+  endDate: "startDate",
+}
+
+const MIN_PICKABLE_DATE = new Date("1900-01-01")
+
+export function isDateDisabled(
+  date: Date,
+  fieldKey: string,
+  pairedDate: Date | undefined,
+  now: Date = new Date()
+): boolean {
+  if (date > now || date < MIN_PICKABLE_DATE) return true
+  if (!pairedDate) return false
+  return fieldKey === "startDate" ? date > pairedDate : date < pairedDate
+}
 
 export interface FieldFactoryWrapperProps {
   field: ControllerRenderProps
@@ -33,6 +53,10 @@ export default function FieldFactoryWrapper({
   const [isCalendarOpen, setIsCalendarOpen] = useState<{ [fieldKey: string]: boolean }>({})
   const t = useTranslations("CreateFlow.actions")
   const locale = useLocale() as keyof typeof dateLocales
+  const { control } = useFormContext()
+  const pairedFieldKey = datePairKeys[fieldKey]
+  const pairedDateValue = useWatch({ control, name: pairedFieldKey ?? fieldKey })
+  const pairedDate: Date | undefined = pairedFieldKey ? pairedDateValue : undefined
 
   const fieldFactory = () => {
     switch (type) {
@@ -90,9 +114,9 @@ export default function FieldFactoryWrapper({
                 captionLayout="dropdown-buttons"
                 selected={field.value}
                 onSelect={field.onChange}
-                fromDate={new Date("1900-01-01")}
+                fromDate={MIN_PICKABLE_DATE}
                 toDate={new Date()}
-                disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                disabled={(date) => isDateDisabled(date, fieldKey, pairedDate)}
                 onDayClick={() =>
                   setIsCalendarOpen((prev) => ({ ...prev, [fieldKey]: !(prev[fieldKey] || false) }))
                 }

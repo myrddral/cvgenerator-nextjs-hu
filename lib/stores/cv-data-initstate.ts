@@ -9,11 +9,14 @@ import type {
   Interests,
 } from "./cv-data-store.types"
 
+// Dates start unset (not today's date) so pickers show a placeholder until the user actually picks one
+const UNSET_DATE = undefined as unknown as Date
+
 const personalSection: Personal = {
   firstName: "",
   middleName: "",
   lastName: "",
-  birthDate: new Date(),
+  birthDate: UNSET_DATE,
   phone: "",
   email: "",
   location: "",
@@ -37,8 +40,8 @@ const experienceSection: Employment[] = [
     employer: "",
     jobTitle: "",
     description: "",
-    startDate: new Date(),
-    endDate: new Date(),
+    startDate: UNSET_DATE,
+    endDate: UNSET_DATE,
     location: "",
   },
 ]
@@ -49,8 +52,8 @@ const educationSection: School[] = [
     major: "",
     specialization: "",
     description: "",
-    startDate: new Date(),
-    endDate: new Date(),
+    startDate: UNSET_DATE,
+    endDate: UNSET_DATE,
     location: "",
   },
 ]
