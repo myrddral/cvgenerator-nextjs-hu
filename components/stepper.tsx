@@ -67,32 +67,38 @@ export function Stepper({ allSections }: StepperProps) {
         "max-sm:gap-4 max-sm:pb-6 max-sm:pt-12"
       )}
     >
-      {allSections.map(({ sectionName, title }: SectionProps, index) => (
-        <div key={sectionName} className="relative flex h-full w-full flex-col items-center pb-5">
-          <Link
-            href={`/create/${sectionName}`}
-            className={cn("pointer-events-none cursor-none", {
-              "pointer-events-auto cursor-auto": isCompleted(sectionName) || isActive(sectionName),
-            })}
-          >
-            <Button
-              size={"icon"}
-              variant={"outline"}
-              className={cn(
-                "h-12 w-12 border-2 max-sm:h-8 max-sm:w-8",
-                isActive(sectionName) ? "border-primary" : "border-border"
-              )}
+      {allSections.map(({ sectionName, title }: SectionProps, index) => {
+        const isInteractive = isCompleted(sectionName) || isActive(sectionName)
+
+        return (
+          <div key={sectionName} className="relative flex h-full w-full flex-col items-center pb-5">
+            <Link
+              href={`/create/${sectionName}`}
+              aria-disabled={!isInteractive}
+              tabIndex={isInteractive ? 0 : -1}
+              className={cn("pointer-events-none cursor-none", {
+                "pointer-events-auto cursor-auto": isInteractive,
+              })}
             >
-              <StepperButtonNumber
-                index={index}
-                isCompleted={isCompleted(sectionName)}
-                isActive={isActive(sectionName)}
-              />
-            </Button>
-          </Link>
-          <StepperButtonText sectionName={sectionName} title={title} />
-        </div>
-      ))}
+              <Button
+                size={"icon"}
+                variant={"outline"}
+                className={cn(
+                  "h-12 w-12 border-2 max-sm:h-8 max-sm:w-8",
+                  isActive(sectionName) ? "border-primary" : "border-border"
+                )}
+              >
+                <StepperButtonNumber
+                  index={index}
+                  isCompleted={isCompleted(sectionName)}
+                  isActive={isActive(sectionName)}
+                />
+              </Button>
+            </Link>
+            <StepperButtonText sectionName={sectionName} title={title} />
+          </div>
+        )
+      })}
     </div>
   )
 }
