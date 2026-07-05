@@ -1,13 +1,14 @@
 import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
+import { test, expect, describe, beforeEach, mock } from "bun:test"
 
-const push = jest.fn()
+const push = mock()
 
-jest.mock("next-intl", () => ({
+mock.module("next-intl", () => ({
   useLocale: () => "en",
 }))
 
-jest.mock("@/i18n/navigation", () => ({
+mock.module("@/i18n/navigation", () => ({
   usePathname: () => "/show",
   useRouter: () => ({ push }),
 }))
@@ -21,7 +22,7 @@ describe("LocaleSwitcher", () => {
 
   test("renders the current locale", () => {
     render(<LocaleSwitcher />)
-    expect(screen.getByRole("combobox")).toHaveTextContent("EN")
+    expect(screen.getByRole("combobox").textContent).toBe("EN")
   })
 
   test("navigates to the same path with the new locale on selection", async () => {
