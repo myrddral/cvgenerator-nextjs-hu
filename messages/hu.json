@@ -2,6 +2,61 @@
   "LocaleSwitcher": {
     "label": "Nyelv váltása"
   },
+  "Metadata": {
+    "name": "cv/gen - Önéletrajz Generátor",
+    "description": "Generálj egyszerűen és gyorsan, ízlésesen formázott önéletrajzot!"
+  },
+  "Footer": {
+    "madeBy": "Készítette",
+    "privacyPolicy": "Adatvédelmi szabályzat",
+    "termsOfUse": "Használati feltételek",
+    "attribution": "Kredit"
+  },
+  "HomePage": {
+    "title": "Önéletrajz generátor",
+    "start": "KEZDÉS",
+    "help": {
+      "description": "Ez egy fejlesztés alatt álló webalkalmazás, mellyel kényelmesen készíthetsz profi önéletrajzot, majd letöltheted azt PDF formátumban.",
+      "back": "Vissza",
+      "whatIsThis": "Mi ez?"
+    }
+  },
+  "ShowPage": {
+    "loading": "Betöltés...",
+    "generating": "Önéletrajz generálása...",
+    "downloadError": "Hiba történt a letöltés során",
+    "downloadPdf": "PDF letöltése",
+    "readyTitle": "Elkészült az önéletrajzod!",
+    "readyDescription": "A letöltéshez kattints az alábbi gombra"
+  },
+  "ErrorPage": {
+    "title": "Hiba történt :(",
+    "description": "Nem sikerült feldolgozni a kérést. Amennyiben a hiba továbbra is fennáll, kérjük, próbáld újra később.",
+    "detailsHeading": "A hibával kapcsolatos további információk:",
+    "back": "Vissza",
+    "details": "Részletek"
+  },
+  "Loading": {
+    "text": "Betöltés ..."
+  },
+  "NotFoundPage": {
+    "title": "Nincs ilyen oldal",
+    "backHome": "Vissza a főoldalra"
+  },
+  "PrivacyPage": {
+    "title": "Adatvédelmi szabályzat",
+    "body": "Kidolgozás alatt..."
+  },
+  "TermsPage": {
+    "title": "Használati feltételek",
+    "body": "Kidolgozás alatt..."
+  },
+  "AttributionPage": {
+    "title": "Kredit",
+    "background": "Háttérkép: hálózat: starline on Freepik",
+    "avatarKittl": "Avatar grafika: www.kittl.com",
+    "avatarVecteezy": "Avatar grafika: www.vecteezy.com"
+  },
   "CreateFlow": {
     "pictureUploadAlt": "Profilkép feltöltése",
     "emailStep": {

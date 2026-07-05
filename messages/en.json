@@ -2,6 +2,61 @@
   "LocaleSwitcher": {
     "label": "Switch language"
   },
+  "Metadata": {
+    "name": "cv/gen - Resume Generator",
+    "description": "Generate a nicely formatted resume quickly and easily!"
+  },
+  "Footer": {
+    "madeBy": "Made by",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfUse": "Terms of Use",
+    "attribution": "Credits"
+  },
+  "HomePage": {
+    "title": "Resume Generator",
+    "start": "GET STARTED",
+    "help": {
+      "description": "This is a web application under development that lets you conveniently create a professional resume, then download it as a PDF.",
+      "back": "Back",
+      "whatIsThis": "What is this?"
+    }
+  },
+  "ShowPage": {
+    "loading": "Loading...",
+    "generating": "Generating your resume...",
+    "downloadError": "An error occurred during the download",
+    "downloadPdf": "Download PDF",
+    "readyTitle": "Your resume is ready!",
+    "readyDescription": "Tap the button below to download it"
+  },
+  "ErrorPage": {
+    "title": "An error occurred :(",
+    "description": "We couldn't process your request. If the error persists, please try again later.",
+    "detailsHeading": "More information about the error:",
+    "back": "Back",
+    "details": "Details"
+  },
+  "Loading": {
+    "text": "Loading ..."
+  },
+  "NotFoundPage": {
+    "title": "Page not found",
+    "backHome": "Back to home"
+  },
+  "PrivacyPage": {
+    "title": "Privacy Policy",
+    "body": "Under construction..."
+  },
+  "TermsPage": {
+    "title": "Terms of Use",
+    "body": "Under construction..."
+  },
+  "AttributionPage": {
+    "title": "Credits",
+    "background": "Background image: network: starline on Freepik",
+    "avatarKittl": "Avatar graphics: www.kittl.com",
+    "avatarVecteezy": "Avatar graphics: www.vecteezy.com"
+  },
   "CreateFlow": {
     "pictureUploadAlt": "Upload profile picture",
     "emailStep": {
