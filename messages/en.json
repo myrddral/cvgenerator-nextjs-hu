@@ -1,5 +1,174 @@
 {
   "LocaleSwitcher": {
     "label": "Switch language"
+  },
+  "CreateFlow": {
+    "pictureUploadAlt": "Upload profile picture",
+    "emailStep": {
+      "title": "To get started, enter your email address",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "email@domain.com",
+      "submit": "Next"
+    },
+    "actions": {
+      "back": "Back",
+      "next": "Next",
+      "save": "Save",
+      "delete": "Delete",
+      "addNew": "Add new",
+      "pickDate": "Pick a date",
+      "cancel": "Cancel"
+    },
+    "confirmDialogs": {
+      "delete": {
+        "title": "Are you sure you want to delete this?",
+        "description": "This action will remove the item from the list.",
+        "actionBtnText": "Delete"
+      },
+      "skipSection": {
+        "title": "Are you sure you want to skip this?",
+        "description": "You haven't added anything to this section, so it will be empty on your CV!",
+        "actionBtnText": "Skip"
+      }
+    },
+    "formDialogTitles": {
+      "experience": {
+        "add": "Add new work experience",
+        "edit": "Edit work experience"
+      },
+      "education": {
+        "add": "Add new education",
+        "edit": "Edit education"
+      },
+      "languages": {
+        "add": "Add new language",
+        "edit": "Edit language"
+      }
+    },
+    "sections": {
+      "personal": {
+        "title": "Personal information",
+        "fields": {
+          "firstName": { "label": "First name" },
+          "middleName": { "label": "Middle name (optional)" },
+          "lastName": { "label": "Last name" },
+          "email": { "label": "Email address" },
+          "phone": { "label": "Phone number" },
+          "location": { "label": "Location" },
+          "birthDate": { "label": "Date of birth" },
+          "picture": { "label": "Portrait photo" }
+        }
+      },
+      "links": {
+        "title": "Links",
+        "sub": "The fields below are optional",
+        "fields": {
+          "linkedin": { "label": "LinkedIn" },
+          "github": { "label": "GitHub" },
+          "webpage": { "label": "Website" }
+        }
+      },
+      "skills": {
+        "title": "Professional skills",
+        "fields": {
+          "occupation": {
+            "label": "Your occupation",
+            "help": "Enter the occupation you're applying for."
+          },
+          "skillsList": {
+            "label": "Your professional skills",
+            "placeholder": "What are you skilled at? What do you have hands-on experience with?"
+          }
+        }
+      },
+      "experience": {
+        "title": "Work experience",
+        "fields": {
+          "jobTitle": { "label": "Job title" },
+          "employer": { "label": "Employer" },
+          "description": {
+            "label": "Responsibilities / achievements",
+            "placeholder": "What tasks did you perform? What results did you achieve?"
+          },
+          "startDate": { "label": "Employment start date" },
+          "endDate": { "label": "Employment end date" },
+          "location": { "label": "Place of work", "placeholder": "e.g. Budapest" }
+        }
+      },
+      "education": {
+        "title": "Education",
+        "fields": {
+          "institution": { "label": "Institution name" },
+          "specialization": { "label": "Specialization" },
+          "description": { "label": "Short description" },
+          "startDate": { "label": "Studies started" },
+          "endDate": { "label": "Studies completed" },
+          "location": { "label": "Place of study", "placeholder": "e.g. Debrecen" }
+        }
+      },
+      "languages": {
+        "title": "Languages",
+        "fields": {
+          "language": { "label": "Language" },
+          "level": { "label": "Level" }
+        }
+      },
+      "interests": {
+        "title": "Interests",
+        "fields": {
+          "interestsList": {
+            "label": "",
+            "placeholder": "E.g.: Reading, sports, playing instruments, professional forums, volunteering"
+          }
+        }
+      }
+    },
+    "validation": {
+      "common": {
+        "tooShort": "This is unfortunately too short",
+        "dateRequired": "Date is required"
+      },
+      "email": {
+        "required": "Email address is required",
+        "max": "Email address can be a maximum of 255 characters",
+        "invalid": "Invalid email address"
+      },
+      "image": {
+        "type": "Only JPG/PNG images can be uploaded",
+        "maxSize": "The image can be a maximum of {size}MB."
+      },
+      "url": {
+        "invalid": "Invalid URL"
+      },
+      "personal": {
+        "firstNameRequired": "First name is required",
+        "nameMax": "Name can be a maximum of 255 characters",
+        "lastNameRequired": "Last name is required",
+        "phoneRequired": "Phone number is required",
+        "phoneMax": "Phone number can be a maximum of 255 characters",
+        "locationRequired": "Location (town/city) is required",
+        "birthDateRequired": "Date is required",
+        "pictureRequired": "Image upload is required"
+      },
+      "skills": {
+        "occupationRequired": "Occupation is required",
+        "skillsListRequired": "Professional skills are required"
+      },
+      "experience": {
+        "jobTitleRequired": "Job title is required",
+        "employerRequired": "Employer is required",
+        "descriptionRequired": "Responsibilities / achievements are required",
+        "locationRequired": "Place of work is required"
+      },
+      "education": {
+        "institutionRequired": "Institution is required",
+        "specializationRequired": "Specialization is required",
+        "locationRequired": "Place of study is required"
+      },
+      "languages": {
+        "languageRequired": "Language is required",
+        "levelRequired": "Level is required"
+      }
+    }
   }
 }
