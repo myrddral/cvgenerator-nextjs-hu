@@ -25,8 +25,13 @@ import { translations } from "./translations"
 
 registerFontFamily("Beiruti")
 
-export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
-  const locale: "hu" | "en" = "hu"
+export const Template001 = ({
+  cvData,
+  locale,
+}: {
+  cvData: CvDataState
+  locale: "hu" | "en"
+}) => {
   const { personal, links, skills, experience, education, languages, interests } = cvData
   const docTitle = generateDocTitle(personal.firstName, personal.lastName, locale)
   let name = `${personal.firstName} ${personal.lastName}`

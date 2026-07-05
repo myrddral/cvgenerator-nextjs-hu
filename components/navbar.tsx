@@ -1,6 +1,7 @@
 import NavbarNavitems from "./navbar-navitems"
 import { ModeToggle } from "./mode-toggle"
-import Link from "next/link"
+import LocaleSwitcher from "./locale-switcher"
+import { Link } from "@/i18n/navigation"
 import Logo from "./ui/logo"
 
 export default function Navbar() {
@@ -9,8 +10,9 @@ export default function Navbar() {
       <Link href="/" className="w-28">
         <Logo />
       </Link>
-      <div className="flex">
+      <div className="flex items-center gap-2">
         <NavbarNavitems />
+        <LocaleSwitcher />
         {process.env.NODE_ENV === "development" ? <ModeToggle /> : null}
       </div>
     </header>
