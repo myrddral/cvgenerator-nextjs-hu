@@ -30,13 +30,14 @@ const PDFDownloadLink = PDFDownloadLinkUntyped as unknown as ComponentType<{
 }>
 
 interface DownloadButtonProps {
-  Document: ({ cvData }: { cvData: CvDataState }) => ReactElement
+  Document: ({ cvData, locale }: { cvData: CvDataState; locale: "hu" | "en" }) => ReactElement
   cvData: CvDataState
   fileName: string
+  locale: "hu" | "en"
 }
 
-const DownloadButton = ({ Document, cvData, fileName }: DownloadButtonProps) => (
-  <PDFDownloadLink document={<Document cvData={cvData} />} fileName={`${fileName}.pdf`}>
+const DownloadButton = ({ Document, cvData, fileName, locale }: DownloadButtonProps) => (
+  <PDFDownloadLink document={<Document cvData={cvData} locale={locale} />} fileName={`${fileName}.pdf`}>
     {({ loading, error }) => {
       if (error) {
         console.error(error)
@@ -51,13 +52,18 @@ const DownloadButton = ({ Document, cvData, fileName }: DownloadButtonProps) => 
   </PDFDownloadLink>
 )
 
-export default function ShowPdfPage() {
+export default function ShowPdfPage({ params }: { params: Promise<{ locale: "hu" | "en" }> }) {
   const cvData = useCvDataStore((state) => state)
   const cvDataStoreApi = useCvDataStoreApi()
   const [isHydrated, setIsHydrated] = useState(() => cvDataStoreApi.persist?.hasHydrated() ?? false)
   const [pdfResult, setPdfResult] = useState<React.ReactNode | null>(null)
+  const [locale, setLocale] = useState<"hu" | "en">("hu")
   const isMobileDevice = () => window.innerWidth < 400
   // const { throwAsyncError } = useAsyncErrors()
+
+  useEffect(() => {
+    params.then((p) => setLocale(p.locale))
+  }, [params])
 
   // the store hydrates from sessionStorage asynchronously, so building the PDF
   // before hydration finishes would render it once with empty data and then
@@ -80,22 +86,22 @@ export default function ShowPdfPage() {
     const loadTemplateWithData = async () => {
       const templateModule = await import("@/components/cv-templates/template001")
       const Template001 = templateModule.Template001
-      const fileName = generateDocTitle(cvData.personal.firstName, cvData.personal.lastName, "hu")
+      const fileName = generateDocTitle(cvData.personal.firstName, cvData.personal.lastName, locale)
 
       // displaying the pdf viewer on mobile devices is not supported - it will be displayed as a download button for now
       setPdfResult(
         isMobileDevice() ? (
-          <DownloadButton Document={Template001} cvData={cvData} fileName={fileName} />
+          <DownloadButton Document={Template001} cvData={cvData} fileName={fileName} locale={locale} />
         ) : (
           <PDFViewer width="100%" height="100%" className="flex-1">
-            <Template001 cvData={cvData} />
+            <Template001 cvData={cvData} locale={locale} />
           </PDFViewer>
         )
       )
     }
 
     loadTemplateWithData()
-  }, [cvData, isHydrated])
+  }, [cvData, isHydrated, locale])
 
   return pdfResult ? (
     <div className="flex-center w-full max-w-screen-lg flex-1 overflow-clip rounded-lg">
