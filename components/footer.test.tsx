@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react"
+import { render, screen } from "../test-utils"
 import { test, expect, describe } from "bun:test"
 import Footer from "./footer"
 
