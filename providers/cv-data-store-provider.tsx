@@ -9,12 +9,21 @@ import { createCvDataStore, initCvDataStore } from "@/lib/stores/cv-data-store"
 export type CvDataStoreApi = ReturnType<typeof createCvDataStore>
 export interface CvDataStoreProviderProps {
   children: ReactNode
+  /**
+   * Overrides state after the store is created, taking precedence over any
+   * value rehydrated from persisted storage. Intended for seeding state in tests.
+   */
+  initialState?: Partial<CvDataStore>
 }
 
 export const CvDataStoreContext = createContext<CvDataStoreApi | undefined>(undefined)
 
-export const CvDataStoreProvider = ({ children }: CvDataStoreProviderProps) => {
-  const [store] = useState<CvDataStoreApi>(() => createCvDataStore(initCvDataStore()))
+export const CvDataStoreProvider = ({ children, initialState }: CvDataStoreProviderProps) => {
+  const [store] = useState<CvDataStoreApi>(() => {
+    const cvDataStore = createCvDataStore(initCvDataStore())
+    if (initialState) cvDataStore.setState(initialState)
+    return cvDataStore
+  })
 
   return <CvDataStoreContext.Provider value={store}>{children}</CvDataStoreContext.Provider>
 }
