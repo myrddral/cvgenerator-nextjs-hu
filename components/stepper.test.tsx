@@ -26,7 +26,8 @@ describe("Stepper component", () => {
 
     // "links" is the second section, so its step is numbered "2"
     const activeStep = screen.getByRole("link", { name: "2" })
-    expect(activeStep.className).toContain("pointer-events-auto")
+    expect(activeStep.getAttribute("aria-disabled")).toBe("false")
+    expect(activeStep.tabIndex).toBe(0)
   })
 
   test("blocks navigation to steps that are neither active nor completed", () => {
@@ -34,7 +35,8 @@ describe("Stepper component", () => {
 
     // "skills" is the third section and hasn't been visited or completed
     const upcomingStep = screen.getByRole("link", { name: "3" })
-    expect(upcomingStep.className).toContain("pointer-events-none")
+    expect(upcomingStep.getAttribute("aria-disabled")).toBe("true")
+    expect(upcomingStep.tabIndex).toBe(-1)
   })
 
   test("lets the user navigate back to a step they already completed", () => {
@@ -43,6 +45,7 @@ describe("Stepper component", () => {
     })
 
     const completedStep = screen.getByRole("link", { name: "3" })
-    expect(completedStep.className).toContain("pointer-events-auto")
+    expect(completedStep.getAttribute("aria-disabled")).toBe("false")
+    expect(completedStep.tabIndex).toBe(0)
   })
 })
