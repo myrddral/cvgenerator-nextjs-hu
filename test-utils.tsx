@@ -5,6 +5,7 @@ import { afterEach } from "bun:test"
 import { render, type RenderOptions } from "@testing-library/react"
 import { NextIntlClientProvider } from "next-intl"
 import { CvDataStoreProvider } from "./providers/cv-data-store-provider"
+import messages from "./messages/en.json"
 
 // The store persists to sessionStorage, which happy-dom keeps alive across
 // tests in the same file/process. Clear it so one test's state (e.g. seeded
@@ -23,7 +24,7 @@ const customRender = (ui: ReactElement, options?: CustomRenderOptions) => {
 
   const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
     return (
-      <NextIntlClientProvider locale="en" messages={{}}>
+      <NextIntlClientProvider locale="en" messages={messages}>
         <CvDataStoreProvider initialState={initialState}>{children}</CvDataStoreProvider>
       </NextIntlClientProvider>
     )

@@ -5,9 +5,9 @@ import Footer from "./footer"
 describe("Footer component", () => {
   test("renders the footer component", () => {
     render(<Footer />)
-    expect(screen.getByRole("link", { name: "Készítette" })).toBeTruthy()
-    expect(screen.getByRole("link", { name: "Adatvédelmi szabályzat" })).toBeTruthy()
-    expect(screen.getByRole("link", { name: "Használati feltételek" })).toBeTruthy()
-    expect(screen.getByRole("link", { name: "Kredit" })).toBeTruthy()
+    expect(screen.getByRole("link", { name: "Made by" })).toBeTruthy()
+    expect(screen.getByRole("link", { name: "Privacy Policy" })).toBeTruthy()
+    expect(screen.getByRole("link", { name: "Terms of Use" })).toBeTruthy()
+    expect(screen.getByRole("link", { name: "Credits" })).toBeTruthy()
   })
 })
