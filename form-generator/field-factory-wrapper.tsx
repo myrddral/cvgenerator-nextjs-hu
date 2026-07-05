@@ -10,8 +10,11 @@ import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 import { CalendarIcon } from "@radix-ui/react-icons"
 import { format } from "date-fns"
-import { hu } from "date-fns/locale"
+import { enUS, hu } from "date-fns/locale"
+import { useLocale, useTranslations } from "next-intl"
 import { useState } from "react"
+
+const dateLocales = { en: enUS, hu } as const
 
 export interface FieldFactoryWrapperProps {
   field: ControllerRenderProps
@@ -28,6 +31,8 @@ export default function FieldFactoryWrapper({
 }: FieldFactoryWrapperProps) {
   const { type, autocomplete, readonly, placeholder } = fieldProps
   const [isCalendarOpen, setIsCalendarOpen] = useState<{ [fieldKey: string]: boolean }>({})
+  const t = useTranslations("CreateFlow.actions")
+  const locale = useLocale() as keyof typeof dateLocales
 
   const fieldFactory = () => {
     switch (type) {
@@ -74,7 +79,7 @@ export default function FieldFactoryWrapper({
                 {field.value ? (
                   format(field.value, "yyyy-MM-dd")
                 ) : (
-                  <span className="mr-4">Válassz dátumot</span>
+                  <span className="mr-4">{t("pickDate")}</span>
                 )}
                 <CalendarIcon className="h-4 w-4 opacity-50" />
               </Button>
@@ -91,7 +96,7 @@ export default function FieldFactoryWrapper({
                 onDayClick={() =>
                   setIsCalendarOpen((prev) => ({ ...prev, [fieldKey]: !(prev[fieldKey] || false) }))
                 }
-                locale={hu}
+                locale={dateLocales[locale]}
                 initialFocus
                 fixedWeeks
               />

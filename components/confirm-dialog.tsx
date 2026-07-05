@@ -12,30 +12,14 @@ import {
   AlertDialogTrigger,
 } from "./ui/alert-dialog"
 import { cn } from "@/lib/utils"
+import { useTranslations } from "next-intl"
 
-export interface AlertDialogVariant {
-  title: string
-  description: string
-  actionBtnVariant: string
-  actionBtnText: string
+const actionBtnVariants: Record<DialogType, string> = {
+  delete: "danger",
+  skipSection: "primary",
 }
 
-const alertDialogs: Record<string, AlertDialogVariant> = {
-  delete: {
-    title: "Biztosan törölni akarod?",
-    description: "Ez a művelet eltávolítja az elemet a listából.",
-    actionBtnVariant: "danger",
-    actionBtnText: "Törlés",
-  },
-  skipSection: {
-    title: "Biztosan ki akarod hagyni?",
-    description: "Nem adtál hozzá semmit ehhez a szekcióhoz, így üres lesz az önéletrajzodon!",
-    actionBtnVariant: "primary",
-    actionBtnText: "Kihagyás",
-  },
-}
-
-export type DialogType = keyof typeof alertDialogs
+export type DialogType = "delete" | "skipSection"
 
 export interface ConfirmDialogProps extends PropsWithChildren {
   type: DialogType
@@ -43,22 +27,24 @@ export interface ConfirmDialogProps extends PropsWithChildren {
 }
 
 export const ConfirmDialog = ({ children, type, onConfirmAction }: ConfirmDialogProps) => {
+  const t = useTranslations("CreateFlow")
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{alertDialogs[type]?.title}</AlertDialogTitle>
-          <AlertDialogDescription>{alertDialogs[type]?.description}</AlertDialogDescription>
+          <AlertDialogTitle>{t(`confirmDialogs.${type}.title`)}</AlertDialogTitle>
+          <AlertDialogDescription>{t(`confirmDialogs.${type}.description`)}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Mégsem</AlertDialogCancel>
+          <AlertDialogCancel>{t("actions.cancel")}</AlertDialogCancel>
           <AlertDialogAction
             onClick={onConfirmAction}
             //? cva variants don't work here, had to use classNames. why?
-            className={cn(`bg-${alertDialogs[type]?.actionBtnVariant}`)}
+            className={cn(`bg-${actionBtnVariants[type]}`)}
           >
-            {alertDialogs[type]?.actionBtnText}
+            {t(`confirmDialogs.${type}.actionBtnText`)}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

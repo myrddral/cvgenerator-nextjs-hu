@@ -14,28 +14,32 @@ import { SectionDataList } from "@/components/section-data-list"
 import { FormStepCard } from "@/components/ui/formstep-card"
 import { IconButton } from "@/components/ui/iconbutton"
 import FormGenerator from "@/form-generator/form-generator"
-import { sectionSchemas } from "@/form-generator/validation-schemas"
+import type { getSectionSchemas } from "@/form-generator/validation-schemas"
 import { useFormNavigation } from "@/hooks/use-form-navigation"
 import { PlusIcon } from "@radix-ui/react-icons"
+import { useTranslations } from "next-intl"
 import { useCallback, useState } from "react"
 import { useCvDataStore } from "../providers/cv-data-store-provider"
 import { ConfirmDialog } from "./confirm-dialog"
 import { FormDialog } from "./form-dialog"
 import { Button } from "./ui/button"
 
+type SectionSchemas = ReturnType<typeof getSectionSchemas>
+
 export interface FormStepWrapperProps extends SectionProps {}
 
 export function SectionWrapper({ ...sectionProps }: FormStepWrapperProps) {
   const { title, sub, sectionName, isMultiEntry } = sectionProps
+  const t = useTranslations("CreateFlow.actions")
   const { handleForwardStep, handleBackStep } = useFormNavigation(sectionName)
   const { setSectionData, removeFromList, markSectionAsCompleted } = useCvDataStore((state) => state)
   const sectionData = useCvDataStore((state) => state)[sectionName]
   const [selectedItemIdx, setSelectedItemIdx] = useState<number | undefined | null>(null)
 
-  const getFormValues = useCallback((): z.infer<(typeof sectionSchemas)[SectionName]> => {
+  const getFormValues = useCallback((): z.infer<SectionSchemas[SectionName]> => {
     return isMultiEntry && Array.isArray(sectionData)
       ? sectionData[selectedItemIdx ?? 0]!
-      : (sectionData as z.infer<(typeof sectionSchemas)[SectionName]>)
+      : (sectionData as z.infer<SectionSchemas[SectionName]>)
   }, [isMultiEntry, sectionData, selectedItemIdx])
 
   function onSubmit(data: Omit<CvDataState[SectionName], "email">) {
@@ -93,7 +97,7 @@ export function SectionWrapper({ ...sectionProps }: FormStepWrapperProps) {
             selectedItemIdx={selectedItemIdx}
             setSelectedItemIdx={setSelectedItemIdx}
           >
-            <IconButton icon={<PlusIcon />} text="Új felvétele" onClick={handleAddClick} />
+            <IconButton icon={<PlusIcon />} text={t("addNew")} onClick={handleAddClick} />
             <FormGenerator
               {...sectionProps}
               values={getFormValues()}
@@ -105,7 +109,7 @@ export function SectionWrapper({ ...sectionProps }: FormStepWrapperProps) {
           <SectionDataList sectionName={sectionName} setSelectedItemIdx={setSelectedItemIdx} />
           <div className="mt-12 flex justify-center gap-10 max-sm:mt-8">
             <Button type="button" variant="navPrev" className="group relative px-10" onClick={handleBackStep}>
-              Vissza
+              {t("back")}
             </Button>
             <ConfirmDialog type="skipSection" onConfirmAction={onSkip}>
               <Button
@@ -114,7 +118,7 @@ export function SectionWrapper({ ...sectionProps }: FormStepWrapperProps) {
                 className="group relative px-10"
                 onClick={handleForwardClick}
               >
-                Tovább
+                {t("next")}
               </Button>
             </ConfirmDialog>
           </div>

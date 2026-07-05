@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react"
 import Stepper from "./stepper"
-import { allSections } from "../form-generator/generator-sections"
+import { getAllSections } from "../form-generator/generator-sections"
 
 import { test, mock, describe } from "bun:test"
 
@@ -9,6 +9,8 @@ mock.module("next/navigation", () => ({
     section: "personal",
   }),
 }))
+
+const allSections = getAllSections((key: string) => key)
 
 describe("Stepper component", () => {
   test("renders the Stepper component", () => {
