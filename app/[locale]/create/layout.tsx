@@ -1,9 +1,13 @@
 import type { PropsWithChildren } from "react"
 
 import Stepper from "@/components/stepper"
-import { allSections } from "@/form-generator/generator-sections"
+import { getAllSections } from "@/form-generator/generator-sections"
+import { getTranslations } from "next-intl/server"
 
-export default function CreateLayout({ children }: PropsWithChildren) {
+export default async function CreateLayout({ children }: PropsWithChildren) {
+  const t = await getTranslations("CreateFlow")
+  const allSections = getAllSections(t)
+
   return (
     <div className="flex w-full flex-1 flex-col items-center overflow-clip">
       <Stepper allSections={allSections} />

@@ -8,13 +8,17 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useFormNavigation } from "@/hooks/use-form-navigation"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useTranslations } from "next-intl"
+import { useMemo } from "react"
 import { useForm, type FieldPath } from "react-hook-form"
 import FieldFactoryWrapper from "./field-factory-wrapper"
-import { sectionSchemas } from "./validation-schemas"
+import { getSectionSchemas } from "./validation-schemas"
+
+type SectionSchemas = ReturnType<typeof getSectionSchemas>
 
 interface FormGeneratorProps<T extends SectionProps["isMultiEntry"]> extends SectionProps {
-  values: z.infer<(typeof sectionSchemas)[SectionName]>
-  onSubmit: (data: z.infer<(typeof sectionSchemas)[SectionName]>) => void
+  values: z.infer<SectionSchemas[SectionName]>
+  onSubmit: (data: z.infer<SectionSchemas[SectionName]>) => void
   onDelete: T extends true ? () => void : undefined
   selectedItemIdx: T extends true ? number | undefined | null : undefined
 }
@@ -27,6 +31,8 @@ export default function FormGenerator<T extends SectionProps["isMultiEntry"]>({
   ...sectionProps
 }: FormGeneratorProps<T>) {
   const { fields, sectionName, isMultiEntry } = sectionProps
+  const t = useTranslations("CreateFlow")
+  const sectionSchemas = useMemo(() => getSectionSchemas(t), [t])
   const sectionSchema = sectionSchemas[sectionName]
   const { handleBackStep } = useFormNavigation(sectionName)
   const resolver = zodResolver(sectionSchema)
@@ -68,12 +74,12 @@ export default function FormGenerator<T extends SectionProps["isMultiEntry"]>({
           {isMultiEntry && onDelete ? (
             <>
               <Button type="submit" variant={"default"}>
-                Mentés
+                {t("actions.save")}
               </Button>
               {selectedItemIdx ? (
                 <ConfirmDialog type="delete" onConfirmAction={onDelete}>
                   <Button type="button" variant={"destructive"}>
-                    Törlés
+                    {t("actions.delete")}
                   </Button>
                 </ConfirmDialog>
               ) : null}
@@ -86,10 +92,10 @@ export default function FormGenerator<T extends SectionProps["isMultiEntry"]>({
                 className="group relative px-10"
                 onClick={handleBackStep}
               >
-                Vissza
+                {t("actions.back")}
               </Button>
               <Button type="submit" variant="navNext" className="group relative px-10">
-                Tovább
+                {t("actions.next")}
               </Button>
             </>
           )}

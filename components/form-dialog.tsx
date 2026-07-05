@@ -2,6 +2,7 @@ import type { ReactNode } from "react"
 import type { SectionName } from "@/lib/stores/cv-data-store.types"
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { useTranslations } from "next-intl"
 
 export interface FormDialogProps {
   children: ReactNode[] // the first element is the dialog trigger, the second element is the form
@@ -11,6 +12,7 @@ export interface FormDialogProps {
 }
 
 export function FormDialog({ children, sectionName, selectedItemIdx, setSelectedItemIdx }: FormDialogProps) {
+  const t = useTranslations("CreateFlow.formDialogTitles")
   // the dialog's open state mirrors selectedItemIdx directly: null means closed,
   // undefined means "add new", a number means "edit item at that index"
   const isOpen = selectedItemIdx !== null
@@ -22,11 +24,11 @@ export function FormDialog({ children, sectionName, selectedItemIdx, setSelected
   function getTitle() {
     switch (sectionName) {
       case "experience":
-        return selectedItemIdx ? "Munkatapasztalat szerkesztése" : "Új munkatapasztalat hozzáadása"
+        return selectedItemIdx ? t("experience.edit") : t("experience.add")
       case "education":
-        return selectedItemIdx ? "Tanulmány szerkesztése" : "Új tanulmány hozzáadása"
+        return selectedItemIdx ? t("education.edit") : t("education.add")
       case "languages":
-        return selectedItemIdx ? "Nyelv szerkesztése" : "Új nyelv hozzáadása"
+        return selectedItemIdx ? t("languages.edit") : t("languages.add")
       default:
         return ""
     }

@@ -2,10 +2,11 @@ import type { FieldValues, UseFormSetError } from "react-hook-form"
 import type { ZodError } from "zod"
 import type { InputProps } from "./input"
 
-import { imageSchema } from "@/form-generator/validation-schemas"
+import { getImageSchema } from "@/form-generator/validation-schemas"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
-import { forwardRef, useRef, useState } from "react"
+import { useTranslations } from "next-intl"
+import { forwardRef, useMemo, useRef, useState } from "react"
 import { Card, CardContent } from "./card"
 import Loader from "./loader"
 
@@ -18,6 +19,7 @@ interface UploadCardProps {
   src: string | undefined
   onClick: () => void
   isLoading: boolean
+  alt: string
 }
 
 /**
@@ -31,7 +33,7 @@ interface UploadCardProps {
  *
  * @returns A React component that displays an image and a button to upload an image.
  */
-const UploadCard = ({ src, onClick, isLoading }: UploadCardProps) => {
+const UploadCard = ({ src, onClick, isLoading, alt }: UploadCardProps) => {
   return (
     <Card className="duration-250 h-52 w-44 border border-input p-2 transition-all hover:ring-1 hover:ring-ring">
       <CardContent
@@ -44,7 +46,7 @@ const UploadCard = ({ src, onClick, isLoading }: UploadCardProps) => {
           <Image
             className="h-[12rem] w-[10rem] object-cover"
             src={src ?? "/vecteezy_profile_placeholder.jpg"}
-            alt="Profilkép feltöltése"
+            alt={alt}
             fill
             sizes="(max-width: 768px) 10rem, (max-width: 1024px) 12rem, 12rem"
           />
@@ -67,6 +69,8 @@ const UploadCard = ({ src, onClick, isLoading }: UploadCardProps) => {
  */
 const InputImageFile = forwardRef<HTMLInputElement, InputImageFileProps>(
   ({ className, setError, value, ...props }, ref) => {
+    const t = useTranslations("CreateFlow")
+    const imageSchema = useMemo(() => getImageSchema(t), [t])
     const [isLoading, setIsLoading] = useState(false)
     const [base64, setBase64] = useState<string | undefined>(value && value.length > 0 ? value : undefined)
     const [prevValue, setPrevValue] = useState(value)
@@ -133,7 +137,7 @@ const InputImageFile = forwardRef<HTMLInputElement, InputImageFileProps>(
           value={""}
           onChange={handleChange}
         />
-        <UploadCard src={base64} onClick={handleClick} isLoading={isLoading} />
+        <UploadCard src={base64} onClick={handleClick} isLoading={isLoading} alt={t("pictureUploadAlt")} />
       </>
     )
   }
