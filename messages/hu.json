@@ -12,6 +12,13 @@
     "termsOfUse": "Használati feltételek",
     "attribution": "Kredit"
   },
+  "Navbar": {
+    "newCv": "Új önéletrajz",
+    "dev": "Dev",
+    "devComponentsList": "Komponenslista",
+    "devComponentsListDescription": "Az oldal komponenseinek listája",
+    "githubAlt": "GitHub"
+  },
   "HomePage": {
     "title": "Önéletrajz generátor",
     "start": "KEZDÉS",
