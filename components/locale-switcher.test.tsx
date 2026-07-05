@@ -1,12 +1,12 @@
-import { render, screen } from "@testing-library/react"
+// Uses the shared `render` from test-utils (real NextIntlClientProvider, locale "en")
+// instead of mock.module("next-intl", ...): Bun shares its module registry across test
+// files in the same run, so a full-module mock here previously leaked into unrelated
+// test files (e.g. footer.test.tsx) that rely on the real useTranslations.
+import { render, screen } from "../test-utils"
 import userEvent from "@testing-library/user-event"
 import { test, expect, describe, beforeEach, mock } from "bun:test"
 
 const push = mock()
-
-mock.module("next-intl", () => ({
-  useLocale: () => "en",
-}))
 
 mock.module("@/i18n/navigation", () => ({
   usePathname: () => "/show",

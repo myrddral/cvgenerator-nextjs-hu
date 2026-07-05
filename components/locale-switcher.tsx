@@ -1,6 +1,6 @@
 "use client"
 
-import { useLocale } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { usePathname, useRouter } from "@/i18n/navigation"
 import { routing } from "@/i18n/routing"
 import {
@@ -20,6 +20,7 @@ export default function LocaleSwitcher() {
   const locale = useLocale()
   const pathname = usePathname()
   const router = useRouter()
+  const t = useTranslations("LocaleSwitcher")
 
   return (
     <Select
@@ -28,7 +29,7 @@ export default function LocaleSwitcher() {
         router.push(pathname, { locale: nextLocale as (typeof routing.locales)[number] })
       }}
     >
-      <SelectTrigger className="w-16" aria-label="Switch language">
+      <SelectTrigger className="w-16" aria-label={t("label")}>
         <SelectValue>{localeLabels[locale as (typeof routing.locales)[number]]}</SelectValue>
       </SelectTrigger>
       <SelectContent>
