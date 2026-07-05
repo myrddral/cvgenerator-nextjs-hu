@@ -1,10 +1,10 @@
 import type { Metadata } from "next"
 import type { PropsWithChildren } from "react"
 
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Analytics } from "@vercel/analytics/react"
+// import { SpeedInsights } from "@vercel/speed-insights/next"
+// import { Analytics } from "@vercel/analytics/react"
 import { NextIntlClientProvider } from "next-intl"
-import { setRequestLocale } from "next-intl/server"
+import { getTranslations, setRequestLocale } from "next-intl/server"
 import { notFound } from "next/navigation"
 import Footer from "@/components/footer"
 import Navbar from "@/components/navbar"
@@ -29,34 +29,37 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>
 }): Promise<Metadata> {
   const { locale } = await params
+  const t = await getTranslations({ locale, namespace: "Metadata" })
+  const name = t("name")
+  const description = t("description")
 
   return {
     title: {
-      default: siteConfig.name,
-      template: `%s - ${siteConfig.name}`,
+      default: name,
+      template: `%s - ${name}`,
     },
     metadataBase: new URL(siteConfig.url),
-    description: siteConfig.description,
+    description,
     openGraph: {
       type: "website",
       locale: locale === "hu" ? "hu_HU" : "en_US",
       url: siteConfig.url,
-      title: siteConfig.name,
-      description: siteConfig.description,
-      siteName: siteConfig.name,
+      title: name,
+      description,
+      siteName: name,
       images: [
         {
           url: siteConfig.ogImage,
           width: 1200,
           height: 630,
-          alt: siteConfig.name,
+          alt: name,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: siteConfig.name,
-      description: siteConfig.description,
+      title: name,
+      description,
       images: [siteConfig.ogImage],
     },
     robots: "noindex, nofollow",
@@ -106,8 +109,8 @@ export default async function RootLayout({
             </CvDataStoreProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
-        <SpeedInsights />
-        <Analytics />
+        {/* <SpeedInsights /> */}
+        {/* <Analytics /> */}
         <GridBackground />
       </body>
     </html>
