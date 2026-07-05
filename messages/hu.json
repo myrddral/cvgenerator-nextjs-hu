@@ -1,5 +1,174 @@
 {
   "LocaleSwitcher": {
     "label": "Nyelv váltása"
+  },
+  "CreateFlow": {
+    "pictureUploadAlt": "Profilkép feltöltése",
+    "emailStep": {
+      "title": "A kezdéshez add meg az email címed",
+      "emailLabel": "Email cím",
+      "emailPlaceholder": "email@domain.hu",
+      "submit": "Tovább"
+    },
+    "actions": {
+      "back": "Vissza",
+      "next": "Tovább",
+      "save": "Mentés",
+      "delete": "Törlés",
+      "addNew": "Új felvétele",
+      "pickDate": "Válassz dátumot",
+      "cancel": "Mégsem"
+    },
+    "confirmDialogs": {
+      "delete": {
+        "title": "Biztosan törölni akarod?",
+        "description": "Ez a művelet eltávolítja az elemet a listából.",
+        "actionBtnText": "Törlés"
+      },
+      "skipSection": {
+        "title": "Biztosan ki akarod hagyni?",
+        "description": "Nem adtál hozzá semmit ehhez a szekcióhoz, így üres lesz az önéletrajzodon!",
+        "actionBtnText": "Kihagyás"
+      }
+    },
+    "formDialogTitles": {
+      "experience": {
+        "add": "Új munkatapasztalat hozzáadása",
+        "edit": "Munkatapasztalat szerkesztése"
+      },
+      "education": {
+        "add": "Új tanulmány hozzáadása",
+        "edit": "Tanulmány szerkesztése"
+      },
+      "languages": {
+        "add": "Új nyelv hozzáadása",
+        "edit": "Nyelv szerkesztése"
+      }
+    },
+    "sections": {
+      "personal": {
+        "title": "Személyes adatok",
+        "fields": {
+          "firstName": { "label": "Keresztnév" },
+          "middleName": { "label": "Középső név (opcionális)" },
+          "lastName": { "label": "Vezetéknév" },
+          "email": { "label": "Email cím" },
+          "phone": { "label": "Telefonszám" },
+          "location": { "label": "Lakóhely" },
+          "birthDate": { "label": "Születési dátum" },
+          "picture": { "label": "Portréfotó" }
+        }
+      },
+      "links": {
+        "title": "Linkek",
+        "sub": "Az alábbi mezők opcionálisak",
+        "fields": {
+          "linkedin": { "label": "LinkedIn" },
+          "github": { "label": "GitHub" },
+          "webpage": { "label": "Weboldal" }
+        }
+      },
+      "skills": {
+        "title": "Szakmai ismeretek",
+        "fields": {
+          "occupation": {
+            "label": "Foglalkozásod",
+            "help": "Azt a foglalkozást add meg, amire pályázol."
+          },
+          "skillsList": {
+            "label": "Szakmai ismereteid",
+            "placeholder": "Mihez értesz? Miben van gyakorlati tapasztalatod?"
+          }
+        }
+      },
+      "experience": {
+        "title": "Munkatapasztalat",
+        "fields": {
+          "jobTitle": { "label": "Foglalkozás" },
+          "employer": { "label": "Munkáltató" },
+          "description": {
+            "label": "Feladatok / eredmények",
+            "placeholder": "Milyen feladatokat végeztél? Milyen eredményeket értél el?"
+          },
+          "startDate": { "label": "Munkaviszony kezdete" },
+          "endDate": { "label": "Munkaviszony vége" },
+          "location": { "label": "Munkavégzés helye", "placeholder": "pl. Budapest" }
+        }
+      },
+      "education": {
+        "title": "Tanulmányok",
+        "fields": {
+          "institution": { "label": "Intézmény neve" },
+          "specialization": { "label": "Szakirány" },
+          "description": { "label": "Rövid leírás" },
+          "startDate": { "label": "Tanulmányok kezdete" },
+          "endDate": { "label": "Tanulmányok befejezése" },
+          "location": { "label": "Tanulmányok helye", "placeholder": "pl. Debrecen" }
+        }
+      },
+      "languages": {
+        "title": "Nyelvismeret",
+        "fields": {
+          "language": { "label": "Nyelv" },
+          "level": { "label": "Szint" }
+        }
+      },
+      "interests": {
+        "title": "Érdeklődés",
+        "fields": {
+          "interestsList": {
+            "label": "",
+            "placeholder": "Pl.: Olvasás, sport, hangszerek, szakmai fórumok, önkéntes tevékenységek"
+          }
+        }
+      }
+    },
+    "validation": {
+      "common": {
+        "tooShort": "Ez sajnos túl rövid",
+        "dateRequired": "Dátum kitöltése kötelező"
+      },
+      "email": {
+        "required": "Email cím kitöltése kötelező",
+        "max": "Email cím maximum 255 karakter lehet",
+        "invalid": "Érvénytelen email cím"
+      },
+      "image": {
+        "type": "Csak JPG/PNG képek tölthetőek fel",
+        "maxSize": "A kép maximum {size}MB lehet."
+      },
+      "url": {
+        "invalid": "Érvénytelen URL"
+      },
+      "personal": {
+        "firstNameRequired": "Keresztnév kitöltése kötelező",
+        "nameMax": "Név maximum 255 karakter lehet",
+        "lastNameRequired": "Vezetéknév kitöltése kötelező",
+        "phoneRequired": "Telefonszám kitöltése kötelező",
+        "phoneMax": "Telefonszám maximum 255 karakter lehet",
+        "locationRequired": "Lakóhely (település) kitöltése kötelező",
+        "birthDateRequired": "Dátum kitöltése kötelező",
+        "pictureRequired": "Kép feltöltése kötelező"
+      },
+      "skills": {
+        "occupationRequired": "Foglalkozás kitöltése kötelező",
+        "skillsListRequired": "A szakmai ismeretek kitöltése kötelező"
+      },
+      "experience": {
+        "jobTitleRequired": "Foglalkozás kitöltése kötelező",
+        "employerRequired": "Munkáltató kitöltése kötelező",
+        "descriptionRequired": "Feladatok / eredmények kitöltése kötelező",
+        "locationRequired": "Munkavégzés helyének kitöltése kötelező"
+      },
+      "education": {
+        "institutionRequired": "Intézmény kitöltése kötelező",
+        "specializationRequired": "Szakirány kitöltése kötelező",
+        "locationRequired": "Település kitöltése kötelező"
+      },
+      "languages": {
+        "languageRequired": "Nyelv kitöltése kötelező",
+        "levelRequired": "Szint kitöltése kötelező"
+      }
+    }
   }
 }
