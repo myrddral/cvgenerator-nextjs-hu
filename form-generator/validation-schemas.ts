@@ -1,124 +1,124 @@
 import { z } from "zod"
 import type { SectionName } from "@/lib/stores/cv-data-store.types"
 
+type Translate = (key: string, values?: Record<string, string | number>) => string
+
 const MAX_FILE_SIZE_IN_MB = 5
 const MAX_FILE_SIZE = MAX_FILE_SIZE_IN_MB * 1000000
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png"]
 
-export const emailSchema = z.object({
-  email: z
+export function getEmailSchema(t: Translate) {
+  return z.object({
+    email: z
+      .string()
+      .min(1, { message: t("validation.email.required") })
+      .max(255, { message: t("validation.email.max") })
+      .email({ message: t("validation.email.invalid") }),
+  })
+}
+
+export function getImageSchema(t: Translate) {
+  return z
+    .instanceof(File)
+    .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), t("validation.image.type"))
+    .refine((file) => file.size <= MAX_FILE_SIZE, t("validation.image.maxSize", { size: MAX_FILE_SIZE_IN_MB }))
+}
+
+function getOptionalUrlSchema(t: Translate) {
+  return z
     .string()
-    .min(1, { message: "Email cím kitöltése kötelező" })
-    .max(255, { message: "Email cím maximum 255 karakter lehet" })
-    .email({ message: "Érvénytelen email cím" }),
-})
+    .optional()
+    .refine(
+      (val) => {
+        if (val?.length) {
+          return val.startsWith("https") || val.startsWith("http")
+        }
+        return true
+      },
+      { message: t("validation.url.invalid") }
+    )
+}
 
-export const imageSchema = z
-  .instanceof(File)
-  .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), "Csak JPG/PNG képek tölthetőek fel")
-  .refine((file) => file.size <= MAX_FILE_SIZE, `A kép maximum ${MAX_FILE_SIZE_IN_MB}MB lehet.`)
+export function getSectionSchemas(t: Translate) {
+  const optionalUrlSchema = getOptionalUrlSchema(t)
 
-const optionalUrlSchema = z
-  .string()
-  .optional()
-  .refine(
-    (val) => {
-      if (val?.length) {
-        return val.startsWith("https") || val.startsWith("http")
-      }
-      return true
-    },
-    { message: "Érvénytelen URL" }
-  )
+  return {
+    personal: z.object({
+      firstName: z
+        .string()
+        .min(1, { message: t("validation.personal.firstNameRequired") })
+        .max(50, { message: t("validation.personal.nameMax") }),
+      middleName: z.string().max(50, { message: t("validation.personal.nameMax") }),
+      lastName: z
+        .string()
+        .min(1, { message: t("validation.personal.lastNameRequired") })
+        .max(50, { message: t("validation.personal.nameMax") }),
+      email: z
+        .string()
+        .min(1, { message: t("validation.email.required") })
+        .max(255, { message: t("validation.email.max") })
+        .email({ message: t("validation.email.invalid") })
+        .optional(),
+      phone: z
+        .string()
+        .min(1, { message: t("validation.personal.phoneRequired") })
+        .max(17, { message: t("validation.personal.phoneMax") }),
+      location: z.string().min(1, { message: t("validation.personal.locationRequired") }),
+      birthDate: z.date({ message: t("validation.personal.birthDateRequired") }),
+      picture: z.string().min(1, { message: t("validation.personal.pictureRequired") }),
+    }),
+    links: z.object({
+      linkedin: optionalUrlSchema,
+      github: optionalUrlSchema,
+      portfolio: optionalUrlSchema,
+      webpage: optionalUrlSchema,
+    }),
+    skills: z.object({
+      occupation: z.string().min(1, { message: t("validation.skills.occupationRequired") }),
+      skillsList: z
+        .string()
+        .min(1, { message: t("validation.skills.skillsListRequired") })
+        .min(3, { message: t("validation.common.tooShort") }),
+    }),
+    experience: z.object({
+      jobTitle: z.string().min(1, { message: t("validation.experience.jobTitleRequired") }),
+      employer: z.string().min(1, { message: t("validation.experience.employerRequired") }),
+      description: z
+        .string()
+        .min(1, { message: t("validation.experience.descriptionRequired") })
+        .min(3, { message: t("validation.common.tooShort") }),
+      startDate: z.date({ message: t("validation.common.dateRequired") }),
+      endDate: z.date({ message: t("validation.common.dateRequired") }),
+      location: z.string().min(1, { message: t("validation.experience.locationRequired") }),
+    }),
+    education: z.object({
+      institution: z.string().min(1, { message: t("validation.education.institutionRequired") }),
+      major: z.string(),
+      specialization: z.string().min(1, { message: t("validation.education.specializationRequired") }),
+      description: z.string(),
+      startDate: z.date({ message: t("validation.common.dateRequired") }),
+      endDate: z.date({ message: t("validation.common.dateRequired") }),
+      location: z.string().min(1, { message: t("validation.education.locationRequired") }),
+    }),
+    languages: z.object({
+      language: z.string().min(1, { message: t("validation.languages.languageRequired") }),
+      level: z.string().min(1, { message: t("validation.languages.levelRequired") }),
+    }),
+    interests: z.object({
+      interestsList: z.string().optional(),
+    }),
+  } satisfies Record<SectionName, z.ZodObject<any>>
+}
 
-const personalSchema = z.object({
-  firstName: z
-    .string()
-    .min(1, { message: "Keresztnév kitöltése kötelező" })
-    .max(50, { message: "Név maximum 255 karakter lehet" }),
-  middleName: z.string().max(50, { message: "Név maximum 255 karakter lehet" }),
-  lastName: z
-    .string()
-    .min(1, { message: "Vezetéknév kitöltése kötelező" })
-    .max(50, { message: "Név maximum 255 karakter lehet" }),
-  email: z
-    .string()
-    .min(1, { message: "Email cím kitöltése kötelező" })
-    .max(255, { message: "Email cím maximum 255 karakter lehet" })
-    .email({ message: "Érvénytelen email cím" })
-    .optional(),
-  phone: z
-    .string()
-    .min(1, { message: "Telefonszám kitöltése kötelező" })
-    .max(17, { message: "Telefonszám maximum 255 karakter lehet" }),
-  location: z.string().min(1, { message: "Lakóhely (település) kitöltése kötelező" }),
-  birthDate: z.date({ message: "Dátum kitöltése kötelező" }),
-  picture: z.string().min(1, { message: "Kép feltöltése kötelező" }),
-})
+type SectionSchemas = ReturnType<typeof getSectionSchemas>
 
-const linksSchema = z.object({
-  linkedin: optionalUrlSchema,
-  github: optionalUrlSchema,
-  portfolio: optionalUrlSchema,
-  webpage: optionalUrlSchema,
-})
-
-const skillsSchema = z.object({
-  occupation: z.string().min(1, { message: "Foglalkozás kitöltése kötelező" }),
-  skillsList: z
-    .string()
-    .min(1, { message: "A szakmai ismeretek kitöltése kötelező" })
-    .min(3, { message: "Ez sajnos túl rövid" }),
-})
-
-const experienceSchema = z.object({
-  jobTitle: z.string().min(1, { message: "Foglalkozás kitöltése kötelező" }),
-  employer: z.string().min(1, { message: "Munkáltató kitöltése kötelező" }),
-  description: z
-    .string()
-    .min(1, { message: "Feladatok / eredmények kitöltése kötelező" })
-    .min(3, { message: "Ez sajnos túl rövid" }),
-  startDate: z.date({ message: "Dátum kitöltése kötelező" }),
-  endDate: z.date({ message: "Dátum kitöltése kötelező" }),
-  location: z.string().min(1, { message: "Munkavégzés helyének kitöltése kötelező" }),
-})
-
-const educationSchema = z.object({
-  institution: z.string().min(1, { message: "Intézmény kitöltése kötelező" }),
-  major: z.string(),
-  specialization: z.string().min(1, { message: "Szakirány kitöltése kötelező" }),
-  description: z.string(),
-  startDate: z.date({ message: "Dátum kitöltése kötelező" }),
-  endDate: z.date({ message: "Dátum kitöltése kötelező" }),
-  location: z.string().min(1, { message: "Település kitöltése kötelező" }),
-})
-
-const languagesSchema = z.object({
-  language: z.string().min(1, { message: "Nyelv kitöltése kötelező" }),
-  level: z.string().min(1, { message: "Szint kitöltése kötelező" }),
-})
-
-const interestsSchema = z.object({
-  interestsList: z.string().optional(),
-})
-
-export const sectionSchemas = {
-  personal: personalSchema,
-  links: linksSchema,
-  skills: skillsSchema,
-  experience: experienceSchema,
-  education: educationSchema,
-  languages: languagesSchema,
-  interests: interestsSchema,
-} satisfies Record<SectionName, z.ZodObject<any>>
-
-export type Personal = z.infer<typeof personalSchema>
-export type Links = z.infer<typeof linksSchema>
-export type Skills = z.infer<typeof skillsSchema>
-export type Employment = z.infer<typeof experienceSchema>
-export type School = z.infer<typeof educationSchema>
-export type Language = z.infer<typeof languagesSchema>
-export type Interests = z.infer<typeof interestsSchema>
+export type Personal = z.infer<SectionSchemas["personal"]>
+export type Links = z.infer<SectionSchemas["links"]>
+export type Skills = z.infer<SectionSchemas["skills"]>
+export type Employment = z.infer<SectionSchemas["experience"]>
+export type School = z.infer<SectionSchemas["education"]>
+export type Language = z.infer<SectionSchemas["languages"]>
+export type Interests = z.infer<SectionSchemas["interests"]>
 export type Experience = Employment[]
 export type Education = School[]
 export type Languages = Language[]
