@@ -188,7 +188,8 @@
     "validation": {
       "common": {
         "tooShort": "This is unfortunately too short",
-        "dateRequired": "Date is required"
+        "dateRequired": "Date is required",
+        "dateRangeInvalid": "Start date must be before end date"
       },
       "email": {
         "required": "Email address is required",

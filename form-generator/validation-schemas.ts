@@ -39,6 +39,16 @@ function getOptionalUrlSchema(t: Translate) {
     )
 }
 
+function withDateRangeValidation<T extends z.ZodObject<{ startDate: z.ZodTypeAny; endDate: z.ZodTypeAny }>>(
+  schema: T,
+  t: Translate
+) {
+  return schema.refine((data) => !data.startDate || !data.endDate || data.startDate <= data.endDate, {
+    message: t("validation.common.dateRangeInvalid"),
+    path: ["endDate"],
+  })
+}
+
 export function getSectionSchemas(t: Translate) {
   const optionalUrlSchema = getOptionalUrlSchema(t)
 
@@ -80,26 +90,32 @@ export function getSectionSchemas(t: Translate) {
         .min(1, { message: t("validation.skills.skillsListRequired") })
         .min(3, { message: t("validation.common.tooShort") }),
     }),
-    experience: z.object({
-      jobTitle: z.string().min(1, { message: t("validation.experience.jobTitleRequired") }),
-      employer: z.string().min(1, { message: t("validation.experience.employerRequired") }),
-      description: z
-        .string()
-        .min(1, { message: t("validation.experience.descriptionRequired") })
-        .min(3, { message: t("validation.common.tooShort") }),
-      startDate: z.date({ message: t("validation.common.dateRequired") }),
-      endDate: z.date({ message: t("validation.common.dateRequired") }),
-      location: z.string().min(1, { message: t("validation.experience.locationRequired") }),
-    }),
-    education: z.object({
-      institution: z.string().min(1, { message: t("validation.education.institutionRequired") }),
-      major: z.string(),
-      specialization: z.string().min(1, { message: t("validation.education.specializationRequired") }),
-      description: z.string(),
-      startDate: z.date({ message: t("validation.common.dateRequired") }),
-      endDate: z.date({ message: t("validation.common.dateRequired") }),
-      location: z.string().min(1, { message: t("validation.education.locationRequired") }),
-    }),
+    experience: withDateRangeValidation(
+      z.object({
+        jobTitle: z.string().min(1, { message: t("validation.experience.jobTitleRequired") }),
+        employer: z.string().min(1, { message: t("validation.experience.employerRequired") }),
+        description: z
+          .string()
+          .min(1, { message: t("validation.experience.descriptionRequired") })
+          .min(3, { message: t("validation.common.tooShort") }),
+        startDate: z.date({ message: t("validation.common.dateRequired") }),
+        endDate: z.date({ message: t("validation.common.dateRequired") }),
+        location: z.string().min(1, { message: t("validation.experience.locationRequired") }),
+      }),
+      t
+    ),
+    education: withDateRangeValidation(
+      z.object({
+        institution: z.string().min(1, { message: t("validation.education.institutionRequired") }),
+        major: z.string(),
+        specialization: z.string().min(1, { message: t("validation.education.specializationRequired") }),
+        description: z.string(),
+        startDate: z.date({ message: t("validation.common.dateRequired") }),
+        endDate: z.date({ message: t("validation.common.dateRequired") }),
+        location: z.string().min(1, { message: t("validation.education.locationRequired") }),
+      }),
+      t
+    ),
     languages: z.object({
       language: z.string().min(1, { message: t("validation.languages.languageRequired") }),
       level: z.string().min(1, { message: t("validation.languages.levelRequired") }),
@@ -107,7 +123,7 @@ export function getSectionSchemas(t: Translate) {
     interests: z.object({
       interestsList: z.string().optional(),
     }),
-  } satisfies Record<SectionName, z.ZodObject<any>>
+  } satisfies Record<SectionName, z.ZodType<any>>
 }
 
 type SectionSchemas = ReturnType<typeof getSectionSchemas>
