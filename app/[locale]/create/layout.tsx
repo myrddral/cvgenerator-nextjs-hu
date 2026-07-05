@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from "react"
 
-import Stepper from "@/components/stepper"
+import { Stepper } from "@/components/stepper"
 import { getAllSections } from "@/form-generator/generator-sections"
 import { getTranslations } from "next-intl/server"
 
