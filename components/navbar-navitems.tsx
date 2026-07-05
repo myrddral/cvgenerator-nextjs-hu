@@ -12,9 +12,11 @@ import {
 import Image from "next/image"
 import { Link, usePathname } from "@/i18n/navigation"
 import { cn } from "@/lib/utils"
+import { useTranslations } from "next-intl"
 
 export default function NavbarNavitems() {
   const pathname = usePathname()
+  const t = useTranslations("Navbar")
 
   return (
     <NavigationMenu>
@@ -25,17 +27,17 @@ export default function NavbarNavitems() {
             className={navigationMenuTriggerStyle()}
             data-active={pathname.includes("/create")}
           >
-            <Link href="/create">Új önéletrajz</Link>
+            <Link href="/create">{t("newCv")}</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem className="max-sm:hidden">
           {process.env.NODE_ENV === "development" ? (
             <>
-              <NavigationMenuTrigger data-active={pathname.includes("/dev")}>Dev</NavigationMenuTrigger>
+              <NavigationMenuTrigger data-active={pathname.includes("/dev")}>{t("dev")}</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[280px] gap-3 p-4">
-                  <ListItem key="conponents" title="Komponenslista" href="/dev/components-list">
-                    Az oldal komponenseinek listája
+                  <ListItem key="conponents" title={t("devComponentsList")} href="/dev/components-list">
+                    {t("devComponentsListDescription")}
                   </ListItem>
                 </ul>
               </NavigationMenuContent>
@@ -51,7 +53,7 @@ export default function NavbarNavitems() {
             >
               <Image
                 src="/github-mark-white.svg"
-                alt="GitHub"
+                alt={t("githubAlt")}
                 width={20}
                 height={20}
                 suppressHydrationWarning

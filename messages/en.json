@@ -12,6 +12,13 @@
     "termsOfUse": "Terms of Use",
     "attribution": "Credits"
   },
+  "Navbar": {
+    "newCv": "New resume",
+    "dev": "Dev",
+    "devComponentsList": "Component list",
+    "devComponentsListDescription": "List of the page's components",
+    "githubAlt": "GitHub"
+  },
   "HomePage": {
     "title": "Resume Generator",
     "start": "GET STARTED",
