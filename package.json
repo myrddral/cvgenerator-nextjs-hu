@@ -11,11 +11,11 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "tsc --noEmit --watch",
-    "test": "jest",
-    "test:update": "jest --updateSnapshot",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:ci": "jest --ci --coverage --reporters=default"
+    "test": "bun test",
+    "test:update": "bun test --update-snapshots",
+    "test:watch": "bun test --watch",
+    "test:coverage": "bun test --coverage",
+    "test:ci": "bun test --coverage"
   },
   "dependencies": {
     "@hookform/resolvers": "5.4.0",
@@ -54,7 +54,6 @@
     "@testing-library/react": "16.3.2",
     "@testing-library/user-event": "14.6.1",
     "@types/bun": "1.3.14",
-    "@types/jest": "30.0.0",
     "@types/node": "26.1.0",
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
@@ -64,8 +63,6 @@
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "jest": "30.4.2",
-    "jest-environment-jsdom": "30.4.1",
     "postcss": "8.5.16",
     "prettier": "3.9.4",
     "prettier-plugin-tailwindcss": "0.8.0",
