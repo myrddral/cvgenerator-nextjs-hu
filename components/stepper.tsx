@@ -54,8 +54,7 @@ interface StepperProps {
   allSections: SectionProps[]
 }
 
-export default function Stepper({ allSections }: StepperProps) {
-  // the current section is determined by the section dynamic route parameter
+export function Stepper({ allSections }: StepperProps) {
   const { section } = useParams<{ section: RouteParamType }>()
   const { completedSections } = useCvDataStore((state) => state)
   const isCompleted = (sectionName: string) => completedSections.includes(sectionName)

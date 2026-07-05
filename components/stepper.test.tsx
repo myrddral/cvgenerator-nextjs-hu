@@ -1,5 +1,5 @@
-import { render } from "@testing-library/react"
-import Stepper from "./stepper"
+import { render } from "../test-utils"
+import { Stepper } from "./stepper"
 import { getAllSections } from "../form-generator/generator-sections"
 
 import { test, mock, describe } from "bun:test"
