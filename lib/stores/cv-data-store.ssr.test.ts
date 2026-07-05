@@ -1,3 +1,4 @@
+import { describe, beforeAll, afterAll, it, expect } from "bun:test"
 import { createCvDataStore } from "./cv-data-store"
 
 // Reproduces the /show prerender crash: on the server, `sessionStorage` isn't

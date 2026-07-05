@@ -12,7 +12,7 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "incremental": true,
-    "types": ["bun", "node", "jest", "react", "react-dom"],
+    "types": ["bun", "node", "react", "react-dom"],
 
     // Bundler mode
     "moduleResolution": "bundler",
