@@ -7,11 +7,20 @@ import { useCvDataStore, useCvDataStoreApi } from "@/providers/cv-data-store-pro
 import dynamic from "next/dynamic"
 import { type ComponentType, type ReactElement, type ReactNode, useEffect, useState } from "react"
 import { generateDocTitle } from "@/lib/utils"
+import { useTranslations } from "next-intl"
 // import { useAsyncErrors } from "@/hooks/use-async-errors"
+
+// dynamic()'s `loading` option is invoked outside this module's component tree, so
+// useTranslations can't be called inline there - it needs its own component to call
+// the hook from a proper render context.
+function PdfViewerLoading() {
+  const t = useTranslations("ShowPage")
+  return <Loader orientation="vertical" size="lg" text={t("loading")} />
+}
 
 const PDFViewer = dynamic(() => import("@react-pdf/renderer").then((mod) => mod.PDFViewer), {
   ssr: false,
-  loading: () => <Loader orientation="vertical" size="lg" text="Betöltés..." />,
+  loading: () => <PdfViewerLoading />,
 })
 
 type PDFDownloadLinkRenderProps = {
@@ -36,23 +45,28 @@ interface DownloadButtonProps {
   locale: "hu" | "en"
 }
 
-const DownloadButton = ({ Document, cvData, fileName, locale }: DownloadButtonProps) => (
-  <PDFDownloadLink document={<Document cvData={cvData} locale={locale} />} fileName={`${fileName}.pdf`}>
-    {({ loading, error }) => {
-      if (error) {
-        console.error(error)
-        return <div>Hiba történt a letöltés során</div>
-      }
-      return (
-        <Button size={"lg"} variant={"default"} className="mb-1.5 w-44">
-          {loading ? <Loader size="icon" /> : "PDF letöltése"}
-        </Button>
-      )
-    }}
-  </PDFDownloadLink>
-)
+const DownloadButton = ({ Document, cvData, fileName, locale }: DownloadButtonProps) => {
+  const t = useTranslations("ShowPage")
+
+  return (
+    <PDFDownloadLink document={<Document cvData={cvData} locale={locale} />} fileName={`${fileName}.pdf`}>
+      {({ loading, error }) => {
+        if (error) {
+          console.error(error)
+          return <div>{t("downloadError")}</div>
+        }
+        return (
+          <Button size={"lg"} variant={"default"} className="mb-1.5 w-44">
+            {loading ? <Loader size="icon" /> : t("downloadPdf")}
+          </Button>
+        )
+      }}
+    </PDFDownloadLink>
+  )
+}
 
 export default function ShowPdfPage({ params }: { params: Promise<{ locale: "hu" | "en" }> }) {
+  const t = useTranslations("ShowPage")
   const cvData = useCvDataStore((state) => state)
   const cvDataStoreApi = useCvDataStoreApi()
   const [isHydrated, setIsHydrated] = useState(() => cvDataStoreApi.persist?.hasHydrated() ?? false)
@@ -108,14 +122,14 @@ export default function ShowPdfPage({ params }: { params: Promise<{ locale: "hu"
       {isMobileDevice() ? (
         <>
           <h3 className="mb-8 text-center text-3xl font-bold leading-none tracking-wider text-shadow-lg">
-            Elkészült az önéletrajzod!
+            {t("readyTitle")}
           </h3>
-          <p className="mb-4 text-center text-shadow-lg">A letöltéshez kattints az alábbi gombra</p>
+          <p className="mb-4 text-center text-shadow-lg">{t("readyDescription")}</p>
         </>
       ) : null}
       {pdfResult}
     </div>
   ) : (
-    <Loader orientation="vertical" size="lg" text="Önéletrajz generálása..." />
+    <Loader orientation="vertical" size="lg" text={t("generating")} />
   )
 }
