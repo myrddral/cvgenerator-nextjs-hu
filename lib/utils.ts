@@ -13,6 +13,12 @@ export function isDevMode(): boolean {
   return process.env.NODE_ENV === "development"
 }
 
+/**
+ * Formats a date for display in the CV, using each locale's conventional month/year order
+ * (Hungarian puts the year first, English the month first) rather than a single shared format.
+ * @param date The date to format.
+ * @param locale The locale to format for; any other value falls back to the "yyyy. MMM" pattern with no locale-specific month names.
+ */
 export const formatDate = (date: string | Date, locale: "hu" | "en") => {
   if (locale === "hu") return format(date, "yyyy. MMM", { locale: hu })
   else if (locale === "en") return format(date, "MMM yyyy", { locale: en })

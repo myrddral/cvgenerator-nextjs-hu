@@ -4,7 +4,7 @@ import type { RouteParamType } from "@/form-generator/form-generator.types"
 import { routeParams } from "@/form-generator/generator-sections"
 import { useRouter } from "@/i18n/navigation"
 
-/*
+/**
  * This hook is used to navigate between sections in the form.
  * It handles the forward and backward navigation based on the current route parameter.
  *
