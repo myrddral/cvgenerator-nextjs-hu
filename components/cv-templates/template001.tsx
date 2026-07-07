@@ -25,13 +25,7 @@ import { translations } from "./translations"
 
 registerFontFamily("Beiruti")
 
-export const Template001 = ({
-  cvData,
-  locale,
-}: {
-  cvData: CvDataState
-  locale: "hu" | "en"
-}) => {
+export const Template001 = ({ cvData, locale }: { cvData: CvDataState; locale: "hu" | "en" }) => {
   const { personal, links, skills, experience, education, languages, interests } = cvData
   const docTitle = generateDocTitle(personal.firstName, personal.lastName, locale)
   let name = `${personal.firstName} ${personal.lastName}`
@@ -111,7 +105,8 @@ export const Template001 = ({
 
           <Section title={translations.experience[locale]} paddingLeft={0} paddingTop={0}>
             {experience.map((exp, index) => {
-              if (!exp.jobTitle || !exp.employer || !exp.startDate || !exp.endDate || !exp.location) return null
+              if (!exp.jobTitle || !exp.employer || !exp.startDate || !exp.endDate || !exp.location)
+                return null
               return (
                 <View key={index} style={{ marginBottom: index === experience.length - 1 ? 0 : 8 }}>
                   <Row gap={4}>

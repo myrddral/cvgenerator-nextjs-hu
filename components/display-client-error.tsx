@@ -16,7 +16,7 @@ export function DisplayClientError({ error, reset }: ErrorDisplayProps) {
   const t = useTranslations("ErrorPage")
 
   return (
-    <Card className="max-sm:max-w-screen-xs max-h-[calc(100dvh-25dvh)] min-w-80 bg-transparent/30 max-md:max-w-screen-md lg:max-w-screen-lg">
+    <Card className="max-h-[calc(100dvh-25dvh)] min-w-80 bg-transparent/30 max-md:max-w-screen-md max-sm:max-w-screen-xs lg:max-w-screen-lg">
       <CardHeader className="md:p-12 md:pb-4">
         <CardTitle>{t("title")}</CardTitle>
       </CardHeader>

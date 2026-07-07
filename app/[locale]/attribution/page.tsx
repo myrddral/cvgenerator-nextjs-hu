@@ -7,7 +7,7 @@ export default function AttribPage() {
   return (
     <div>
       <Card className="bg-transparent/30 p-6">
-        <h1 className="mb-8 text-center font-display text-3xl font-bold leading-none tracking-wider">
+        <h1 className="font-display mb-8 text-center text-3xl font-bold leading-none tracking-wider">
           {t("title")}
         </h1>
         <ul className="flex justify-center">

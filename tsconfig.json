@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     // Environment setup & latest features
-    "lib": [ "dom", "dom.iterable", "esnext" ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "esModuleInterop": true,
     "module": "Preserve",
@@ -20,17 +20,17 @@
     "verbatimModuleSyntax": true,
     "noEmit": true,
 
-     // Best practices
-     "strict": true,
-     "noImplicitAny": true,
-     "skipLibCheck": true,
-     "noUnusedLocals": true,
-     "noUnusedParameters": true,
-     "noImplicitReturns": true,
-     "noFallthroughCasesInSwitch": true,
-     "noUncheckedIndexedAccess": true,
-     "noImplicitOverride": true,
-     "noImplicitThis": true,
+    // Best practices
+    "strict": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noImplicitThis": true,
 
     "plugins": [
       {
@@ -39,50 +39,19 @@
     ],
 
     "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "@/components/*": [
-        "./components/*"
-      ],
-      "@/lib/*": [
-        "./lib/*"
-      ],
-      "@/types/*": [
-        "./types/*"
-      ],
-      "@/utils/*": [
-        "./utils/*"
-      ],
-      "@/hooks/*": [
-        "./hooks/*"
-      ],
-      "@/styles/*": [
-        "./styles/*"
-      ],
-      "@/public/*": [
-        "./public/*"
-      ],
-      "@/app/*": [
-        "./app/*"
-      ],
-      "@/config/*": [
-        "./config/*"
-      ],
-      "@/form-generator/*": [
-        "./form-generator/*"
-      ]
+      "@/*": ["./*"],
+      "@/components/*": ["./components/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/types/*": ["./types/*"],
+      "@/utils/*": ["./utils/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/styles/*": ["./styles/*"],
+      "@/public/*": ["./public/*"],
+      "@/app/*": ["./app/*"],
+      "@/config/*": ["./config/*"],
+      "@/form-generator/*": ["./form-generator/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    ".claude",
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/dev/types/**/*.ts"],
+  "exclude": ["node_modules", ".claude"]
 }

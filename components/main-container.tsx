@@ -5,5 +5,5 @@ interface MainContainerProps extends React.PropsWithChildren {
 }
 
 export default function MainContainer({ children, className }: MainContainerProps) {
-  return <main className={cn("flex-center container flex-1 p-2 mt-16 md:p-6", className)}>{children}</main>
+  return <main className={cn("flex-center container mt-16 flex-1 p-2 md:p-6", className)}>{children}</main>
 }
