@@ -40,3 +40,6 @@ next-env.d.ts
 
 # mock data
 /mockdata/
+
+# convex
+/convex/_generated

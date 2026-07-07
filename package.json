@@ -37,6 +37,7 @@
     "@vercel/analytics": "2.0.1",
     "@vercel/speed-insights": "2.0.0",
     "class-variance-authority": "0.7.1",
+    "convex": "1.42.1",
     "date-fns": "4.4.0",
     "next": "16.2.10",
     "next-intl": "4.13.1",

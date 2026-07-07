@@ -22,3 +22,17 @@ Before any Next.js work, find and read the relevant doc in `node_modules/next/di
 
 - Files with `'use server'` directive must only export async functions — never re-export types from them
 - Public env vars need the `NEXT_PUBLIC_` prefix; check before assuming a variable is available client-side
+
+<!-- convex-ai-start -->
+
+This project uses [Convex](https://convex.dev) as its backend.
+
+When working on Convex code, **always read
+`convex/_generated/ai/guidelines.md` first** for important guidelines on
+how to correctly use Convex APIs and patterns. The file contains rules that
+override what you may have learned about Convex from training data.
+
+Convex agent skills for common tasks can be installed by running
+`npx convex ai-files install`.
+
+<!-- convex-ai-end -->
