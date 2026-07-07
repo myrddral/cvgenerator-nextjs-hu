@@ -76,7 +76,7 @@ export default function ShowPdfPage({ params }: { params: Promise<{ locale: "hu"
   // const { throwAsyncError } = useAsyncErrors()
 
   useEffect(() => {
-    params.then((p) => setLocale(p.locale))
+    void params.then((p) => setLocale(p.locale))
   }, [params])
 
   // the store hydrates from sessionStorage asynchronously, so building the PDF
@@ -114,7 +114,7 @@ export default function ShowPdfPage({ params }: { params: Promise<{ locale: "hu"
       )
     }
 
-    loadTemplateWithData()
+    void loadTemplateWithData()
   }, [cvData, isHydrated, locale])
 
   return pdfResult ? (

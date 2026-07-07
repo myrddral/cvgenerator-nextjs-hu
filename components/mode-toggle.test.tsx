@@ -4,7 +4,7 @@ import { test, expect, describe, mock } from "bun:test"
 
 const setTheme = mock()
 
-mock.module("next-themes", () => ({
+void mock.module("next-themes", () => ({
   useTheme: () => ({ theme: "light", setTheme }),
 }))
 

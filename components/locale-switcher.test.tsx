@@ -8,7 +8,7 @@ import { test, expect, describe, beforeEach, mock } from "bun:test"
 
 const push = mock()
 
-mock.module("@/i18n/navigation", () => ({
+void mock.module("@/i18n/navigation", () => ({
   usePathname: () => "/show",
   useRouter: () => ({ push }),
 }))
