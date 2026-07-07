@@ -42,19 +42,28 @@ export interface ButtonProps
   asChild?: boolean
 }
 
+// Slot (used when asChild) requires exactly one child, so the decorative
+// nav-arrow icons can only be injected when rendering a plain <button>.
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
+  ({ className, variant, size, asChild = false, children, ...props }, ref) => {
+    if (asChild) {
+      return (
+        <Slot className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
+          {children}
+        </Slot>
+      )
+    }
+
     return (
-      <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
+      <button className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
         {variant === "navPrev" && (
           <ChevronLeftIcon className="absolute left-8 transform opacity-0 transition-transform duration-300 ease-out group-hover:translate-x-[-0.875rem] group-hover:opacity-100" />
         )}
-        {props.children}
+        {children}
         {variant === "navNext" && (
           <ChevronRightIcon className="absolute right-8 transform opacity-0 transition-transform duration-300 ease-out group-hover:translate-x-3.5 group-hover:opacity-100" />
         )}
-      </Comp>
+      </button>
     )
   }
 )
