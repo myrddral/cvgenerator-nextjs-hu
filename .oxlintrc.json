@@ -1,21 +1,13 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": [
-    "import",
-    "nextjs"
-  ],
+  "plugins": ["import", "nextjs"],
   "categories": {
     "correctness": "off"
   },
   "env": {
     "builtin": true
   },
-  "ignorePatterns": [
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts"
-  ],
+  "ignorePatterns": [".next/**", "out/**", "build/**", "next-env.d.ts"],
   "options": {
     "typeAware": true,
     "typeCheck": true
@@ -45,9 +37,7 @@
   },
   "overrides": [
     {
-      "files": [
-        "**/*.{js,jsx,mjs,ts,tsx,mts,cts}"
-      ],
+      "files": ["**/*.{js,jsx,mjs,ts,tsx,mts,cts}"],
       "rules": {
         "react/display-name": "error",
         "react/jsx-key": "error",
@@ -70,12 +60,8 @@
         "jsx-a11y/alt-text": [
           "warn",
           {
-            "elements": [
-              "img"
-            ],
-            "img": [
-              "Image"
-            ]
+            "elements": ["img"],
+            "img": ["Image"]
           }
         ],
         "jsx-a11y/aria-props": "warn",
@@ -84,7 +70,18 @@
         "jsx-a11y/role-has-required-aria-props": "warn",
         "jsx-a11y/role-supports-aria-props": "warn",
         "react/rules-of-hooks": "error",
-        "react/exhaustive-deps": "warn"
+        "react/exhaustive-deps": "warn",
+        "react/react-compiler": "warn",
+        "typescript/no-floating-promises": "error",
+        "typescript/no-misused-promises": [
+          "error",
+          {
+            "checksVoidReturn": {
+              "attributes": false
+            }
+          }
+        ],
+        "typescript/await-thenable": "error"
       },
       "globals": {
         "AudioWorkletGlobalScope": "readonly",
@@ -95,11 +92,7 @@
         "sampleRate": "readonly",
         "WorkletGlobalScope": "readonly"
       },
-      "plugins": [
-        "react",
-        "import",
-        "jsx-a11y"
-      ],
+      "plugins": ["react", "import", "jsx-a11y", "typescript"],
       "env": {
         "browser": true,
         "node": true
