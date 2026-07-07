@@ -4,7 +4,7 @@ import { getAllSections } from "../form-generator/generator-sections"
 
 import { test, mock, describe, expect } from "bun:test"
 
-mock.module("next/navigation", () => ({
+void mock.module("next/navigation", () => ({
   useParams: () => ({
     section: "links",
   }),
