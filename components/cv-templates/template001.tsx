@@ -60,18 +60,22 @@ export const Template001 = ({
                   {personal.email}
                 </Link>
               </View>
-              <View style={[styles.wrapper, { flex: 2 }]}>
-                <LinkedInIcon />
-                <Link src={links.linkedin} style={styles.link}>
-                  LinkedIn
-                </Link>
-              </View>
-              <View style={[styles.wrapper, { flex: 2 }]}>
-                <GlobeIcon />
-                <Link src={links.webpage} style={styles.link}>
-                  {translations.website[locale]}
-                </Link>
-              </View>
+              {links.linkedin && (
+                <View style={[styles.wrapper, { flex: 4 }]}>
+                  <LinkedInIcon />
+                  <Link src={links.linkedin} style={styles.link}>
+                    LinkedIn
+                  </Link>
+                </View>
+              )}
+              {links.webpage && (
+                <View style={[styles.wrapper, { flex: 2 }]}>
+                  <GlobeIcon />
+                  <Link src={links.webpage} style={styles.link}>
+                    {translations.website[locale]}
+                  </Link>
+                </View>
+              )}
             </Row>
             <Row marginBottom={6}>
               <View style={styles.wrapper}>
@@ -80,12 +84,14 @@ export const Template001 = ({
                   {personal.phone}
                 </Link>
               </View>
-              <View style={[styles.wrapper, { flex: 2 }]}>
-                <GithubIcon />
-                <Link src={links.github} style={styles.link}>
-                  GitHub
-                </Link>
-              </View>
+              {links.github && (
+                <View style={[styles.wrapper, { flex: 2 }]}>
+                  <GithubIcon />
+                  <Link src={links.github} style={styles.link}>
+                    GitHub
+                  </Link>
+                </View>
+              )}
               <View style={[styles.wrapper, { flex: 2 }]}>
                 <MapPinIcon />
                 <Text>{personal.location}</Text>
