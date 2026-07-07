@@ -8,7 +8,9 @@ import { getTranslations, setRequestLocale } from "next-intl/server"
 import { notFound } from "next/navigation"
 import Footer from "@/components/footer"
 import Navbar from "@/components/navbar"
+import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server"
 import { ThemeProvider } from "@/providers/theme-provider"
+import { ConvexClientProvider } from "@/providers/convex-client-provider"
 import { CvDataStoreProvider } from "@/providers/cv-data-store-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { siteConfig } from "@/config/site"
@@ -86,33 +88,37 @@ export default async function RootLayout({
   setRequestLocale(locale)
 
   return (
-    <html lang={locale} suppressHydrationWarning>
-      <body
-        className={cn(
-          "flex min-h-[100dvh] flex-col bg-background font-sans text-foreground antialiased",
-          fontSans.variable
-        )}
-      >
-        <NextIntlClientProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            storageKey="theme"
-            // enableSystem
-            disableTransitionOnChange
-          >
-            <CvDataStoreProvider>
-              <Navbar />
-              <MainContainer>{children}</MainContainer>
-              <Footer />
-              <Toaster />
-            </CvDataStoreProvider>
-          </ThemeProvider>
-        </NextIntlClientProvider>
-        {/* <SpeedInsights /> */}
-        {/* <Analytics /> */}
-        <GridBackground />
-      </body>
-    </html>
+    <ConvexAuthNextjsServerProvider>
+      <html lang={locale} suppressHydrationWarning>
+        <body
+          className={cn(
+            "flex min-h-[100dvh] flex-col bg-background font-sans text-foreground antialiased",
+            fontSans.variable
+          )}
+        >
+          <ConvexClientProvider>
+            <NextIntlClientProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="dark"
+                storageKey="theme"
+                // enableSystem
+                disableTransitionOnChange
+              >
+                <CvDataStoreProvider>
+                  <Navbar />
+                  <MainContainer>{children}</MainContainer>
+                  <Footer />
+                  <Toaster />
+                </CvDataStoreProvider>
+              </ThemeProvider>
+            </NextIntlClientProvider>
+          </ConvexClientProvider>
+          {/* <SpeedInsights /> */}
+          {/* <Analytics /> */}
+          <GridBackground />
+        </body>
+      </html>
+    </ConvexAuthNextjsServerProvider>
   )
 }
