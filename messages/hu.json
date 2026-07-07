@@ -17,7 +17,27 @@
     "dev": "Dev",
     "devComponentsList": "Komponenslista",
     "devComponentsListDescription": "Az oldal komponenseinek listája",
-    "githubAlt": "GitHub"
+    "githubAlt": "GitHub",
+    "signIn": "Bejelentkezés",
+    "signOut": "Kijelentkezés"
+  },
+  "Auth": {
+    "signInTitle": "Jelentkezz be a fiókodba",
+    "signUpTitle": "Fiók létrehozása",
+    "emailLabel": "Email cím",
+    "emailPlaceholder": "email@domain.hu",
+    "passwordLabel": "Jelszó",
+    "passwordPlaceholder": "Legalább 8 karakter",
+    "signInSubmit": "Bejelentkezés",
+    "signUpSubmit": "Regisztráció",
+    "toggleToSignUp": "Nincs még fiókod? Regisztrálj",
+    "toggleToSignIn": "Már van fiókod? Jelentkezz be",
+    "invalidCredentials": "Érvénytelen email cím vagy jelszó",
+    "validation": {
+      "emailRequired": "Email cím kitöltése kötelező",
+      "emailInvalid": "Érvénytelen email cím",
+      "passwordTooShort": "A jelszónak legalább 8 karakternek kell lennie"
+    }
   },
   "HomePage": {
     "title": "Önéletrajz generátor",

@@ -1,6 +1,7 @@
 import NavbarNavitems from "./navbar-navitems"
 import { ModeToggle } from "./mode-toggle"
 import LocaleSwitcher from "./locale-switcher"
+import { AuthNavItem } from "./auth/auth-nav-item"
 import { Link } from "@/i18n/navigation"
 import Logo from "./ui/logo"
 
@@ -12,6 +13,7 @@ export default function Navbar() {
       </Link>
       <div className="flex items-center gap-2">
         <NavbarNavitems />
+        <AuthNavItem />
         <LocaleSwitcher />
         {process.env.NODE_ENV === "development" ? <ModeToggle /> : null}
       </div>

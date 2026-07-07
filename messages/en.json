@@ -17,7 +17,27 @@
     "dev": "Dev",
     "devComponentsList": "Component list",
     "devComponentsListDescription": "List of the page's components",
-    "githubAlt": "GitHub"
+    "githubAlt": "GitHub",
+    "signIn": "Sign in",
+    "signOut": "Sign out"
+  },
+  "Auth": {
+    "signInTitle": "Sign in to your account",
+    "signUpTitle": "Create an account",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "email@domain.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "At least 8 characters",
+    "signInSubmit": "Sign in",
+    "signUpSubmit": "Sign up",
+    "toggleToSignUp": "Don't have an account? Sign up",
+    "toggleToSignIn": "Already have an account? Sign in",
+    "invalidCredentials": "Invalid email or password",
+    "validation": {
+      "emailRequired": "Email address is required",
+      "emailInvalid": "Invalid email address",
+      "passwordTooShort": "Password must be at least 8 characters"
+    }
   },
   "HomePage": {
     "title": "Resume Generator",
