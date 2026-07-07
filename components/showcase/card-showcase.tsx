@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 export default function CardShowcase() {
   return (
     <>
-      <h2 className="m-2 border-b-2 font-display text-lg font-semibold tracking-wider">Cards</h2>
+      <h2 className="font-display m-2 border-b-2 text-lg font-semibold tracking-wider">Cards</h2>
       <div className="flex flex-wrap gap-x-12 gap-y-8">
         {cardVariants.map((variant) => (
           <div key={variant} className="p-2">
@@ -20,8 +20,9 @@ export default function CardShowcase() {
                     </CardHeader>
                   )}
                   <CardContent className="w-full p-6 max-sm:p-4 md:min-w-[400px]">
-                    lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut...
+                    lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut...
                   </CardContent>
                 </Card>
               ))}

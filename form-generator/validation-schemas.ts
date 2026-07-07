@@ -21,7 +21,10 @@ export function getImageSchema(t: Translate) {
   return z
     .instanceof(File)
     .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), t("validation.image.type"))
-    .refine((file) => file.size <= MAX_FILE_SIZE, t("validation.image.maxSize", { size: MAX_FILE_SIZE_IN_MB }))
+    .refine(
+      (file) => file.size <= MAX_FILE_SIZE,
+      t("validation.image.maxSize", { size: MAX_FILE_SIZE_IN_MB })
+    )
 }
 
 function getOptionalUrlSchema(t: Translate) {

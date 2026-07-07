@@ -17,7 +17,7 @@ const buttonSizes = ["sm", "default", "lg", "icon"]
 export default function ButtonsShowcase() {
   return (
     <>
-      <h2 className="m-2 font-display text-lg font-semibold tracking-wider border-b-2">Buttons</h2>
+      <h2 className="font-display m-2 border-b-2 text-lg font-semibold tracking-wider">Buttons</h2>
       <div className="flex flex-wrap gap-x-12 gap-y-8">
         {buttonVariants.map((variant) => (
           <div key={variant} className="p-2">

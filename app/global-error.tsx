@@ -1,11 +1,6 @@
-"use client";
+"use client"
 
-export default function GlobalError({
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
+export default function GlobalError({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
     <html>
       <body>
@@ -13,5 +8,5 @@ export default function GlobalError({
         <button onClick={() => reset()}>Vissza az oldalra</button>
       </body>
     </html>
-  );
+  )
 }

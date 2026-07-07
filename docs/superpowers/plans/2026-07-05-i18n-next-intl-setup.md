@@ -21,6 +21,7 @@
 ### Task 1: Routing infra — install next-intl, add config, move routes under `app/[locale]/`
 
 **Files:**
+
 - Modify: `package.json` (add `next-intl` dependency)
 - Modify: `next.config.ts` (wrap config with `createNextIntlPlugin`)
 - Create: `middleware.ts`
@@ -48,6 +49,7 @@
 - Modify: `config/site.ts` (drop `locale` and `htmlLang` fields — computed inline in the new layout instead)
 
 **Interfaces:**
+
 - Produces: `routing` export (`{ locales: ["en", "hu"], defaultLocale: "en" }`) from `i18n/routing.ts`, consumed by `middleware.ts`, `i18n/navigation.ts`, `i18n/request.ts`, and Task 3's `LocaleSwitcher`.
 - Produces: `Link`, `usePathname`, `useRouter` from `i18n/navigation.ts` (locale-aware wrappers), consumed by Task 3.
 - Produces: `app/[locale]/layout.tsx` accepting `params: Promise<{ locale: string }>`, rendering `<html lang={locale}>` and wrapping children in `NextIntlClientProvider`.
@@ -60,6 +62,7 @@ Expected: `next-intl` added to `dependencies` in `package.json` and `bun.lock` u
 - [ ] **Step 2: Create routing config**
 
 `i18n/routing.ts`:
+
 ```ts
 import { defineRouting } from "next-intl/routing"
 
@@ -72,6 +75,7 @@ export const routing = defineRouting({
 - [ ] **Step 3: Create locale-aware navigation helpers**
 
 `i18n/navigation.ts`:
+
 ```ts
 import { createNavigation } from "next-intl/navigation"
 import { routing } from "./routing"
@@ -82,6 +86,7 @@ export const { Link, redirect, usePathname, useRouter, getPathname } = createNav
 - [ ] **Step 4: Create request config**
 
 `i18n/request.ts`:
+
 ```ts
 import { hasLocale } from "next-intl"
 import { getRequestConfig } from "next-intl/server"
@@ -101,6 +106,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
 - [ ] **Step 5: Create message files**
 
 `messages/en.json`:
+
 ```json
 {
   "LocaleSwitcher": {
@@ -110,6 +116,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
 ```
 
 `messages/hu.json`:
+
 ```json
 {
   "LocaleSwitcher": {
@@ -121,6 +128,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
 - [ ] **Step 6: Create middleware**
 
 `middleware.ts` (project root, alongside `next.config.ts`):
+
 ```ts
 import createMiddleware from "next-intl/middleware"
 import { routing } from "./i18n/routing"
@@ -135,8 +143,9 @@ export const config = {
 - [ ] **Step 7: Wire next-intl plugin into next.config.ts**
 
 Modify `next.config.ts`:
+
 ```ts
-import type { NextConfig } from 'next'
+import type { NextConfig } from "next"
 import withBundleAnalyzer from "@next/bundle-analyzer"
 import createNextIntlPlugin from "next-intl/plugin"
 
@@ -195,6 +204,7 @@ git mv app/dev "app/[locale]/dev"
 - [ ] **Step 9: Update `app/[locale]/layout.tsx` for async locale params + NextIntlClientProvider**
 
 Replace the file's content:
+
 ```tsx
 import type { Metadata } from "next"
 import type { PropsWithChildren } from "react"
@@ -340,11 +350,13 @@ Expected: both PASS with no errors. Build output should show routes prefixed und
 - [ ] **Step 13: Manual verification**
 
 Run: `bun run dev`, then in another terminal:
+
 ```bash
 curl -sI http://localhost:3000/ | head -5
 curl -sI http://localhost:3000/en | head -5
 curl -sI http://localhost:3000/hu/show | head -5
 ```
+
 Expected: `/` returns a 307/308 redirect to `/en` (or `/hu` depending on `Accept-Language`), `/en` and `/hu/show` return 200.
 
 - [ ] **Step 14: Commit**
@@ -359,21 +371,26 @@ git commit -m "feat: route app under [locale] via next-intl middleware"
 ### Task 2: Wire locale into `config/site.ts`-adjacent logic and the PDF template
 
 **Files:**
+
 - Modify: `app/[locale]/show/page.tsx`
 - Modify: `components/cv-templates/template001.tsx:28-33`
 
 **Interfaces:**
+
 - Consumes: `routing.locales` type from Task 1's `i18n/routing.ts` (for the locale param type).
 - Produces: `Template001` now takes a `locale: "hu" | "en"` prop instead of hardcoding it — no other task depends on this, it's the last hardcoded-locale spot flagged in the design spec.
 
 - [ ] **Step 1: Make `Template001` accept `locale` as a prop**
 
 In `components/cv-templates/template001.tsx`, replace:
+
 ```tsx
 export const Template001 = ({ cvData }: { cvData: CvDataState }) => {
   const locale: "hu" | "en" = "hu"
 ```
+
 with:
+
 ```tsx
 export const Template001 = ({
   cvData,
@@ -414,9 +431,12 @@ type PDFDownloadLinkRenderProps = {
   error: Error | null
 }
 
-const PDFDownloadLinkUntyped = dynamic(() => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink), {
-  ssr: false,
-})
+const PDFDownloadLinkUntyped = dynamic(
+  () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
+  {
+    ssr: false,
+  }
+)
 
 const PDFDownloadLink = PDFDownloadLinkUntyped as unknown as ComponentType<{
   document: ReactElement
@@ -537,17 +557,20 @@ git commit -m "feat: derive PDF template locale from the URL instead of hardcodi
 ### Task 3: Locale switcher in the navbar
 
 **Files:**
+
 - Create: `components/locale-switcher.tsx`
 - Create: `components/locale-switcher.test.tsx`
 - Modify: `components/navbar.tsx`
 
 **Interfaces:**
+
 - Consumes: `Link`/`usePathname`/`useRouter` from `i18n/navigation.ts` (Task 1), `routing.locales` from `i18n/routing.ts` (Task 1), `useLocale` and `useTranslations` from `next-intl`.
 - Produces: `LocaleSwitcher` default export, a client component with no required props — consumed only by `components/navbar.tsx`.
 
 - [ ] **Step 1: Write the failing test**
 
 `components/locale-switcher.test.tsx`:
+
 ```tsx
 import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
@@ -596,19 +619,14 @@ Expected: FAIL — `Cannot find module './locale-switcher'`.
 - [ ] **Step 3: Implement `LocaleSwitcher`**
 
 `components/locale-switcher.tsx`:
+
 ```tsx
 "use client"
 
 import { useLocale } from "next-intl"
 import { usePathname, useRouter } from "@/i18n/navigation"
 import { routing } from "@/i18n/routing"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 const localeLabels: Record<(typeof routing.locales)[number], string> = {
   en: "EN",
@@ -650,6 +668,7 @@ Expected: PASS (2 tests).
 - [ ] **Step 5: Add the switcher to the navbar**
 
 Modify `components/navbar.tsx`:
+
 ```tsx
 import NavbarNavitems from "./navbar-navitems"
 import { ModeToggle } from "./mode-toggle"

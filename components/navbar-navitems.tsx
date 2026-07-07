@@ -33,7 +33,9 @@ export default function NavbarNavitems() {
         <NavigationMenuItem className="max-sm:hidden">
           {process.env.NODE_ENV === "development" ? (
             <>
-              <NavigationMenuTrigger data-active={pathname.includes("/dev")}>{t("dev")}</NavigationMenuTrigger>
+              <NavigationMenuTrigger data-active={pathname.includes("/dev")}>
+                {t("dev")}
+              </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[280px] gap-3 p-4">
                   <ListItem key="conponents" title={t("devComponentsList")} href="/dev/components-list">
@@ -63,7 +65,7 @@ export default function NavbarNavitems() {
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
-  );
+  )
 }
 
 const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWithoutRef<"a">>(

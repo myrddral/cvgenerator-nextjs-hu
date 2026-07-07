@@ -9,9 +9,19 @@ interface RowProps extends PropsWithChildren {
   marginBottom?: number
 }
 
-export const Row = ({ children, debug, justifyContent, alignItems, gap, marginBottom }: Readonly<RowProps>) => {
+export const Row = ({
+  children,
+  debug,
+  justifyContent,
+  alignItems,
+  gap,
+  marginBottom,
+}: Readonly<RowProps>) => {
   return (
-    <View style={{ flexDirection: "row", width: "100%", justifyContent, alignItems, gap, marginBottom }} debug={debug}>
+    <View
+      style={{ flexDirection: "row", width: "100%", justifyContent, alignItems, gap, marginBottom }}
+      debug={debug}
+    >
       {children}
     </View>
   )
