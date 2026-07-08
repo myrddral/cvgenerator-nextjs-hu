@@ -18,7 +18,8 @@
     "test:update": "bun test --update-snapshots",
     "test:watch": "bun test --watch",
     "test:coverage": "bun test --coverage",
-    "test:ci": "bun test --coverage"
+    "test:ci": "bun test --coverage",
+    "test:convex": "vitest run"
   },
   "dependencies": {
     "@convex-dev/auth": "0.0.94",
@@ -53,6 +54,7 @@
     "zustand": "5.0.14"
   },
   "devDependencies": {
+    "@edge-runtime/vm": "5.0.0",
     "@happy-dom/global-registrator": "20.10.6",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "16.3.2",
@@ -62,13 +64,15 @@
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
     "clsx": "2.1.1",
+    "convex-test": "0.0.54",
     "oxfmt": "0.57.0",
     "oxlint": "1.72.0",
     "oxlint-tsgolint": "0.24.0",
     "postcss": "8.5.16",
     "tailwind-merge": "3.6.0",
     "tailwindcss": "3.4.19",
-    "typescript": "6.0.3"
+    "typescript": "6.0.3",
+    "vitest": "4.1.9"
   },
   "trustedDependencies": [
     "@vercel/speed-insights",
