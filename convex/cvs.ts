@@ -1,6 +1,8 @@
 import { ConvexError, v } from "convex/values"
 import { getAuthUserId } from "@convex-dev/auth/server"
 import { mutation, query } from "./_generated/server"
+import type { MutationCtx } from "./_generated/server"
+import type { Doc, Id } from "./_generated/dataModel"
 import { requireOwnedCv } from "./lib/cv"
 import {
   personalValidator,
@@ -91,5 +93,74 @@ export const get = query({
       interests: cv.interests,
       completedSections: cv.completedSections,
     }
+  },
+})
+
+async function patchSection<K extends keyof Pick<
+  Doc<"cvs">,
+  "personal" | "links" | "skills" | "interests" | "experience" | "education" | "languages"
+>>(ctx: MutationCtx, cvId: Id<"cvs">, section: K, data: Doc<"cvs">[K]) {
+  const cv = await requireOwnedCv(ctx, cvId)
+  const completedSections = cv.completedSections.includes(section)
+    ? cv.completedSections
+    : [...cv.completedSections, section]
+  await ctx.db.patch(cvId, { [section]: data, completedSections, updatedAt: Date.now() } as Partial<
+    Doc<"cvs">
+  >)
+  return null
+}
+
+export const setPersonal = mutation({
+  args: { cvId: v.id("cvs"), data: personalValidator },
+  returns: v.null(),
+  handler: (ctx, args) => patchSection(ctx, args.cvId, "personal", args.data),
+})
+
+export const setLinks = mutation({
+  args: { cvId: v.id("cvs"), data: linksValidator },
+  returns: v.null(),
+  handler: (ctx, args) => patchSection(ctx, args.cvId, "links", args.data),
+})
+
+export const setSkills = mutation({
+  args: { cvId: v.id("cvs"), data: skillsValidator },
+  returns: v.null(),
+  handler: (ctx, args) => patchSection(ctx, args.cvId, "skills", args.data),
+})
+
+export const setInterests = mutation({
+  args: { cvId: v.id("cvs"), data: interestsValidator },
+  returns: v.null(),
+  handler: (ctx, args) => patchSection(ctx, args.cvId, "interests", args.data),
+})
+
+export const setExperience = mutation({
+  args: { cvId: v.id("cvs"), data: v.array(experienceItemValidator) },
+  returns: v.null(),
+  handler: (ctx, args) => patchSection(ctx, args.cvId, "experience", args.data),
+})
+
+export const setEducation = mutation({
+  args: { cvId: v.id("cvs"), data: v.array(educationItemValidator) },
+  returns: v.null(),
+  handler: (ctx, args) => patchSection(ctx, args.cvId, "education", args.data),
+})
+
+export const setLanguages = mutation({
+  args: { cvId: v.id("cvs"), data: v.array(languageItemValidator) },
+  returns: v.null(),
+  handler: (ctx, args) => patchSection(ctx, args.cvId, "languages", args.data),
+})
+
+export const remove = mutation({
+  args: { cvId: v.id("cvs") },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const cv = await requireOwnedCv(ctx, args.cvId)
+    if (cv.pictureId) {
+      await ctx.storage.delete(cv.pictureId)
+    }
+    await ctx.db.delete(args.cvId)
+    return null
   },
 })
