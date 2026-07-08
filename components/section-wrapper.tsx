@@ -16,10 +16,13 @@ import { IconButton } from "@/components/ui/iconbutton"
 import FormGenerator from "@/form-generator/form-generator"
 import type { getSectionSchemas } from "@/form-generator/validation-schemas"
 import { useFormNavigation } from "@/hooks/use-form-navigation"
+import { useCvId } from "@/hooks/use-cv-id"
+import { getSectionMutationRef, serializePersonal, serializeExperienceList, serializeEducationList } from "@/lib/cv-sync"
+import { useMutation } from "convex/react"
 import { PlusIcon } from "@radix-ui/react-icons"
 import { useTranslations } from "next-intl"
 import { useCallback, useState } from "react"
-import { useCvDataStore } from "../providers/cv-data-store-provider"
+import { useCvDataStore, useCvDataStoreApi } from "../providers/cv-data-store-provider"
 import { ConfirmDialog } from "./confirm-dialog"
 import { FormDialog } from "./form-dialog"
 import { Button } from "./ui/button"
@@ -28,11 +31,21 @@ type SectionSchemas = ReturnType<typeof getSectionSchemas>
 
 export interface FormStepWrapperProps extends SectionProps {}
 
+function serializeForSection(sectionName: SectionName, value: unknown) {
+  if (sectionName === "personal") return serializePersonal(value as CvDataState["personal"])
+  if (sectionName === "experience") return serializeExperienceList(value as Employment[])
+  if (sectionName === "education") return serializeEducationList(value as School[])
+  return value
+}
+
 export function SectionWrapper({ ...sectionProps }: FormStepWrapperProps) {
   const { title, sub, sectionName, isMultiEntry } = sectionProps
   const t = useTranslations("CreateFlow.actions")
   const { handleForwardStep, handleBackStep } = useFormNavigation(sectionName)
+  const cvId = useCvId()
+  const saveSection = useMutation(getSectionMutationRef(sectionName))
   const { setSectionData, removeFromList, markSectionAsCompleted } = useCvDataStore((state) => state)
+  const storeApi = useCvDataStoreApi()
   const sectionData = useCvDataStore((state) => state)[sectionName]
   const [selectedItemIdx, setSelectedItemIdx] = useState<number | undefined | null>(null)
 
@@ -42,14 +55,22 @@ export function SectionWrapper({ ...sectionProps }: FormStepWrapperProps) {
       : (sectionData as z.infer<SectionSchemas[SectionName]>)
   }, [isMultiEntry, sectionData, selectedItemIdx])
 
+  function persistSection() {
+    if (!cvId) return
+    const value = storeApi.getState()[sectionName]
+    void saveSection({ cvId, data: serializeForSection(sectionName, value) })
+  }
+
   function onSubmit(data: Omit<CvDataState[SectionName], "email">) {
     if (isMultiEntry) {
       setSectionData(sectionName, data as Employment | School | Language)
       markSectionAsCompleted(sectionName)
       setSelectedItemIdx(null)
+      persistSection()
     } else {
       setSectionData(sectionName, data)
       markSectionAsCompleted(sectionName)
+      persistSection()
       handleForwardStep()
     }
   }
@@ -63,6 +84,7 @@ export function SectionWrapper({ ...sectionProps }: FormStepWrapperProps) {
     if (isMultiEntry && selectedItemIdx) {
       removeFromList(sectionName as SectionNameWithMultiEntry, selectedItemIdx)
       setSelectedItemIdx(null)
+      persistSection()
     }
   }
 

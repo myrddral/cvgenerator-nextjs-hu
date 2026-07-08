@@ -2,7 +2,11 @@
 import { GlobalRegistrator } from "@happy-dom/global-registrator"
 import { afterEach } from "bun:test"
 
-GlobalRegistrator.register()
+// A base URL is required for next/image's dev-mode duplicate-src check,
+// which resolves relative `src` values (e.g. "/placeholder.jpg") against
+// `window.location.href` — happy-dom's default "about:blank" can't act as
+// a relative-resolution base and throws "Invalid URL".
+GlobalRegistrator.register({ url: "http://localhost:3000/" })
 
 // @testing-library/react's auto-cleanup only registers once, the first time
 // the module is imported, so it doesn't fire after every test file when
