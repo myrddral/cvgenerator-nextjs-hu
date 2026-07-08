@@ -164,3 +164,28 @@ export const remove = mutation({
     return null
   },
 })
+
+export const generateUploadUrl = mutation({
+  args: {},
+  returns: v.string(),
+  handler: async (ctx) => {
+    const userId = await getAuthUserId(ctx)
+    if (userId === null) {
+      throw new ConvexError({ code: "UNAUTHENTICATED", message: "Not signed in" })
+    }
+    return await ctx.storage.generateUploadUrl()
+  },
+})
+
+export const setPicture = mutation({
+  args: { cvId: v.id("cvs"), storageId: v.id("_storage") },
+  returns: v.object({ pictureUrl: v.union(v.string(), v.null()) }),
+  handler: async (ctx, args) => {
+    const cv = await requireOwnedCv(ctx, args.cvId)
+    if (cv.pictureId && cv.pictureId !== args.storageId) {
+      await ctx.storage.delete(cv.pictureId)
+    }
+    await ctx.db.patch(args.cvId, { pictureId: args.storageId, updatedAt: Date.now() })
+    return { pictureUrl: await ctx.storage.getUrl(args.storageId) }
+  },
+})

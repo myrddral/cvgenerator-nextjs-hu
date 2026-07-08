@@ -106,3 +106,37 @@ test("remove deletes the cv", async () => {
 
   await expect(asUser.query(api.cvs.get, { cvId })).rejects.toThrow()
 })
+
+test("setPicture stores the file id and resolves a url", async () => {
+  const t = convexTest(schema, modules)
+  const { asUser } = await signedInUser(t)
+  const cvId = await asUser.mutation(api.cvs.create, {})
+
+  const uploadUrl = await asUser.mutation(api.cvs.generateUploadUrl, {})
+  expect(typeof uploadUrl).toBe("string")
+
+  const storageId = await t.run((ctx) =>
+    ctx.storage.store(new Blob(["fake-image-bytes"], { type: "image/png" }))
+  )
+
+  const result = await asUser.mutation(api.cvs.setPicture, { cvId, storageId })
+  expect(result.pictureUrl).not.toBeNull()
+
+  const cv = await asUser.query(api.cvs.get, { cvId })
+  expect(cv?.pictureUrl).toEqual(result.pictureUrl)
+})
+
+test("setPicture deletes the previous file when replaced", async () => {
+  const t = convexTest(schema, modules)
+  const { asUser } = await signedInUser(t)
+  const cvId = await asUser.mutation(api.cvs.create, {})
+
+  const firstId = await t.run((ctx) => ctx.storage.store(new Blob(["one"], { type: "image/png" })))
+  await asUser.mutation(api.cvs.setPicture, { cvId, storageId: firstId })
+
+  const secondId = await t.run((ctx) => ctx.storage.store(new Blob(["two"], { type: "image/png" })))
+  await asUser.mutation(api.cvs.setPicture, { cvId, storageId: secondId })
+
+  const firstStillThere = await t.run((ctx) => ctx.storage.getUrl(firstId))
+  expect(firstStillThere).toBeNull()
+})
