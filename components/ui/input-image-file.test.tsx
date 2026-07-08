@@ -1,6 +1,6 @@
 import { describe, expect, test, mock } from "bun:test"
 import userEvent from "@testing-library/user-event"
-import { render } from "../../test-utils"
+import { render, screen } from "../../test-utils"
 
 const generateUploadUrl = mock(() => Promise.resolve("https://upload.example.com/put"))
 const setPicture = mock(() => Promise.resolve({ pictureUrl: "https://files.example.com/pic.png" }))
@@ -42,6 +42,32 @@ describe("InputImageFile", () => {
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({ target: expect.objectContaining({ value: "https://files.example.com/pic.png" }) })
     )
+
+    global.fetch = originalFetch
+  })
+
+  test("surfaces an error and clears the loading state when the upload fails", async () => {
+    global.fetch = mock(() => Promise.resolve(new Response("", { status: 500 }))) as unknown as typeof fetch
+    const onChange = mock()
+    const setError = mock()
+
+    render(
+      <InputImageFile
+        name="picture"
+        value=""
+        setError={setError}
+        onChange={onChange}
+      />
+    )
+
+    const file = new File(["fake-bytes"], "photo.png", { type: "image/png" })
+    const input = document.querySelector("input[type=file]") as HTMLInputElement
+    await userEvent.upload(input, file)
+
+    expect(setError).toHaveBeenCalledWith("picture", expect.objectContaining({ type: "manual" }))
+    expect(onChange).not.toHaveBeenCalled()
+    // The image (not the loading spinner) is back, proving isLoading was reset to false.
+    expect(screen.getByAltText("Upload profile picture")).toBeTruthy()
 
     global.fetch = originalFetch
   })

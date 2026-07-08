@@ -95,6 +95,7 @@
   },
   "CreateFlow": {
     "pictureUploadAlt": "Profilkép feltöltése",
+    "pictureUploadFailed": "Nem sikerült feltölteni a képet. Kérjük, próbáld újra.",
     "emailStep": {
       "title": "A kezdéshez add meg az email címed",
       "emailLabel": "Email cím",

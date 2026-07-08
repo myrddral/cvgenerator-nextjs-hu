@@ -95,6 +95,7 @@
   },
   "CreateFlow": {
     "pictureUploadAlt": "Upload profile picture",
+    "pictureUploadFailed": "Couldn't upload the picture. Please try again.",
     "emailStep": {
       "title": "To get started, enter your email address",
       "emailLabel": "Email address",

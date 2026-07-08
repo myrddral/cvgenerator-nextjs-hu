@@ -115,14 +115,22 @@ const InputImageFile = forwardRef<HTMLInputElement, InputImageFileProps>(
         return
       }
 
-      const uploadUrl = await generateUploadUrl({})
-      const uploadResponse = await fetch(uploadUrl, { method: "POST", body: parsedImage.data })
-      const { storageId } = (await uploadResponse.json()) as { storageId: Id<"_storage"> }
-      const { pictureUrl: resolvedUrl } = await setPicture({ cvId: cvId as Id<"cvs">, storageId })
+      try {
+        const uploadUrl = await generateUploadUrl({})
+        const uploadResponse = await fetch(uploadUrl, { method: "POST", body: parsedImage.data })
+        if (!uploadResponse.ok) throw new Error(`Upload failed with status ${uploadResponse.status}`)
+        const { storageId } = (await uploadResponse.json()) as { storageId: Id<"_storage"> }
+        const { pictureUrl: resolvedUrl } = await setPicture({ cvId: cvId as Id<"cvs">, storageId })
 
-      setPictureUrl(resolvedUrl ?? undefined)
-      setIsLoading(false)
-      props.onChange?.({ ...e, target: { ...e.target, value: resolvedUrl ?? "" } })
+        setPictureUrl(resolvedUrl ?? undefined)
+        props.onChange?.({ ...e, target: { ...e.target, value: resolvedUrl ?? "" } })
+      } catch {
+        const name = props.name
+        if (!name) throw new Error("InputFile: name prop is missing")
+        setError(name, { type: "manual", message: t("pictureUploadFailed") })
+      } finally {
+        setIsLoading(false)
+      }
     }
 
     const handleClick = () => {
