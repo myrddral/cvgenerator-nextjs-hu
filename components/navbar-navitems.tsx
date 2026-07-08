@@ -25,9 +25,9 @@ export default function NavbarNavitems() {
           <NavigationMenuLink
             asChild
             className={navigationMenuTriggerStyle()}
-            data-active={pathname.includes("/create")}
+            data-active={pathname.includes("/create") || pathname.includes("/cvs")}
           >
-            <Link href="/create">{t("newCv")}</Link>
+            <Link href="/cvs">{t("myCvs")}</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem className="max-sm:hidden">

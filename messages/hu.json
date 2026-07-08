@@ -14,12 +14,21 @@
   },
   "Navbar": {
     "newCv": "Új önéletrajz",
+    "myCvs": "Önéletrajzaim",
     "dev": "Dev",
     "devComponentsList": "Komponenslista",
     "devComponentsListDescription": "Az oldal komponenseinek listája",
     "githubAlt": "GitHub",
     "signIn": "Bejelentkezés",
     "signOut": "Kijelentkezés"
+  },
+  "CvsPage": {
+    "title": "Önéletrajzaim",
+    "newCv": "Új önéletrajz",
+    "empty": "Még nincs mentett önéletrajzod.",
+    "untitled": "Névtelen önéletrajz",
+    "continue": "Folytatás",
+    "updatedAt": "Utoljára szerkesztve: {date}"
   },
   "Auth": {
     "signInTitle": "Jelentkezz be a fiókodba",

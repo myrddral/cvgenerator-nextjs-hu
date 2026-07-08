@@ -14,12 +14,21 @@
   },
   "Navbar": {
     "newCv": "New resume",
+    "myCvs": "My resumes",
     "dev": "Dev",
     "devComponentsList": "Component list",
     "devComponentsListDescription": "List of the page's components",
     "githubAlt": "GitHub",
     "signIn": "Sign in",
     "signOut": "Sign out"
+  },
+  "CvsPage": {
+    "title": "My resumes",
+    "newCv": "New resume",
+    "empty": "You haven't saved any resumes yet.",
+    "untitled": "Untitled resume",
+    "continue": "Continue",
+    "updatedAt": "Last edited {date}"
   },
   "Auth": {
     "signInTitle": "Sign in to your account",
