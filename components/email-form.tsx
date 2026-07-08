@@ -4,17 +4,18 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { getEmailSchema } from "@/form-generator/validation-schemas"
 import { useCvDataStore } from "@/providers/cv-data-store-provider"
+import { useCvId } from "@/hooks/use-cv-id"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { useEffect, useMemo } from "react"
+import { useMemo } from "react"
 
 export function EmailForm() {
   const router = useRouter()
+  const cvId = useCvId()
   const t = useTranslations("CreateFlow")
-  const resetStore = useCvDataStore((state) => state.resetStore)
   const setEmail = useCvDataStore((state) => state.setEmail)
   const emailSchema = useMemo(() => getEmailSchema(t), [t])
   const form = useForm<z.infer<typeof emailSchema>>({
@@ -23,18 +24,10 @@ export function EmailForm() {
       email: "",
     },
   })
-  const resetForm = form.reset
-
-  // when the component is mounted, reset the session storage
-  // TODO: check if async reset is needed
-  useEffect(() => {
-    resetStore()
-    resetForm()
-  }, [resetStore, resetForm])
 
   function onSubmit(data: z.infer<typeof emailSchema>) {
     setEmail(data.email)
-    router.push("/create/personal")
+    router.push(cvId ? `/create/personal?cv=${cvId}` : "/create/personal")
   }
 
   return (

@@ -3,6 +3,7 @@ import type { RouteParamType } from "@/form-generator/form-generator.types"
 import { getSectionMap, routeParams } from "@/form-generator/generator-sections"
 import NotFound from "@/app/[locale]/not-found"
 import { SectionWrapper } from "@/components/section-wrapper"
+import { CvSyncBoundary } from "@/components/cv-sync-boundary"
 import { getTranslations } from "next-intl/server"
 
 export async function generateStaticParams() {
@@ -30,12 +31,14 @@ export default async function SectionPage({ params }: { params: Promise<{ sectio
   const { fields, isMultiEntry, title, sub } = sectionMap.get(sectionName)!
 
   return (
-    <SectionWrapper
-      sectionName={sectionName}
-      isMultiEntry={isMultiEntry}
-      fields={fields}
-      title={title}
-      sub={sub}
-    />
+    <CvSyncBoundary>
+      <SectionWrapper
+        sectionName={sectionName}
+        isMultiEntry={isMultiEntry}
+        fields={fields}
+        title={title}
+        sub={sub}
+      />
+    </CvSyncBoundary>
   )
 }
