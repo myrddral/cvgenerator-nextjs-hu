@@ -14,6 +14,10 @@ const nextConfig: NextConfig = {
     // ...
   },
   typedRoutes: true,
+  images: {
+    // CV profile pictures are served from Convex file storage.
+    remotePatterns: [{ protocol: "https", hostname: "**.convex.cloud" }],
+  },
   experimental: {
     optimizePackageImports: ["@radix-ui/react-icons"],
   },
