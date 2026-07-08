@@ -4,6 +4,10 @@ import type { InputProps } from "./input"
 
 import { getImageSchema } from "@/form-generator/validation-schemas"
 import { cn } from "@/lib/utils"
+import { useCvId } from "@/hooks/use-cv-id"
+import { api } from "@/convex/_generated/api"
+import type { Id } from "@/convex/_generated/dataModel"
+import { useMutation } from "convex/react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { forwardRef, useMemo, useRef, useState } from "react"
@@ -71,53 +75,54 @@ const InputImageFile = forwardRef<HTMLInputElement, InputImageFileProps>(
   ({ className, setError, value, ...props }, ref) => {
     const t = useTranslations("CreateFlow")
     const imageSchema = useMemo(() => getImageSchema(t), [t])
+    const cvId = useCvId()
+    const generateUploadUrl = useMutation(api.cvs.generateUploadUrl)
+    const setPicture = useMutation(api.cvs.setPicture)
     const [isLoading, setIsLoading] = useState(false)
-    const [base64, setBase64] = useState<string | undefined>(value && value.length > 0 ? value : undefined)
+    const [pictureUrl, setPictureUrl] = useState<string | undefined>(
+      value && value.length > 0 ? value : undefined
+    )
     const [prevValue, setPrevValue] = useState(value)
     const inputFileRef = useRef<HTMLInputElement | null>(null)
 
-    // keep base64 in sync when the form value changes externally (e.g. switching
+    // keep pictureUrl in sync when the form value changes externally (e.g. switching
     // to edit a different item) - adjusted during render rather than in an effect
     if (value !== prevValue) {
       setPrevValue(value)
       if (value && value.length > 0) {
-        setBase64(value)
+        setPictureUrl(value)
       }
     }
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
       setIsLoading(true)
-      setBase64(undefined)
+      setPictureUrl(undefined)
 
       const file = e.target.files?.[0]
-
-      if (file) {
-        // Since the RHF controller does not support file uploads, we use a separate validation here
-        // then we convert the parsed image to base64 string and set it as the value of the input
-        const parsedImage = imageSchema.safeParse(file)
-        if (parsedImage.success) {
-          const reader = new FileReader()
-          reader.onloadend = () => {
-            const base64 = reader.result as string
-            setBase64(base64)
-            setIsLoading(false)
-            props.onChange?.({ ...e, target: { ...e.target, value: base64 } })
-          }
-          reader.readAsDataURL(parsedImage.data)
-        }
-
-        if (parsedImage.error) {
-          const e: ZodError = parsedImage.error
-          const name = props.name
-          if (!name) throw new Error("InputFile: name prop is missing")
-          // To display one error message only, we take the first issue of the issues array
-          setError(name, {
-            type: "manual",
-            message: e.issues[0]?.message,
-          })
-          setIsLoading(false)
-        }
+      if (!file || !cvId) {
+        setIsLoading(false)
+        return
       }
+
+      const parsedImage = imageSchema.safeParse(file)
+      if (!parsedImage.success) {
+        const error: ZodError = parsedImage.error
+        const name = props.name
+        if (!name) throw new Error("InputFile: name prop is missing")
+        // To display one error message only, we take the first issue of the issues array
+        setError(name, { type: "manual", message: error.issues[0]?.message })
+        setIsLoading(false)
+        return
+      }
+
+      const uploadUrl = await generateUploadUrl({})
+      const uploadResponse = await fetch(uploadUrl, { method: "POST", body: parsedImage.data })
+      const { storageId } = (await uploadResponse.json()) as { storageId: Id<"_storage"> }
+      const { pictureUrl: resolvedUrl } = await setPicture({ cvId: cvId as Id<"cvs">, storageId })
+
+      setPictureUrl(resolvedUrl ?? undefined)
+      setIsLoading(false)
+      props.onChange?.({ ...e, target: { ...e.target, value: resolvedUrl ?? "" } })
     }
 
     const handleClick = () => {
@@ -135,9 +140,9 @@ const InputImageFile = forwardRef<HTMLInputElement, InputImageFileProps>(
           }}
           {...props}
           value={""}
-          onChange={handleChange}
+          onChange={(e) => void handleChange(e)}
         />
-        <UploadCard src={base64} onClick={handleClick} isLoading={isLoading} alt={t("pictureUploadAlt")} />
+        <UploadCard src={pictureUrl} onClick={handleClick} isLoading={isLoading} alt={t("pictureUploadAlt")} />
       </>
     )
   }
