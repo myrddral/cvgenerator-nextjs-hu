@@ -3,8 +3,12 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { getEmailSchema } from "@/form-generator/validation-schemas"
-import { useCvDataStore } from "@/providers/cv-data-store-provider"
-import { useCvId } from "@/hooks/use-cv-id"
+import { useCvDataStoreApi } from "@/providers/cv-data-store-provider"
+import { useCvId, withCvParam } from "@/hooks/use-cv-id"
+import { serializePersonal } from "@/lib/cv-sync"
+import { api } from "@/convex/_generated/api"
+import type { Id } from "@/convex/_generated/dataModel"
+import { useMutation } from "convex/react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
@@ -16,7 +20,8 @@ export function EmailForm() {
   const router = useRouter()
   const cvId = useCvId()
   const t = useTranslations("CreateFlow")
-  const setEmail = useCvDataStore((state) => state.setEmail)
+  const storeApi = useCvDataStoreApi()
+  const setPersonal = useMutation(api.cvs.setPersonal)
   const emailSchema = useMemo(() => getEmailSchema(t), [t])
   const form = useForm<z.infer<typeof emailSchema>>({
     resolver: zodResolver(emailSchema),
@@ -25,9 +30,19 @@ export function EmailForm() {
     },
   })
 
-  function onSubmit(data: z.infer<typeof emailSchema>) {
+  async function onSubmit(data: z.infer<typeof emailSchema>) {
+    const { setEmail } = storeApi.getState()
     setEmail(data.email)
-    router.push(cvId ? `/create/personal?cv=${cvId}` : "/create/personal")
+
+    // Persist the email to Convex immediately so it survives the personal
+    // section's hydration from the server, which would otherwise overwrite
+    // the not-yet-saved email with the empty value still stored there.
+    if (cvId) {
+      const personal = storeApi.getState().personal
+      await setPersonal({ cvId: cvId as Id<"cvs">, data: serializePersonal(personal) })
+    }
+
+    router.push(withCvParam("/create/personal", cvId))
   }
 
   return (
