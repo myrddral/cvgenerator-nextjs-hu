@@ -8,6 +8,7 @@ void mock.module("next/navigation", () => ({
   useParams: () => ({
     section: "links",
   }),
+  useSearchParams: () => new URLSearchParams(),
 }))
 
 const allSections = getAllSections((key: string) => key)

@@ -28,6 +28,6 @@ describe("CvsPage", () => {
 
     await userEvent.click(screen.getByRole("button", { name: "New resume" }))
     expect(createMutation).toHaveBeenCalled()
-    expect(push).toHaveBeenCalledWith("/create/email?cv=cv2")
+    expect(push).toHaveBeenCalledWith("/create?cv=cv2")
   })
 })

@@ -4,6 +4,7 @@ import { api } from "@/convex/_generated/api"
 import { useTranslations } from "next-intl"
 import { useRouter } from "@/i18n/navigation"
 import { Button } from "@/components/ui/button"
+import { withCvParam } from "@/hooks/use-cv-id"
 import { Card, CardContent, CardHeader, CardTitle, CardSubtitle } from "@/components/ui/card"
 import { ConfirmDialog } from "@/components/confirm-dialog"
 import Image from "next/image"
@@ -18,7 +19,7 @@ export default function CvsPage() {
 
   async function handleNewCv() {
     const cvId = await createCv({})
-    router.push(`/create/email?cv=${cvId}`)
+    router.push(withCvParam("/create", cvId))
   }
 
   return (
@@ -53,7 +54,7 @@ export default function CvsPage() {
                   Delete
                 </Button>
               </ConfirmDialog>
-              <Button size="sm" onClick={() => router.push(`/create/personal?cv=${cv._id}`)}>
+              <Button size="sm" onClick={() => router.push(withCvParam("/create/personal", cv._id))}>
                 {t("continue")}
               </Button>
             </CardContent>

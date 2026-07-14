@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 import { useCvDataStore } from "@/providers/cv-data-store-provider"
 import { Link } from "@/i18n/navigation"
 import { useParams } from "next/navigation"
+import { useCvId, withCvParam } from "@/hooks/use-cv-id"
 import { Button } from "./ui/button"
 
 interface StepperButtonNumberProps {
@@ -56,6 +57,7 @@ interface StepperProps {
 
 export function Stepper({ allSections }: StepperProps) {
   const { section } = useParams<{ section: RouteParamType }>()
+  const cvId = useCvId()
   const { completedSections } = useCvDataStore((state) => state)
   const isCompleted = (sectionName: string) => completedSections.includes(sectionName)
   const isActive = (sectionName: string) => section === sectionName
@@ -73,7 +75,7 @@ export function Stepper({ allSections }: StepperProps) {
         return (
           <div key={sectionName} className="relative flex h-full w-full flex-col items-center pb-5">
             <Link
-              href={`/create/${sectionName}`}
+              href={withCvParam(`/create/${sectionName}`, cvId)}
               aria-disabled={!isInteractive}
               tabIndex={isInteractive ? 0 : -1}
               className={cn("pointer-events-none cursor-none", {

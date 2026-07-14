@@ -3,7 +3,7 @@ import type { RouteParamType } from "@/form-generator/form-generator.types"
 
 import { routeParams } from "@/form-generator/generator-sections"
 import { useRouter } from "@/i18n/navigation"
-import { useCvId } from "./use-cv-id"
+import { useCvId, withCvParam } from "./use-cv-id"
 
 /**
  * This hook is used to navigate between sections in the form.
@@ -16,22 +16,21 @@ import { useCvId } from "./use-cv-id"
 export const useFormNavigation = (routeParam: RouteParamType) => {
   const router = useRouter()
   const cvId = useCvId()
-  const suffix = cvId ? `?cv=${cvId}` : ""
 
   const handleForwardStep = () => {
     const nextSectionIndex = routeParams.indexOf(routeParam) + 1
     const nextSection = routeParams[nextSectionIndex]
     if (nextSection) {
-      router.push(`/create/${nextSection}${suffix}`)
-    } else router.push(`/show${suffix}`)
+      router.push(withCvParam(`/create/${nextSection}`, cvId))
+    } else router.push(withCvParam("/show", cvId))
   }
 
   const handleBackStep = () => {
     const prevSectionIndex = routeParams.indexOf(routeParam) - 1
     const prevSection = routeParams[prevSectionIndex]
     if (prevSection) {
-      router.push(`/create/${prevSection}${suffix}`)
-    } else router.push(`/create/email${suffix}`)
+      router.push(withCvParam(`/create/${prevSection}`, cvId))
+    } else router.push(withCvParam("/create", cvId))
   }
 
   return { handleForwardStep, handleBackStep }
