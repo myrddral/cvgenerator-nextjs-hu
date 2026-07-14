@@ -18,6 +18,7 @@ import type { getSectionSchemas } from "@/form-generator/validation-schemas"
 import { useFormNavigation } from "@/hooks/use-form-navigation"
 import { useCvId } from "@/hooks/use-cv-id"
 import { getSectionMutationRef, serializePersonal, serializeExperienceList, serializeEducationList } from "@/lib/cv-sync"
+import { defaultInitState } from "@/lib/stores/cv-data-initstate"
 import { useMutation } from "convex/react"
 import { PlusIcon } from "@radix-ui/react-icons"
 import { useTranslations } from "next-intl"
@@ -50,10 +51,16 @@ export function SectionWrapper({ ...sectionProps }: FormStepWrapperProps) {
   const [selectedItemIdx, setSelectedItemIdx] = useState<number | undefined | null>(null)
 
   const getFormValues = useCallback((): z.infer<SectionSchemas[SectionName]> => {
-    return isMultiEntry && Array.isArray(sectionData)
-      ? sectionData[selectedItemIdx ?? 0]!
-      : (sectionData as z.infer<SectionSchemas[SectionName]>)
-  }, [isMultiEntry, sectionData, selectedItemIdx])
+    if (!isMultiEntry || !Array.isArray(sectionData)) {
+      return sectionData as z.infer<SectionSchemas[SectionName]>
+    }
+    // selectedItemIdx === undefined means "add new" - use a blank template rather than
+    // reusing an existing entry's data (or crashing when the list is still empty)
+    if (selectedItemIdx === undefined) {
+      return (defaultInitState[sectionName] as typeof sectionData)[0] as z.infer<SectionSchemas[SectionName]>
+    }
+    return sectionData[selectedItemIdx ?? 0]!
+  }, [isMultiEntry, sectionData, selectedItemIdx, sectionName])
 
   function persistSection() {
     if (!cvId) return
